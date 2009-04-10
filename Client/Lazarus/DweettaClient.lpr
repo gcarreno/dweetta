@@ -1,4 +1,4 @@
-program Dweetta;
+program DweettaClient;
 
 {$mode objfpc}{$H+}
 
@@ -8,7 +8,10 @@ uses
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
   Forms
-  { you can add units after this }, frmMainUnit, virtualtreeslcl;
+  { you can add units after this }, frmMainUnit, virtualtreeslcl,
+  DweettaTransport, Dweetta, DweettaAPI, DweettaCommon, DweettaContainers;
+
+{$IFDEF WINDOWS}{$R DweettaClient.rc}{$ENDIF}
 
 begin
   Application.Initialize;

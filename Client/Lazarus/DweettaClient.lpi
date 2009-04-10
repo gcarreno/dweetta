@@ -1,0 +1,179 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <ProjectOptions>
+    <PathDelim Value="\"/>
+    <Version Value="6"/>
+    <General>
+      <MainUnit Value="0"/>
+      <IconPath Value="./"/>
+      <TargetFileExt Value=".exe"/>
+      <ActiveEditorIndexAtStart Value="0"/>
+    </General>
+    <VersionInfo>
+      <UseVersionInfo Value="True"/>
+      <AutoIncrementBuild Value="True"/>
+      <CurrentMajorRevNr Value="1"/>
+      <CurrentBuildNr Value="7"/>
+      <ProjectVersion Value="0.1.0.2"/>
+    </VersionInfo>
+    <PublishOptions>
+      <Version Value="2"/>
+      <IgnoreBinaries Value="False"/>
+      <IncludeFileFilter Value="*.(pas|pp|inc|lfm|lpr|lrs|lpi|lpk|sh|xml)"/>
+      <ExcludeFileFilter Value="*.(bak|ppu|ppw|o|so);*~;backup"/>
+    </PublishOptions>
+    <RunParams>
+      <local>
+        <FormatVersion Value="1"/>
+        <LaunchingApplication PathPlusParams="/usr/X11R6/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
+      </local>
+    </RunParams>
+    <RequiredPackages Count="2">
+      <Item1>
+        <PackageName Value="virtualtreeslcl"/>
+        <MinVersion Major="4" Release="17" Build="26" Valid="True"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="LCL"/>
+      </Item2>
+    </RequiredPackages>
+    <Units Count="7">
+      <Unit0>
+        <Filename Value="DweettaClient.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="DweettaClient"/>
+        <CursorPos X="34" Y="14"/>
+        <TopLine Value="1"/>
+        <EditorIndex Value="0"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="frmMainUnit.pas"/>
+        <ComponentName Value="frmMain"/>
+        <IsPartOfProject Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <ResourceFilename Value="frmMainUnit.lrs"/>
+        <UnitName Value="frmMainUnit"/>
+        <CursorPos X="24" Y="23"/>
+        <TopLine Value="1"/>
+        <EditorIndex Value="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="..\..\src\DweettaContainers.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="DweettaContainers"/>
+        <CursorPos X="1" Y="1"/>
+        <TopLine Value="1"/>
+        <EditorIndex Value="5"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="..\..\src\DweettaTransport.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="DweettaTransport"/>
+        <CursorPos X="1" Y="1"/>
+        <TopLine Value="1"/>
+        <EditorIndex Value="6"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="..\..\src\Dweetta.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Dweetta"/>
+        <CursorPos X="1" Y="1"/>
+        <TopLine Value="1"/>
+        <EditorIndex Value="2"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="..\..\src\DweettaAPI.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="DweettaAPI"/>
+        <CursorPos X="1" Y="1"/>
+        <TopLine Value="1"/>
+        <EditorIndex Value="3"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="..\..\src\DweettaCommon.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="DweettaCommon"/>
+        <CursorPos X="1" Y="1"/>
+        <TopLine Value="1"/>
+        <EditorIndex Value="4"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+      </Unit6>
+    </Units>
+    <JumpHistory Count="7" HistoryIndex="6">
+      <Position1>
+        <Filename Value="frmMainUnit.pas"/>
+        <Caret Line="24" Column="22" TopLine="1"/>
+      </Position1>
+      <Position2>
+        <Filename Value="frmMainUnit.pas"/>
+        <Caret Line="15" Column="3" TopLine="1"/>
+      </Position2>
+      <Position3>
+        <Filename Value="frmMainUnit.pas"/>
+        <Caret Line="17" Column="14" TopLine="1"/>
+      </Position3>
+      <Position4>
+        <Filename Value="frmMainUnit.pas"/>
+        <Caret Line="18" Column="11" TopLine="1"/>
+      </Position4>
+      <Position5>
+        <Filename Value="DweettaClient.lpr"/>
+        <Caret Line="15" Column="1" TopLine="1"/>
+      </Position5>
+      <Position6>
+        <Filename Value="DweettaClient.lpr"/>
+        <Caret Line="19" Column="1" TopLine="1"/>
+      </Position6>
+      <Position7>
+        <Filename Value="DweettaClient.lpr"/>
+        <Caret Line="12" Column="74" TopLine="1"/>
+      </Position7>
+    </JumpHistory>
+  </ProjectOptions>
+  <CompilerOptions>
+    <Version Value="8"/>
+    <PathDelim Value="\"/>
+    <SearchPaths>
+      <OtherUnitFiles Value="..\..\src\;..\..\lib\SuperObject\;..\..\lib\Synapse\"/>
+      <UnitOutputDirectory Value="..\..\obj"/>
+    </SearchPaths>
+    <Parsing>
+      <SyntaxOptions>
+        <CStyleOperator Value="False"/>
+      </SyntaxOptions>
+    </Parsing>
+    <Linking>
+      <Options>
+        <Win32>
+          <GraphicApplication Value="True"/>
+        </Win32>
+      </Options>
+    </Linking>
+    <Other>
+      <CompilerPath Value="$(CompPath)"/>
+    </Other>
+  </CompilerOptions>
+  <Debugging>
+    <Exceptions Count="2">
+      <Item1>
+        <Name Value="ECodetoolError"/>
+      </Item1>
+      <Item2>
+        <Name Value="EFOpenError"/>
+      </Item2>
+    </Exceptions>
+  </Debugging>
+</CONFIG>

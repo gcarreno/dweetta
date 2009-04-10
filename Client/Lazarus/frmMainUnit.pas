@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, LResources, Forms, Controls, Graphics, Dialogs,
-  ExtCtrls, VirtualStringTree;
+  ExtCtrls, VirtualStringTree, ComCtrls, PopupNotifier, Dweetta;
 
 type
 
@@ -15,9 +15,12 @@ type
   TfrmMain = class ( TForm )
     panTop: TPanel;
     panClient: TPanel;
-    VirtualStringTree1: TVirtualStringTree;
+    pnMain: TPopupNotifier;
+    sbMain: TStatusBar;
+    vstTweets: TVirtualStringTree;
   private
     { private declarations }
+    FDweetta: TDweetta;
   public
     { public declarations }
   end; 
