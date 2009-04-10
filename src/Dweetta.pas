@@ -3,8 +3,8 @@
 
   This unit contains the main Dweetta Object
 
-  @Author
-  @Version
+  @Author  $Author$
+  @Version $Id$
 -------------------------------------------------------------------------------}
 unit Dweetta;
 
