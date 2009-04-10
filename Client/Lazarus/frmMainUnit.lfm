@@ -1,0 +1,37 @@
+object frmMain: TfrmMain
+  Left = 409
+  Height = 337
+  Top = 167
+  Width = 440
+  Caption = 'frmMain'
+  ClientHeight = 337
+  ClientWidth = 440
+  ParentFont = False
+  LCLVersion = '0.9.26'
+  object panTop: TPanel
+    Height = 74
+    Width = 440
+    Align = alTop
+    BevelOuter = bvNone
+    TabOrder = 0
+  end
+  object panClient: TPanel
+    Height = 263
+    Top = 74
+    Width = 440
+    Align = alClient
+    BevelOuter = bvNone
+    ClientHeight = 263
+    ClientWidth = 440
+    TabOrder = 1
+    object VirtualStringTree1: TVirtualStringTree
+      Height = 263
+      Width = 440
+      Align = alClient
+      Header.MainColumn = -1
+      Header.Options = [hoColumnResize, hoDrag]
+      TabOrder = 0
+      Columns = <>
+    end
+  end
+end
