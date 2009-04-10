@@ -5,7 +5,7 @@
   Exception code borrowed from jamiei.
 
   @Author  $Author$
-  @Version $Id$
+  @Version $Rev$
 -------------------------------------------------------------------------------}
 unit DweettaTransport;
 

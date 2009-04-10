@@ -4,7 +4,7 @@
   This includes a wrapper around the Sockets lib of choice.
 
   @Author  $Author$
-  @Version $Id$
+  @Version $Rev$
 -------------------------------------------------------------------------------}
 unit DweettaSockets;
 

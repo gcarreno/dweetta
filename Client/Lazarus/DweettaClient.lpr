@@ -4,7 +4,7 @@
   Dweetta Client project
 
   @Author  $Author$
-  @Version $Id$
+  @Version $Rev$
 -------------------------------------------------------------------------------}
 program DweettaClient;
 

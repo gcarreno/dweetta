@@ -4,7 +4,7 @@
   This unit contains the main Dweetta Object
 
   @Author  $Author$
-  @Version $Id$
+  @Version $Rev$
 -------------------------------------------------------------------------------}
 unit Dweetta;
 

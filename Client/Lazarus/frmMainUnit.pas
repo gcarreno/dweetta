@@ -4,7 +4,7 @@
   Main form for the Dweetta Client
 
   @Author  $Author$
-  @Version $Id$
+  @Version $Rev$
 -------------------------------------------------------------------------------}
 unit frmMainUnit;
 

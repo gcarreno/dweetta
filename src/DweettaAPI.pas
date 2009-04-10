@@ -5,7 +5,7 @@
   Some of the code and ideas have been pinched from jamiei.
 
   @Author  $Author$
-  @Version $Id$
+  @Version $Rev$
 -------------------------------------------------------------------------------}
 unit DweettaAPI;
 
