@@ -4,8 +4,8 @@
   This unit contains the code for the HTTP Transport.
   Exception code borrowed from jamiei.
 
-  @Author
-  @Version
+  @Author  $Author$
+  @Version $Id$
 -------------------------------------------------------------------------------}
 unit DweettaTransport;
 

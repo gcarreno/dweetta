@@ -17,7 +17,7 @@
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
       <CurrentMajorRevNr Value="1"/>
-      <CurrentBuildNr Value="9"/>
+      <CurrentBuildNr Value="10"/>
       <ProjectVersion Value="0.1.0.2"/>
       <Language Value="0809"/>
       <FileDescription Value="A simple Twitter Client with the Dweetta Lib"/>
@@ -49,10 +49,10 @@
         <Filename Value="DweettaClient.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="DweettaClient"/>
-        <CursorPos X="34" Y="14"/>
+        <CursorPos X="1" Y="7"/>
         <TopLine Value="1"/>
         <EditorIndex Value="0"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="21"/>
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
@@ -62,30 +62,30 @@
         <ResourceBaseClass Value="Form"/>
         <ResourceFilename Value="frmMainUnit.lrs"/>
         <UnitName Value="frmMainUnit"/>
-        <CursorPos X="24" Y="23"/>
+        <CursorPos X="18" Y="2"/>
         <TopLine Value="1"/>
         <EditorIndex Value="1"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="21"/>
         <Loaded Value="True"/>
       </Unit1>
       <Unit2>
         <Filename Value="..\..\src\DweettaContainers.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="DweettaContainers"/>
-        <CursorPos X="1" Y="1"/>
+        <CursorPos X="1" Y="8"/>
         <TopLine Value="1"/>
         <EditorIndex Value="5"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="21"/>
         <Loaded Value="True"/>
       </Unit2>
       <Unit3>
         <Filename Value="..\..\src\DweettaTransport.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="DweettaTransport"/>
-        <CursorPos X="1" Y="1"/>
+        <CursorPos X="1" Y="9"/>
         <TopLine Value="1"/>
         <EditorIndex Value="6"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="21"/>
         <Loaded Value="True"/>
       </Unit3>
       <Unit4>
@@ -95,17 +95,17 @@
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
         <EditorIndex Value="2"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="21"/>
         <Loaded Value="True"/>
       </Unit4>
       <Unit5>
         <Filename Value="..\..\src\DweettaAPI.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="DweettaAPI"/>
-        <CursorPos X="1" Y="1"/>
+        <CursorPos X="1" Y="9"/>
         <TopLine Value="1"/>
         <EditorIndex Value="3"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="21"/>
         <Loaded Value="True"/>
       </Unit5>
       <Unit6>
@@ -115,11 +115,11 @@
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
         <EditorIndex Value="4"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="21"/>
         <Loaded Value="True"/>
       </Unit6>
     </Units>
-    <JumpHistory Count="7" HistoryIndex="6">
+    <JumpHistory Count="8" HistoryIndex="7">
       <Position1>
         <Filename Value="frmMainUnit.pas"/>
         <Caret Line="24" Column="22" TopLine="1"/>
@@ -148,6 +148,10 @@
         <Filename Value="DweettaClient.lpr"/>
         <Caret Line="12" Column="74" TopLine="1"/>
       </Position7>
+      <Position8>
+        <Filename Value="frmMainUnit.pas"/>
+        <Caret Line="23" Column="24" TopLine="1"/>
+      </Position8>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>

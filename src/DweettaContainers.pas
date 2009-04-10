@@ -3,8 +3,8 @@
 
   This unit contains the containers for the Dweetta API responses
 
-  @Author
-  @Version
+  @Author  $Author$
+  @Version $Id$
 -------------------------------------------------------------------------------}
 unit DweettaContainers;
 

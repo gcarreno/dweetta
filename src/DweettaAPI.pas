@@ -4,8 +4,8 @@
   This unit contains the code for the API calls.
   Some of the code and ideas have been pinched from jamiei.
 
-  @Author
-  @Version
+  @Author  $Author$
+  @Version $Id$
 -------------------------------------------------------------------------------}
 unit DweettaAPI;
 
