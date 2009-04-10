@@ -1,17 +1,17 @@
 1 VERSIONINFO
-FILEVERSION 0,1,0,8
+FILEVERSION 0,1,0,10
 PRODUCTVERSION 0,1,0,2
 {
  BLOCK "StringFileInfo"
  {
-  BLOCK "040904E4"
+  BLOCK "080904E4"
   {
    VALUE "Comments", "\000"
    VALUE "CompanyName", "\000"
-   VALUE "FileDescription", "\000"
-   VALUE "FileVersion", "0.1.0.8\000"
+   VALUE "FileDescription", "A simple Twitter Client with the Dweetta Lib\000"
+   VALUE "FileVersion", "0.1.0.10\000"
    VALUE "InternalName", "\000"
-   VALUE "LegalCopyright", "\000"
+   VALUE "LegalCopyright", "Gustavo Carreno © 2009\000"
    VALUE "LegalTrademarks", "\000"
    VALUE "OriginalFilename", "\000"
    VALUE "ProductName", "\000"
@@ -20,6 +20,6 @@ PRODUCTVERSION 0,1,0,2
  }
  BLOCK "VarFileInfo"
  {
-  VALUE "Translation", 0x0409, 0x04E4
+  VALUE "Translation", 0x0809, 0x04E4
  }
 }

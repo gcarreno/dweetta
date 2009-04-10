@@ -3,7 +3,7 @@ object frmMain: TfrmMain
   Height = 486
   Top = 167
   Width = 599
-  Caption = 'frmMain'
+  Caption = 'Dweetta Client v0.1.0.1'
   ClientHeight = 486
   ClientWidth = 599
   ParentFont = False
