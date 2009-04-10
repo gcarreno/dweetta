@@ -6,6 +6,8 @@ object frmMain: TfrmMain
   Caption = 'Dweetta Client v0.1.0.1'
   ClientHeight = 486
   ClientWidth = 599
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
   ParentFont = False
   LCLVersion = '0.9.26'
   object panTop: TPanel

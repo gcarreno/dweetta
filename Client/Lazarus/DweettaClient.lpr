@@ -1,6 +1,8 @@
 {*------------------------------------------------------------------------------
   DweettaClient.lpr
 
+  Dweetta Client project
+
   @Author  $Author$
   @Version $Id$
 -------------------------------------------------------------------------------}
@@ -14,10 +16,13 @@ uses
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
   Forms
-  { you can add units after this }, frmMainUnit, virtualtreeslcl,
-  DweettaTransport, Dweetta, DweettaAPI, DweettaCommon, DweettaContainers;
+  { you can add units after this }, frmMainUnit, virtualtreeslcl, Common,
+  DweettaTransport, Dweetta, DweettaAPI, DweettaContainers,
+  DweettaSockets;
 
-{$IFDEF WINDOWS}{$R DweettaClient.rc}{$ENDIF}
+{$IFDEF WINDOWS}
+  {$R DweettaClient.rc}
+{$ENDIF}
 
 begin
   Application.Initialize;
