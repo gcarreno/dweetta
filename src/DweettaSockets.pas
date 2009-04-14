@@ -2,6 +2,7 @@
   DweettaSockets.pas
 
   This includes a wrapper around the Sockets lib of choice.
+  This version uses Synapse.
 
   @Author  $Author$
   @Version $Rev$

@@ -7,7 +7,7 @@
       <MainUnit Value="0"/>
       <IconPath Value="./"/>
       <TargetFileExt Value=".exe"/>
-      <ActiveEditorIndexAtStart Value="3"/>
+      <ActiveEditorIndexAtStart Value="7"/>
     </General>
     <i18n>
       <EnableI18N Value="True"/>
@@ -17,7 +17,7 @@
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
       <CurrentMajorRevNr Value="1"/>
-      <CurrentBuildNr Value="35"/>
+      <CurrentBuildNr Value="37"/>
       <ProjectVersion Value="0.1.0.2"/>
       <Language Value="0809"/>
       <FileDescription Value="A simple Twitter Client with the Dweetta Lib"/>
@@ -62,8 +62,8 @@
         <ResourceBaseClass Value="Form"/>
         <ResourceFilename Value="frmMainUnit.lrs"/>
         <UnitName Value="frmMainUnit"/>
-        <CursorPos X="39" Y="97"/>
-        <TopLine Value="81"/>
+        <CursorPos X="44" Y="28"/>
+        <TopLine Value="1"/>
         <EditorIndex Value="1"/>
         <UsageCount Value="24"/>
         <Loaded Value="True"/>
@@ -82,8 +82,8 @@
         <Filename Value="..\..\src\DweettaTransport.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="DweettaTransport"/>
-        <CursorPos X="54" Y="106"/>
-        <TopLine Value="165"/>
+        <CursorPos X="1" Y="1"/>
+        <TopLine Value="1"/>
         <EditorIndex Value="6"/>
         <UsageCount Value="24"/>
         <Loaded Value="True"/>
@@ -92,8 +92,8 @@
         <Filename Value="..\..\src\Dweetta.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Dweetta"/>
-        <CursorPos X="63" Y="43"/>
-        <TopLine Value="22"/>
+        <CursorPos X="1" Y="1"/>
+        <TopLine Value="1"/>
         <EditorIndex Value="3"/>
         <UsageCount Value="24"/>
         <Loaded Value="True"/>
@@ -103,7 +103,7 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="DweettaAPI"/>
         <CursorPos X="1" Y="1"/>
-        <TopLine Value="25"/>
+        <TopLine Value="1"/>
         <EditorIndex Value="4"/>
         <UsageCount Value="24"/>
         <Loaded Value="True"/>
@@ -119,8 +119,8 @@
         <Filename Value="..\..\src\DweettaSockets.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="DweettaSockets"/>
-        <CursorPos X="1" Y="96"/>
-        <TopLine Value="64"/>
+        <CursorPos X="29" Y="5"/>
+        <TopLine Value="1"/>
         <EditorIndex Value="7"/>
         <UsageCount Value="23"/>
         <Loaded Value="True"/>
@@ -129,7 +129,7 @@
         <Filename Value="Common.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Common"/>
-        <CursorPos X="45" Y="4"/>
+        <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
         <EditorIndex Value="2"/>
         <UsageCount Value="22"/>
