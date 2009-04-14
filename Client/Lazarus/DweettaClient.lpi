@@ -7,7 +7,7 @@
       <MainUnit Value="0"/>
       <IconPath Value="./"/>
       <TargetFileExt Value=".exe"/>
-      <ActiveEditorIndexAtStart Value="7"/>
+      <ActiveEditorIndexAtStart Value="1"/>
     </General>
     <i18n>
       <EnableI18N Value="True"/>
@@ -17,7 +17,7 @@
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
       <CurrentMajorRevNr Value="1"/>
-      <CurrentBuildNr Value="37"/>
+      <CurrentBuildNr Value="38"/>
       <ProjectVersion Value="0.1.0.2"/>
       <Language Value="0809"/>
       <FileDescription Value="A simple Twitter Client with the Dweetta Lib"/>
@@ -62,7 +62,7 @@
         <ResourceBaseClass Value="Form"/>
         <ResourceFilename Value="frmMainUnit.lrs"/>
         <UnitName Value="frmMainUnit"/>
-        <CursorPos X="44" Y="28"/>
+        <CursorPos X="12" Y="26"/>
         <TopLine Value="1"/>
         <EditorIndex Value="1"/>
         <UsageCount Value="24"/>
@@ -136,7 +136,7 @@
         <Loaded Value="True"/>
       </Unit8>
     </Units>
-    <JumpHistory Count="30" HistoryIndex="29">
+    <JumpHistory Count="29" HistoryIndex="28">
       <Position1>
         <Filename Value="frmMainUnit.pas"/>
         <Caret Line="42" Column="41" TopLine="1"/>
@@ -251,12 +251,8 @@
       </Position28>
       <Position29>
         <Filename Value="..\..\src\DweettaAPI.pas"/>
-        <Caret Line="1" Column="1" TopLine="164"/>
-      </Position29>
-      <Position30>
-        <Filename Value="..\..\src\DweettaAPI.pas"/>
         <Caret Line="183" Column="34" TopLine="164"/>
-      </Position30>
+      </Position29>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
