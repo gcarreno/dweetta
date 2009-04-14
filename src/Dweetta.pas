@@ -39,8 +39,8 @@ type
     function StatusesUserTimeline: TDweettaStatusElementList; overload;
     function StatusesUserTimeline(id: String): TDweettaStatusElementList; overload;
 
-    property User: String read FUser write FUser;
-    property Password: String read FPassword write FPassword;
+    property User: String read FUser write Setuser;
+    property Password: String read FPassword write SetPassword;
   end;
 
 implementation
@@ -78,7 +78,7 @@ begin
   FDweettaAPI.User := FUser;
   FDweettaAPI.Password := FPassword;
   FDweettaAPI.UserAgent := 'Dweetta/0.1';
-  FDweettaAPI.Server := 'Dweetta.com';
+  FDweettaAPI.Server := 'twitter.com';
 end;
 
 destructor TDweetta.Destroy;

@@ -1,3 +1,11 @@
+{*------------------------------------------------------------------------------
+  Common.pas
+
+  Common variables and definitions for the Dweetta client.
+
+  @Author  $Author$
+  @Version $Rev$
+-------------------------------------------------------------------------------}
 unit Common;
 
 {$IFDEF FPC}

@@ -1,7 +1,19 @@
 msgid ""
 msgstr "Content-Type: text/plain; charset=UTF-8"
 
+#: TFRMMAIN.BTNTEST.CAPTION
+msgid "Test"
+msgstr ""
+
 #: TFRMMAIN.CAPTION
-msgid "Dweetta Client v0.1.0.1"
+msgid "Dweetta Client v0.1.0.15"
+msgstr ""
+
+#: TFRMMAIN.EDTPASSWORD.TEXT
+msgid "Password"
+msgstr ""
+
+#: TFRMMAIN.EDTUSERNAME.TEXT
+msgid "Username"
 msgstr ""
 

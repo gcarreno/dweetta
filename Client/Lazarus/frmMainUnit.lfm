@@ -3,12 +3,13 @@ object frmMain: TfrmMain
   Height = 486
   Top = 167
   Width = 599
-  Caption = 'Dweetta Client v0.1.0.1'
+  Caption = 'Dweetta Client v0.1.0.15'
   ClientHeight = 486
   ClientWidth = 599
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   ParentFont = False
+  Position = poDefaultPosOnly
   LCLVersion = '0.9.26'
   object panTop: TPanel
     Height = 54
@@ -18,14 +19,32 @@ object frmMain: TfrmMain
     ClientHeight = 54
     ClientWidth = 599
     TabOrder = 0
-    object Button1: TButton
+    object btnTest: TButton
       Left = 12
       Height = 25
       Top = 12
       Width = 75
-      Caption = 'Button1'
-      OnClick = Button1Click
+      Caption = 'Test'
+      OnClick = btnTestClick
       TabOrder = 0
+    end
+    object edtUsername: TEdit
+      Left = 99
+      Height = 23
+      Top = 12
+      Width = 80
+      TabOrder = 1
+      Text = 'Username'
+    end
+    object edtPassword: TEdit
+      Left = 192
+      Height = 23
+      Top = 12
+      Width = 80
+      EchoMode = emPassword
+      PasswordChar = '*'
+      TabOrder = 2
+      Text = 'Password'
     end
   end
   object panClient: TPanel
@@ -44,6 +63,9 @@ object frmMain: TfrmMain
       Header.MainColumn = -1
       Header.Options = [hoColumnResize, hoDrag]
       TabOrder = 0
+      OnFreeNode = vstTweetsFreeNode
+      OnGetText = vstTweetsGetText
+      OnGetNodeDataSize = vstTweetsGetNodeDataSize
       Columns = <>
     end
   end

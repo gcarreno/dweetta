@@ -97,8 +97,8 @@ begin
   inherited Destroy;
 end;
 
-function TDweettaTransport.Get ( Service: TDweettaServices; const Params: TStringList;
-  out ResponseInfo: TDweettaResponseInfo ) : String;
+function TDweettaTransport.Get(Service: TDweettaServices; const Params: TStringList;
+  out ResponseInfo: TDweettaResponseInfo) : String;
 var
   URI, HeaderValue: String;
   Index: Integer;
