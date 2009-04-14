@@ -23,8 +23,8 @@ type
 
   TDweettaAPI = class(TObject)
   private
-     FDweettaUser: String;
-     FDweettaPassword: String;
+     FUser: String;
+     FPassword: String;
      FUserAgent: String;
      FServer: String;
      FDweettaTransport: TDweettaTransport;
@@ -35,26 +35,24 @@ type
      procedure SetPassword(Value: String);
      procedure SetUserAgent(Value: String);
      procedure SetServer(Value: String);
-  protected
   public
     constructor Create;
     destructor Destroy; override;
 
     { Status }
-    function public_timeline: TDweettaStatusElementList;
-    function friends_timeline(since: String; since_id: Integer; max_id: Integer;
+    function Statuses_public_timeline: TDweettaStatusElementList;
+    function Statuses_friends_timeline(since: String; since_id: Integer; max_id: Integer;
       count: Integer; page: Integer): TDweettaStatusElementList;
-    function user_timeline(id: String; user_id: integer;
+    function Statuses_user_timeline(id: String; user_id: integer;
       screen_name: String; since_id: Integer; max_id: Integer;
       page: Integer; since: String): TDweettaStatusElementList; overload;
 
     { User }
 
-    property User: String read FDweettaUser write SetUser;
-    property Password: String read FDweettaPassword write SetPassword;
+    property User: String read FUser write SetUser;
+    property Password: String read FPassword write SetPassword;
     property UserAgent: String read FUserAgent write SetUserAgent;
     property Server: String read FServer write SetServer;
-  published
   end;
 
 implementation
@@ -63,19 +61,19 @@ implementation
 
 procedure TDweettaAPI.SetUser ( Value: String ) ;
 begin
-  if Value <> FDweettaUser then
+  if Value <> FUser then
   begin
-    FDweettaUser := Value;
-    FDweettaTransport.User := FDweettaUser;
+    FUser := Value;
+    FDweettaTransport.User := FUser;
   end;
 end;
 
 procedure TDweettaAPI.SetPassword ( Value: String ) ;
 begin
-  if Value <> FDweettaPassword then
+  if Value <> FPassword then
   begin
-    FDweettaPassword := Value;
-    FDweettaTransport.Password := FDweettaPassword;
+    FPassword := Value;
+    FDweettaTransport.Password := FPassword;
   end;
 end;
 
@@ -112,18 +110,18 @@ begin
   inherited Destroy;
 end;
 
-function TDweettaAPI.public_timeline: TDweettaStatusElementList;
+function TDweettaAPI.Statuses_public_timeline: TDweettaStatusElementList;
 begin
   Result := TDweettaStatusElementList.Create;
   FParams.Clear;
   try
-    Result.LoadFromString(FDweettaTransport.Get(tsPublicTimeline, FParams, FResponseInfo));
+    Result.LoadFromString(FDweettaTransport.Get(tsStatusesPublicTimeline, FParams, FResponseInfo));
   except
   { TODO -ogcarreno -cExceptions : Get execptions treated here.}
   end;
 end;
 
-function TDweettaAPI.friends_timeline(since: String; since_id: Integer;
+function TDweettaAPI.Statuses_friends_timeline(since: String; since_id: Integer;
   max_id: Integer; count: Integer; page: Integer): TDweettaStatusElementList;
 begin
   FParams.Clear;
@@ -149,13 +147,13 @@ begin
   end;
   Result := TDweettaStatusElementList.Create;
   try
-    Result.LoadFromString(FDweettaTransport.Get(tsFriendsTimeline, FParams, FResponseInfo));
+    Result.LoadFromString(FDweettaTransport.Get(tsStatusesFriendsTimeline, FParams, FResponseInfo));
   except
   { TODO -ogcarreno -cExceptions : Get execptions treated here.}
   end;
 end;
 
-function TDweettaAPI.user_timeline ( id: String; user_id: integer;
+function TDweettaAPI.Statuses_user_timeline ( id: String; user_id: integer;
   screen_name: String; since_id: Integer; max_id: Integer; page: Integer;
   since: String ) : TDweettaStatusElementList;
 begin
@@ -190,7 +188,7 @@ begin
   end;
   Result := TDweettaStatusElementList.Create;
   try
-    Result.LoadFromString(FDweettaTransport.Get(tsUserTimeline, FParams, FResponseInfo));
+    Result.LoadFromString(FDweettaTransport.Get(tsStatusesUserTimeline, FParams, FResponseInfo));
   except
   { TODO -ogcarreno -cExceptions : Get execptions treated here.}
   end;

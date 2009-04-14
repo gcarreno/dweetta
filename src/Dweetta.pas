@@ -22,27 +22,25 @@ type
 
   TDweetta = class(TObject)
   private
-    FDweettaUser: String;
-    FDweettaPassword: String;
+    FUser: String;
+    FPassword: String;
     FDweettaAPI: TDweettaAPI;
 
     procedure SetUser(Value: String);
     procedure SetPassword(Value: String);
     procedure UpdateAuth;
-  protected
   public
     constructor Create;
     destructor Destroy; override;
 
-    function PublicTimeline: TDweettaStatusElementList;
-    function FriendsTimeline: TDweettaStatusElementList; overload;
-    function FriendsTimeline(since: String): TDweettaStatusElementList; overload;
-    function UserTimeline: TDweettaStatusElementList; overload;
-    function UserTimeline(id: String): TDweettaStatusElementList; overload;
+    function StatusesPublicTimeline: TDweettaStatusElementList;
+    function StatusesFriendsTimeline: TDweettaStatusElementList; overload;
+    function StatusesFriendsTimeline(since: String): TDweettaStatusElementList; overload;
+    function StatusesUserTimeline: TDweettaStatusElementList; overload;
+    function StatusesUserTimeline(id: String): TDweettaStatusElementList; overload;
 
-    property DweettaUser: String read FDweettaUser write FDweettaUser;
-    property DweettaPassword: String read FDweettaPassword write FDweettaPassword;
-  published
+    property User: String read FUser write FUser;
+    property Password: String read FPassword write FPassword;
   end;
 
 implementation
@@ -51,34 +49,34 @@ implementation
 
 procedure TDweetta.SetUser ( Value: String ) ;
 begin
-  if Value <> FDweettaUser then
+  if Value <> FUser then
   begin
-    FDweettaUser := Value;
+    FUser := Value;
     UpdateAuth;
   end;
 end;
 
 procedure TDweetta.SetPassword ( Value: String ) ;
 begin
-  if Value <> FDweettaPassword then
+  if Value <> FPassword then
   begin
-    FDweettaPassword := Value;
+    FPassword := Value;
     UpdateAuth;
   end;
 end;
 
 procedure TDweetta.UpdateAuth;
 begin
-  FDweettaAPI.User := FDweettaUser;
-  FDweettaAPI.Password := FDweettaPassword;
+  FDweettaAPI.User := FUser;
+  FDweettaAPI.Password := FPassword;
 end;
 
 constructor TDweetta.Create;
 begin
   inherited Create;
   FDweettaAPI := TDweettaAPI.Create;
-  FDweettaAPI.User := FDweettaUser;
-  FDweettaAPI.Password := FDweettaPassword;
+  FDweettaAPI.User := FUser;
+  FDweettaAPI.Password := FPassword;
   FDweettaAPI.UserAgent := 'Dweetta/0.1';
   FDweettaAPI.Server := 'Dweetta.com';
 end;
@@ -89,29 +87,29 @@ begin
   inherited Destroy;
 end;
 
-function TDweetta.PublicTimeline: TDweettaStatusElementList;
+function TDweetta.StatusesPublicTimeline: TDweettaStatusElementList;
 begin
-  Result := FDweettaAPI.public_timeline;
+  Result := FDweettaAPI.Statuses_public_timeline;
 end;
 
-function TDweetta.FriendsTimeline: TDweettaStatusElementList;
+function TDweetta.StatusesFriendsTimeline: TDweettaStatusElementList;
 begin
-  Result := FDweettaAPI.friends_timeline('', 0, 0, 0, 0);
+  Result := FDweettaAPI.Statuses_friends_timeline('', 0, 0, 0, 0);
 end;
 
-function TDweetta.FriendsTimeline(since: String): TDweettaStatusElementList;
+function TDweetta.StatusesFriendsTimeline(since: String): TDweettaStatusElementList;
 begin
-  Result := FDweettaAPI.friends_timeline(since, 0, 0, 0, 0);
+  Result := FDweettaAPI.Statuses_friends_timeline(since, 0, 0, 0, 0);
 end;
 
-function TDweetta.UserTimeline: TDweettaStatusElementList;
+function TDweetta.StatusesUserTimeline: TDweettaStatusElementList;
 begin
-  Result := FDweettaAPI.user_timeline('', 0, '', 0, 0, 0, '');
+  Result := FDweettaAPI.Statuses_user_timeline('', 0, '', 0, 0, 0, '');
 end;
 
-function TDweetta.UserTimeline ( id: String ) : TDweettaStatusElementList;
+function TDweetta.StatusesUserTimeline ( id: String ) : TDweettaStatusElementList;
 begin
-  Result := FDweettaAPI.user_timeline(id, 0, '', 0, 0, 0, '');
+  Result := FDweettaAPI.Statuses_user_timeline(id, 0, '', 0, 0, 0, '');
 end;
 
 end.

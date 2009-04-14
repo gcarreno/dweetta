@@ -14,18 +14,21 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, LResources, Forms, Controls, Graphics, Dialogs,
-  ExtCtrls, VirtualStringTree, ComCtrls, PopupNotifier, Common, Dweetta;
+  ExtCtrls, VirtualStringTree, ComCtrls, PopupNotifier, Common, Dweetta,
+  StdCtrls;
 
 type
 
   { TfrmMain }
 
   TfrmMain = class ( TForm )
+    Button1: TButton;
     panTop: TPanel;
     panClient: TPanel;
     pnMain: TPopupNotifier;
     sbMain: TStatusBar;
     vstTweets: TVirtualStringTree;
+    procedure Button1Click(Sender: TObject);
     procedure FormCreate ( Sender: TObject ) ;
     procedure FormDestroy ( Sender: TObject ) ;
   private
@@ -45,6 +48,11 @@ implementation
 procedure TfrmMain.FormCreate ( Sender: TObject ) ;
 begin
   FDweetta := TDweetta.Create;
+end;
+
+procedure TfrmMain.Button1Click(Sender: TObject);
+begin
+
 end;
 
 procedure TfrmMain.FormDestroy ( Sender: TObject ) ;

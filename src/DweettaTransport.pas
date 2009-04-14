@@ -16,7 +16,7 @@ unit DweettaTransport;
 interface
 
 uses
-  Classes, SysUtils, HTTPSend;
+  Classes, SysUtils, DweettaSockets;
 
 type
 { EDweettaTransportError }
@@ -33,11 +33,15 @@ type
 
 { TDweettaServices }
 
-  TDweettaServices = (tsPublicTimeline, tsFriendsTimeline, tsUserTimeline);
+  TDweettaServices = (tsStatusesPublicTimeline, tsStatusesFriendsTimeline,
+    tsStatusesUserTimeline, tsStatusesShow, tsStatusesUpdate, tsStatusesReplies,
+    tsStatusesDestroy);
 
 { TDweettaServiceEndPoints }
 var
-  TDweettaServiceEndPoints: array[tsPublicTimeline..tsUserTimeline] of string;
+  TDweettaServiceEndPoints: array[tsStatusesPublicTimeline..tsStatusesDestroy] of string =
+    ('/statuses/public_timeline', '/statuses/friends_timeline', '/statuses/user_timeline',
+     '/statuses/show', '/statuses/update', '/statuses/replies', '/statuses/destroy');
 
 type
 { TDweettaResponseInfo }
@@ -46,6 +50,7 @@ type
     HTTPStatus: Integer;
     HTTPMessage: String;
     RemainingCalls: Integer;
+    RateLimit: Integer;
   end;
 
 { TDweettaTrasnport }
@@ -57,7 +62,7 @@ type
     FServer: String;
     FUserAgent: String;
     FFormat: String;
-  protected
+    FDweettaSocket: TDweettaSockets;
   public
     constructor Create;
     destructor Destroy; override;
@@ -74,7 +79,6 @@ type
     property Server: String read FServer write FServer;
     property UserAgent: String read FUserAgent write FUserAgent;
     property Format: String read FFormat write FFormat;
-  published
   end;
 
 implementation
@@ -84,38 +88,69 @@ implementation
 constructor TDweettaTransport.Create;
 begin
   inherited Create;
+  FDweettaSocket := TDweettaSockets.Create;
 end;
 
 destructor TDweettaTransport.Destroy;
 begin
+  FDweettaSocket.Free;
   inherited Destroy;
 end;
 
 function TDweettaTransport.Get ( Service: TDweettaServices; const Params: TStringList;
   out ResponseInfo: TDweettaResponseInfo ) : String;
 var
-  { Temporary.start }
-  FileLines: TStringList;
-  { Temporary.end }
-  URI: String;
+  URI, HeaderValue: String;
   Index: Integer;
 begin
-  URI := 'http://' + FServer + TDweettaServiceEndPoints[Service] + FFormat;
-  if Assigned(Params) then
-  begin
-    URI := URI + '?';
-    for Index := 0 to Params.Count -1 do
-    begin
-      URI := URI + Params[Index] + '&';
+  Result := '';
+  case Service of
+    tsStatusesPublicTimeline, tsStatusesFriendsTimeline,
+    tsStatusesUserTimeline, tsStatusesReplies:begin
+      URI := FServer + TDweettaServiceEndPoints[Service] + FFormat;
+      if Assigned(Params) then
+      begin
+        URI := URI + '?';
+        for Index := 0 to Params.Count -1 do
+        begin
+          URI := URI + Params[Index] + '&';
+        end;
+        SetLength(URI, Length(URI) -1);
+      end;
     end;
-    SetLength(URI, Length(URI) -1);
+    tsStatusesShow:begin
+      URI := FServer + TDweettaServiceEndPoints[Service] + '/' +  Params.Values['id'] + FFormat;
+    end;
+    else
+      URI := '';
   end;
-  { Temporary.start }
-  FileLines := TStringList.Create;
-  FileLines.LoadFromFile('../Data/public_timeline.json');
-  Result:=FileLines.Text;
-  FileLines.Free;
-  { Temporary.end   }
+  if URI <> '' then
+  begin
+    if FUser <> '' then
+    begin
+      URI := FUser + ':' + FPassword + '@' + URI;
+    end;
+    URI := 'http://' + URI;
+    if FDweettaSocket.Execute('GET', URI) then
+    begin
+      Result := FDweettaSocket.Content.Text;
+      ResponseInfo.HTTPStatus := FDweettaSocket.Result;
+      ResponseInfo.HTTPMessage := FDweettaSocket.ResultText;
+      for Index := 0 to FDweettaSocket.Headers.Count -1 do
+      begin
+        if Pos('X-RateLimit-Remaining', FDweettaSocket.Headers[Index]) > 0 then
+        begin
+          HeaderValue := Copy(FDweettaSocket.Headers[Index], Pos(':', FDweettaSocket.Headers[Index]) + 1, Length(FDweettaSocket.Headers[Index]));
+          ResponseInfo.RemainingCalls := StrToInt(HeaderValue);
+        end;
+        if Pos('X-RateLimit-Limit', FDweettaSocket.Headers[Index]) > 0 then
+        begin
+          HeaderValue := Copy(FDweettaSocket.Headers[Index], Pos(':', FDweettaSocket.Headers[Index]) + 1, Length(FDweettaSocket.Headers[Index]));
+          ResponseInfo.RateLimit := StrToInt(HeaderValue);
+        end;
+      end;
+    end;
+  end;
 end;
 
 function TDweettaTransport.Post ( Service: TDweettaServices; const Params: TStringList;
@@ -160,12 +195,6 @@ begin
 
   inherited Create(errorStr);
 end;
-
-initialization
-
-  TDweettaServiceEndPoints[tsPublicTimeline] := '/statuses/public_timeline';
-  TDweettaServiceEndPoints[tsFriendsTimeline] := '/statuses/friends_timeline';
-  TDweettaServiceEndPoints[tsUserTimeline] := '/statuses/user_timeline';
 
 end.
 

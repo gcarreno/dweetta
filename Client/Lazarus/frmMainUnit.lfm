@@ -15,7 +15,18 @@ object frmMain: TfrmMain
     Width = 599
     Align = alTop
     BevelOuter = bvNone
+    ClientHeight = 54
+    ClientWidth = 599
     TabOrder = 0
+    object Button1: TButton
+      Left = 12
+      Height = 25
+      Top = 12
+      Width = 75
+      Caption = 'Button1'
+      OnClick = Button1Click
+      TabOrder = 0
+    end
   end
   object panClient: TPanel
     Height = 409

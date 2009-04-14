@@ -56,11 +56,12 @@ type
     // Status Child Object
     FHasStatus: Boolean;
     FStatus: TDweettaStatusElement;
-  protected
   public
     constructor Create; overload;
     constructor Create(HasStatus: Boolean); overload;
     destructor Destroy; override;
+
+    function LoadFromString(AInString: String): TDweettaUserElement;
 
     property Id: Integer read FId write FId;
     property Name: String read FName write FName;
@@ -91,7 +92,6 @@ type
 
     property HasStatus: Boolean read FHasStatus;
     property Status: TDweettaStatusElement read FStatus;
-  published
   end;
 
 { TDweettaUserElementList }
@@ -100,12 +100,10 @@ type
   private
     function GetItem(Index: Integer): TDweettaUserElement;
     procedure SetItem(Index: Integer; ADweettaUserElement: TDweettaUserElement);
-  protected
   public
     procedure LoadFromString(const AInString: String);
 
     property Items[Index: Integer]: TDweettaUserElement read GetItem write SetItem; default;
-  published
   end;
 
   TDweettaStatusElementClass = class of TDweettaStatusElement;
@@ -126,11 +124,12 @@ type
     // User child object
     FHasUser: Boolean;
     FUser: TDweettaUserElement;
-  protected
   public
     constructor Create; overload;
     constructor Create(HasUser: Boolean); overload;
     destructor Destroy; override;
+
+    function LoadFromString(AInString: String): TDweettaStatusElement;
 
     property CreatedAt: String read FCreatedAt write FCreatedAt;
     property Id: Integer read FId write FId;
@@ -143,7 +142,6 @@ type
     property isFavorited: Boolean read FFavorited write FFavorited;
     property HasUser: Boolean read FHasUser;
     property User: TDweettaUserElement read FUser;
-  published
   end;
 
 { TDweettaStatusElementList }
@@ -152,12 +150,10 @@ type
   private
     function GetItem(Index: Integer): TDweettaStatusElement;
     procedure SetItem(Index: Integer; ADweettaStatusElement: TDweettaStatusElement);
-  protected
   public
     procedure LoadFromString(const AInString: String);
 
     property Items[Index: Integer]: TDweettaStatusElement read GetItem write SetItem; default;
-  published
   end;
 
 { TDweettaDirectMessageElement }
@@ -173,11 +169,12 @@ type
     FRecipientScreenName: String;
     FSender: TDweettaUserElement; // On Basic mode
     FRecipient: TDweettaUserElement; // On Basic mode
-  protected
   public
     constructor Create; overload;
     constructor Create(const ASender: TDweettaUserElement; const ARecipient: TDweettaUserElement); overload;
     destructor Destroy; override;
+
+    function LoadFromString(AInString: String): TDweettaDirectMessageElement;
 
     property Id: Integer read FId write FId;
     property SenderID: Integer read FSenderID write FSenderID;
@@ -188,7 +185,6 @@ type
     property RecipientScreenName: String read FRecipientScreenName write FRecipientScreenName;
     property Sender: TDweettaUserElement read FSender;
     property Recipient: TDweettaUserElement read FRecipient;
-  published
   end;
 
 { TDweettaDirectMessageElementList }
@@ -197,12 +193,10 @@ type
   private
     function GetItem(Index: Integer): TDweettaDirectMessageElement;
     procedure SetItem(Index: Integer; ADweettaDirectMessageElement: TDweettaDirectMessageElement);
-  protected
   public
     procedure LoadFromString(const AInString: String);
 
     property Items[Index: Integer]: TDweettaDirectMessageElement read GetItem write SetItem; default;
-  published
   end;
 
 implementation
@@ -437,6 +431,15 @@ begin
   inherited Destroy;
 end;
 
+function TDweettaUserElement.LoadFromString(AInString: String
+  ): TDweettaUserElement;
+var
+  User: ISuperObject;
+begin
+  User := SO(AInString);
+  Result := LoadUserElement(User);
+end;
+
 { TDweettaStatusElement }
 
 constructor TDweettaStatusElement.Create;
@@ -469,6 +472,15 @@ begin
   inherited Destroy;
 end;
 
+function TDweettaStatusElement.LoadFromString(AInString: String
+  ): TDweettaStatusElement;
+var
+  Status: ISuperObject;
+begin
+  Status := SO(AInString);
+  Result := LoadStatusElement(Status);
+end;
+
 { TDweettaDirectMessageElement }
 
 constructor TDweettaDirectMessageElement.Create;
@@ -497,6 +509,15 @@ begin
     FRecipient.Free;
   end;
   inherited Destroy;
+end;
+
+function TDweettaDirectMessageElement.LoadFromString(AInString: String
+  ): TDweettaDirectMessageElement;
+var
+  DirectMsg: ISuperObject;
+begin
+  DirectMsg := SO(AInString);
+  Result := LoadDirectMessageElement(DirectMsg);
 end;
 
 end.
