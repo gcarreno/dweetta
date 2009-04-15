@@ -53,6 +53,62 @@ type
     function Statuses_destroy(id: integer): TDweettaStatusElement;
 
     { User }
+    function Users_friends(id: String; user_id: Integer; screen_name: String;
+      page: Integer): TDweettaUserElementList;
+    function Users_followers(id: string; user_id: Integer; screen_name: String;
+      page: Integer): TDweettaUserElementList;
+    function Users_show(id: String; user_id: Integer; screen_name: String): TDweettaUserElement;
+
+    { Direct Messages }
+    function DirectMessages_direct_messages(since: String; since_id: Integer;
+      page: Integer): TDweettaDirectMessageElementList;
+    function DirectMessages_sent(since: String; since_id: Integer; page: Integer): TDweettaDirectMessageElementList;
+    function DirectMessages_new(user: String; text: String): TDweettaDirectMessageElement;
+    function DirectMessages_destroy(id: integer): TDweettaDirectMessageElementList;
+
+    { Friendships }
+    function Friendships_create(id: String; follow: Boolean): TDweettaUserElement;
+    function Friendships_destroy(id: String): TDweettaUserElement;
+    function Friendships_exists(user_a: String; user_b: String): Boolean;
+
+    { Friends }
+    { TODO -ogcarreno -cRefactoring : This needs to return an array of Integers. }
+    function Friends_ids(id: String; user_id: Integer; screen_name: String): String;
+
+    { Followers }
+    { TODO -ogcarreno -cRefactoring : This needs to return an array of Integers. }
+    function Followers_ids(id: String; user_id: Integer; screen_name: String): String;
+
+    { Account }
+    function Account_verify_credentials: TDweettaUserElement;
+    procedure Account_end_session;
+    { TODO -ogcarreno -cRefactoring : Need to specify a constant for device. }
+    function Account_update_delivery_device(device: String): TDweettaUserElement;
+    function Account_update_profile_colors(profile_background_color: String;
+      profile_text_color: String; profile_link_color: String;
+      profile_sidebar_fill_color: String; profile_sidebar_border_color: String): TDweettaUserElement;
+    function Account_update_profile_image(image: String): TDweettaUserElement;
+    { TODO -ogcarreno -cRefactoring : image has to be a binary image format. }
+    function Account_update_profile_background_image(image: String; tile: Boolean): TDweettaUserElement;
+    function Account_rate_limit_status: Integer;
+    function Account_update_profile(name: String; email: String; url: String;
+      location: String; description: String): TDweettaUserElement;
+
+    { Favorites }
+    function Favorites_favorites(id: String; page: Integer): TDweettaStatusElementList;
+    function Favorites_create(id: Integer): TDweettaStatusElement;
+    function Favorites_destroy(id: Integer): TDweettaStatusElement;
+
+    { Notifications }
+    function Notifications_follow(id: String): TDweettaUserElement;
+    function Notifications_leave(id: String): TDweettaUserElement;
+
+    { Blocks }
+    function Blocks_create(id: String): TDweettaUserElement;
+    function Blocks_destroy(id: String): TDweettaUserElement;
+
+    { Help }
+    function Help_test: String;
 
     property User: String read FUser write SetUser;
     property Password: String read FPassword write SetPassword;
@@ -117,9 +173,9 @@ end;
 
 function TDweettaAPI.Statuses_public_timeline: TDweettaStatusElementList;
 begin
-  Result := TDweettaStatusElementList.Create;
   FParams.Clear;
   try
+    Result := TDweettaStatusElementList.Create;
     Result.LoadFromString(FDweettaTransport.Get(tsStatusesPublicTimeline, FParams, FResponseInfo));
   except
   { TODO -ogcarreno -cExceptions : Get execptions treated here.}
@@ -150,8 +206,8 @@ begin
   begin
     FParams.Add('page=' + IntToStr(page));
   end;
-  Result := TDweettaStatusElementList.Create;
   try
+    Result := TDweettaStatusElementList.Create;
     Result.LoadFromString(FDweettaTransport.Get(tsStatusesFriendsTimeline, FParams, FResponseInfo));
   except
   { TODO -ogcarreno -cExceptions : Get execptions treated here.}
@@ -191,8 +247,8 @@ begin
   begin
     FParams.Add('since=' + since);
   end;
-  Result := TDweettaStatusElementList.Create;
   try
+    Result := TDweettaStatusElementList.Create;
     Result.LoadFromString(FDweettaTransport.Get(tsStatusesUserTimeline, FParams, FResponseInfo));
   except
   { TODO -ogcarreno -cExceptions : Get execptions treated here.}
@@ -206,8 +262,8 @@ begin
   begin
     FParams.Add('id=' + IntToStr(id));
   end;
-  Result := TDweettaStatusElement.Create;
   try
+    Result := TDweettaStatusElement.Create;
     Result.LoadFromString(FDweettaTransport.Get(tsStatusesShow, FParams, FResponseInfo));
   except
   { TODO -ogcarreno -cExceptions : Get execptions treated here.}
@@ -226,8 +282,8 @@ begin
   begin
     FParams.Add('in_reply_to_status_id=' + IntToStr(in_reply_to_status_id));
   end;
-  Result := TDweettaStatusElement.Create;
   try
+    Result := TDweettaStatusElement.Create;
     Result.LoadFromString(FDweettaTransport.Post(tsStatusesUpdate, FParams, FResponseInfo));
   except
   { TODO -ogcarreno -cExceptions : Get execptions treated here.}
@@ -254,8 +310,8 @@ begin
   begin
     FParams.Add('page=' + IntToStr(page));
   end;
-  Result := TDweettaStatusElementList.Create;
   try
+    Result := TDweettaStatusElementList.Create;
     Result.LoadFromString(FDweettaTransport.Get(tsStatusesReplies, FParams, FResponseInfo));
   except
   { TODO -ogcarreno -cExceptions : Get execptions treated here.}
@@ -269,9 +325,335 @@ begin
   begin
     FParams.Add('id=' + IntToStr(id));
   end;
-  Result := TDweettaStatusElement.Create;
   try
+    Result := TDweettaStatusElement.Create;
     Result.LoadFromString(FDweettaTransport.Delete(tsStatusesDestroy, FParams, FResponseInfo));
+  except
+  { TODO -ogcarreno -cExceptions : Get execptions treated here.}
+  end;
+end;
+
+function TDweettaAPI.Users_friends(id: String; user_id: Integer;
+  screen_name: String; page: Integer): TDweettaUserElementList;
+begin
+  FParams.Clear;
+  try
+    Result := TDweettaUserElementList.Create;
+    //Result.LoadFromString(FDweettaTransport.Get(tsStatusesPublicTimeline, FParams, FResponseInfo));
+  except
+  { TODO -ogcarreno -cExceptions : Get execptions treated here.}
+  end;
+end;
+
+function TDweettaAPI.Users_followers(id: string; user_id: Integer;
+  screen_name: String; page: Integer): TDweettaUserElementList;
+begin
+  FParams.Clear;
+  try
+    Result := TDweettaUserElementList.Create;
+    //Result.LoadFromString(FDweettaTransport.Get(tsStatusesPublicTimeline, FParams, FResponseInfo));
+  except
+  { TODO -ogcarreno -cExceptions : Get execptions treated here.}
+  end;
+end;
+
+function TDweettaAPI.Users_show(id: String; user_id: Integer;
+  screen_name: String): TDweettaUserElement;
+begin
+  FParams.Clear;
+  try
+    Result := TDweettaUserElement.Create;
+    //Result.LoadFromString(FDweettaTransport.Get(tsStatusesPublicTimeline, FParams, FResponseInfo));
+  except
+  { TODO -ogcarreno -cExceptions : Get execptions treated here.}
+  end;
+end;
+
+function TDweettaAPI.DirectMessages_direct_messages(since: String;
+  since_id: Integer; page: Integer): TDweettaDirectMessageElementList;
+begin
+  FParams.Clear;
+  try
+    Result := TDweettaDirectMessageElementList.Create;
+    //Result.LoadFromString(FDweettaTransport.Get(tsStatusesPublicTimeline, FParams, FResponseInfo));
+  except
+  { TODO -ogcarreno -cExceptions : Get execptions treated here.}
+  end;
+end;
+
+function TDweettaAPI.DirectMessages_sent(since: String; since_id: Integer;
+  page: Integer): TDweettaDirectMessageElementList;
+begin
+  FParams.Clear;
+  try
+    Result := TDweettaDirectMessageElementList.Create;
+    //Result.LoadFromString(FDweettaTransport.Get(tsStatusesPublicTimeline, FParams, FResponseInfo));
+  except
+  { TODO -ogcarreno -cExceptions : Get execptions treated here.}
+  end;
+end;
+
+function TDweettaAPI.DirectMessages_new(user: String; text: String
+  ): TDweettaDirectMessageElement;
+begin
+  FParams.Clear;
+  try
+    Result := TDweettaDirectMessageElement.Create;
+    //Result.LoadFromString(FDweettaTransport.Get(tsStatusesPublicTimeline, FParams, FResponseInfo));
+  except
+  { TODO -ogcarreno -cExceptions : Get execptions treated here.}
+  end;
+end;
+
+function TDweettaAPI.DirectMessages_destroy(id: integer
+  ): TDweettaDirectMessageElementList;
+begin
+  FParams.Clear;
+  try
+    Result := TDweettaDirectMessageElementList.Create;
+    //Result.LoadFromString(FDweettaTransport.Get(tsStatusesPublicTimeline, FParams, FResponseInfo));
+  except
+  { TODO -ogcarreno -cExceptions : Get execptions treated here.}
+  end;
+end;
+
+function TDweettaAPI.Friendships_create(id: String; follow: Boolean
+  ): TDweettaUserElement;
+begin
+  FParams.Clear;
+  try
+    Result := TDweettaUserElement.Create;
+    //Result.LoadFromString(FDweettaTransport.Get(tsStatusesPublicTimeline, FParams, FResponseInfo));
+  except
+  { TODO -ogcarreno -cExceptions : Get execptions treated here.}
+  end;
+end;
+
+function TDweettaAPI.Friendships_destroy(id: String): TDweettaUserElement;
+begin
+  FParams.Clear;
+  try
+    Result := TDweettaUserElement.Create;
+    //Result.LoadFromString(FDweettaTransport.Get(tsStatusesPublicTimeline, FParams, FResponseInfo));
+  except
+  { TODO -ogcarreno -cExceptions : Get execptions treated here.}
+  end;
+end;
+
+function TDweettaAPI.Friendships_exists(user_a: String; user_b: String
+  ): Boolean;
+begin
+  FParams.Clear;
+  try
+    Result := False;
+    //Result.LoadFromString(FDweettaTransport.Get(tsStatusesPublicTimeline, FParams, FResponseInfo));
+  except
+  { TODO -ogcarreno -cExceptions : Get execptions treated here.}
+  end;
+end;
+
+function TDweettaAPI.Friends_ids(id: String; user_id: Integer;
+  screen_name: String): String;
+begin
+  FParams.Clear;
+  try
+    Result := '';
+    //Result.LoadFromString(FDweettaTransport.Get(tsStatusesPublicTimeline, FParams, FResponseInfo));
+  except
+  { TODO -ogcarreno -cExceptions : Get execptions treated here.}
+  end;
+end;
+
+function TDweettaAPI.Followers_ids(id: String; user_id: Integer;
+  screen_name: String): String;
+begin
+  FParams.Clear;
+  try
+    Result := '';
+    //Result.LoadFromString(FDweettaTransport.Get(tsStatusesPublicTimeline, FParams, FResponseInfo));
+  except
+  { TODO -ogcarreno -cExceptions : Get execptions treated here.}
+  end;
+end;
+
+function TDweettaAPI.Account_verify_credentials: TDweettaUserElement;
+begin
+  FParams.Clear;
+  try
+    Result := TDweettaUserElement.Create;
+    //Result.LoadFromString(FDweettaTransport.Get(tsStatusesPublicTimeline, FParams, FResponseInfo));
+  except
+  { TODO -ogcarreno -cExceptions : Get execptions treated here.}
+  end;
+end;
+
+procedure TDweettaAPI.Account_end_session;
+begin
+  FParams.Clear;
+  try
+    //Result.LoadFromString(FDweettaTransport.Get(tsStatusesPublicTimeline, FParams, FResponseInfo));
+  except
+  { TODO -ogcarreno -cExceptions : Get execptions treated here.}
+  end;
+end;
+
+function TDweettaAPI.Account_update_delivery_device(device: String
+  ): TDweettaUserElement;
+begin
+  FParams.Clear;
+  try
+    Result := TDweettaUserElement.Create;
+    //Result.LoadFromString(FDweettaTransport.Get(tsStatusesPublicTimeline, FParams, FResponseInfo));
+  except
+  { TODO -ogcarreno -cExceptions : Get execptions treated here.}
+  end;
+end;
+
+function TDweettaAPI.Account_update_profile_colors(
+  profile_background_color: String; profile_text_color: String;
+  profile_link_color: String; profile_sidebar_fill_color: String;
+  profile_sidebar_border_color: String): TDweettaUserElement;
+begin
+  FParams.Clear;
+  try
+    Result := TDweettaUserElement.Create;
+    //Result.LoadFromString(FDweettaTransport.Get(tsStatusesPublicTimeline, FParams, FResponseInfo));
+  except
+  { TODO -ogcarreno -cExceptions : Get execptions treated here.}
+  end;
+end;
+
+function TDweettaAPI.Account_update_profile_image(image: String
+  ): TDweettaUserElement;
+begin
+  FParams.Clear;
+  try
+    Result := TDweettaUserElement.Create;
+    //Result.LoadFromString(FDweettaTransport.Get(tsStatusesPublicTimeline, FParams, FResponseInfo));
+  except
+  { TODO -ogcarreno -cExceptions : Get execptions treated here.}
+  end;
+end;
+
+function TDweettaAPI.Account_update_profile_background_image(image: String;
+  tile: Boolean): TDweettaUserElement;
+begin
+  FParams.Clear;
+  try
+    Result := TDweettaUserElement.Create;
+    //Result.LoadFromString(FDweettaTransport.Get(tsStatusesPublicTimeline, FParams, FResponseInfo));
+  except
+  { TODO -ogcarreno -cExceptions : Get execptions treated here.}
+  end;
+end;
+
+function TDweettaAPI.Account_rate_limit_status: Integer;
+begin
+  FParams.Clear;
+  try
+    Result := 100;
+    //Result.LoadFromString(FDweettaTransport.Get(tsStatusesPublicTimeline, FParams, FResponseInfo));
+  except
+  { TODO -ogcarreno -cExceptions : Get execptions treated here.}
+  end;
+end;
+
+function TDweettaAPI.Account_update_profile(name: String; email: String;
+  url: String; location: String; description: String): TDweettaUserElement;
+begin
+  FParams.Clear;
+  try
+    Result := TDweettaUserElement.Create;
+    //Result.LoadFromString(FDweettaTransport.Get(tsStatusesPublicTimeline, FParams, FResponseInfo));
+  except
+  { TODO -ogcarreno -cExceptions : Get execptions treated here.}
+  end;
+end;
+
+function TDweettaAPI.Favorites_favorites(id: String; page: Integer
+  ): TDweettaStatusElementList;
+begin
+  FParams.Clear;
+  try
+    Result := TDweettaStatusElementList.Create;
+    //Result.LoadFromString(FDweettaTransport.Get(tsStatusesPublicTimeline, FParams, FResponseInfo));
+  except
+  { TODO -ogcarreno -cExceptions : Get execptions treated here.}
+  end;
+end;
+
+function TDweettaAPI.Favorites_create(id: Integer): TDweettaStatusElement;
+begin
+  FParams.Clear;
+  try
+    Result := TDweettaStatusElement.Create;
+    //Result.LoadFromString(FDweettaTransport.Get(tsStatusesPublicTimeline, FParams, FResponseInfo));
+  except
+  { TODO -ogcarreno -cExceptions : Get execptions treated here.}
+  end;
+end;
+
+function TDweettaAPI.Favorites_destroy(id: Integer): TDweettaStatusElement;
+begin
+  FParams.Clear;
+  try
+    Result := TDweettaStatusElement.Create;
+    //Result.LoadFromString(FDweettaTransport.Get(tsStatusesPublicTimeline, FParams, FResponseInfo));
+  except
+  { TODO -ogcarreno -cExceptions : Get execptions treated here.}
+  end;
+end;
+
+function TDweettaAPI.Notifications_follow(id: String): TDweettaUserElement;
+begin
+  FParams.Clear;
+  try
+    Result := TDweettaUserElement.Create;
+    //Result.LoadFromString(FDweettaTransport.Get(tsStatusesPublicTimeline, FParams, FResponseInfo));
+  except
+  { TODO -ogcarreno -cExceptions : Get execptions treated here.}
+  end;
+end;
+
+function TDweettaAPI.Notifications_leave(id: String): TDweettaUserElement;
+begin
+  FParams.Clear;
+  try
+    Result := TDweettaUserElement.Create;
+    //Result.LoadFromString(FDweettaTransport.Get(tsStatusesPublicTimeline, FParams, FResponseInfo));
+  except
+  { TODO -ogcarreno -cExceptions : Get execptions treated here.}
+  end;
+end;
+
+function TDweettaAPI.Blocks_create(id: String): TDweettaUserElement;
+begin
+  FParams.Clear;
+  try
+    Result := TDweettaUserElement.Create;
+    //Result.LoadFromString(FDweettaTransport.Get(tsStatusesPublicTimeline, FParams, FResponseInfo));
+  except
+  { TODO -ogcarreno -cExceptions : Get execptions treated here.}
+  end;
+end;
+
+function TDweettaAPI.Blocks_destroy(id: String): TDweettaUserElement;
+begin
+  FParams.Clear;
+  try
+    Result := TDweettaUserElement.Create;
+    //Result.LoadFromString(FDweettaTransport.Get(tsStatusesPublicTimeline, FParams, FResponseInfo));
+  except
+  { TODO -ogcarreno -cExceptions : Get execptions treated here.}
+  end;
+end;
+
+function TDweettaAPI.Help_test: String;
+begin
+  FParams.Clear;
+  try
+    Result := '';
+    //Result.LoadFromString(FDweettaTransport.Get(tsStatusesPublicTimeline, FParams, FResponseInfo));
   except
   { TODO -ogcarreno -cExceptions : Get execptions treated here.}
   end;
