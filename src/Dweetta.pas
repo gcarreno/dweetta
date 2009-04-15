@@ -38,6 +38,12 @@ type
     function StatusesFriendsTimeline(since: String): TDweettaStatusElementList; overload;
     function StatusesUserTimeline: TDweettaStatusElementList; overload;
     function StatusesUserTimeline(id: String): TDweettaStatusElementList; overload;
+    function StatusesShow(id: Integer): TDweettaStatusElement;
+    function StatusesUpdate(status: String): TDweettaStatusElement; overload;
+    function StatusesUpdate(status: String; in_reply_to_status_id: Integer): TDweettaStatusElement; overload;
+    function StatusesReplies: TDweettaStatusElementList; overload;
+    function StatusesReplies(since_id: Integer): TDweettaStatusElementList; overload;
+    function StatusesDestroy(id: Integer): TDweettaStatusElement;
 
     property User: String read FUser write Setuser;
     property Password: String read FPassword write SetPassword;
@@ -110,6 +116,38 @@ end;
 function TDweetta.StatusesUserTimeline ( id: String ) : TDweettaStatusElementList;
 begin
   Result := FDweettaAPI.Statuses_user_timeline(id, 0, '', 0, 0, 0, '');
+end;
+
+function TDweetta.StatusesShow(id: Integer): TDweettaStatusElement;
+begin
+  Result := FDweettaAPI.Statuses_show(id);
+end;
+
+function TDweetta.StatusesUpdate(status: String): TDweettaStatusElement;
+begin
+  Result := FDweettaAPI.Statuses_update(status, 0);
+end;
+
+function TDweetta.StatusesUpdate(status: String; in_reply_to_status_id: Integer
+  ): TDweettaStatusElement;
+begin
+  Result := FDweettaAPI.Statuses_update(status, in_reply_to_status_id);
+end;
+
+function TDweetta.StatusesReplies: TDweettaStatusElementList;
+begin
+  Result := FDweettaAPI.Statuses_replies(0, 0, '', 0);
+end;
+
+function TDweetta.StatusesReplies(since_id: Integer
+  ): TDweettaStatusElementList;
+begin
+  Result := FDweettaAPI.Statuses_replies(since_id, 0, '', 0);
+end;
+
+function TDweetta.StatusesDestroy(id: Integer): TDweettaStatusElement;
+begin
+  Result := FDweettaAPI.Statuses_destroy(id);
 end;
 
 end.

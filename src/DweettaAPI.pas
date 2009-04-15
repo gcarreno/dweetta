@@ -45,7 +45,12 @@ type
       count: Integer; page: Integer): TDweettaStatusElementList;
     function Statuses_user_timeline(id: String; user_id: integer;
       screen_name: String; since_id: Integer; max_id: Integer;
-      page: Integer; since: String): TDweettaStatusElementList; overload;
+      page: Integer; since: String): TDweettaStatusElementList;
+    function Statuses_show(id: integer): TDweettaStatusElement;
+    function Statuses_update(status: String; in_reply_to_status_id: Integer): TDweettaStatusElement;
+    function Statuses_replies(since_id: Integer; max_id: Integer; since: String;
+      page: Integer): TDweettaStatusElementList;
+    function Statuses_destroy(id: integer): TDweettaStatusElement;
 
     { User }
 
@@ -194,6 +199,83 @@ begin
   end;
 end;
 
+function TDweettaAPI.Statuses_show(id: integer): TDweettaStatusElement;
+begin
+  FParams.Clear;
+  if id <> 0 then
+  begin
+    FParams.Add('id=' + IntToStr(id));
+  end;
+  Result := TDweettaStatusElement.Create;
+  try
+    Result.LoadFromString(FDweettaTransport.Get(tsStatusesShow, FParams, FResponseInfo));
+  except
+  { TODO -ogcarreno -cExceptions : Get execptions treated here.}
+  end;
+end;
+
+function TDweettaAPI.Statuses_update(status: String;
+  in_reply_to_status_id: Integer): TDweettaStatusElement;
+begin
+  FParams.Clear;
+  if status <> '' then
+  begin
+    FParams.Add('status=' + status);
+  end;
+  if in_reply_to_status_id <> 0 then
+  begin
+    FParams.Add('in_reply_to_status_id=' + IntToStr(in_reply_to_status_id));
+  end;
+  Result := TDweettaStatusElement.Create;
+  try
+    Result.LoadFromString(FDweettaTransport.Post(tsStatusesUpdate, FParams, FResponseInfo));
+  except
+  { TODO -ogcarreno -cExceptions : Get execptions treated here.}
+  end;
+end;
+
+function TDweettaAPI.Statuses_replies(since_id: Integer; max_id: Integer;
+  since: String; page: Integer): TDweettaStatusElementList;
+begin
+  FParams.Clear;
+  if since_id <> 0 then
+  begin
+    FParams.Add('since_id=' + IntToStr(since_id));
+  end;
+  if max_id <> 0 then
+  begin
+    FParams.Add('max_id=' + IntToStr(max_id));
+  end;
+  if since <> '' then
+  begin
+    FParams.Add('since=' + since);
+  end;
+  if page <> 0 then
+  begin
+    FParams.Add('page=' + IntToStr(page));
+  end;
+  Result := TDweettaStatusElementList.Create;
+  try
+    Result.LoadFromString(FDweettaTransport.Get(tsStatusesReplies, FParams, FResponseInfo));
+  except
+  { TODO -ogcarreno -cExceptions : Get execptions treated here.}
+  end;
+end;
+
+function TDweettaAPI.Statuses_destroy(id: integer): TDweettaStatusElement;
+begin
+  FParams.Clear;
+  if id <> 0 then
+  begin
+    FParams.Add('id=' + IntToStr(id));
+  end;
+  Result := TDweettaStatusElement.Create;
+  try
+    Result.LoadFromString(FDweettaTransport.Delete(tsStatusesDestroy, FParams, FResponseInfo));
+  except
+  { TODO -ogcarreno -cExceptions : Get execptions treated here.}
+  end;
+end;
 
 end.
 
