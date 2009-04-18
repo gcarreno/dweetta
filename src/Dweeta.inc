@@ -7,6 +7,8 @@
   https://jcl.svn.sourceforge.net/svnroot/jcl/trunk/jcl/source/include/jedi.inc
 
   Modified by gcarreno to suite Dweetta's needs
+  @Author  $Author$
+  @Version $Rev$
 *******************************************************************************}
 
 

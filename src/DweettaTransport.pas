@@ -9,9 +9,7 @@
 -------------------------------------------------------------------------------}
 unit DweettaTransport;
 
-{$IFDEF FPC}
-  {$MODE OBJFPC}{$H+}
-{$ENDIF}
+{$I Dweetta.inc}
 
 interface
 
