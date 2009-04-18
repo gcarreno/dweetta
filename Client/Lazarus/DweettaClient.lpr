@@ -8,7 +8,7 @@
 -------------------------------------------------------------------------------}
 program DweettaClient;
 
-{$mode objfpc}{$H+}
+{$I Dweetta.inc}
 
 uses
   {$IFDEF UNIX}{$IFDEF UseCThreads}
@@ -22,6 +22,7 @@ uses
 
 {$IFDEF WINDOWS}
   {$R DweettaClient.rc}
+  {$R manifest.rc}
 {$ENDIF}
 
 begin

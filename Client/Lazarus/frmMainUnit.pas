@@ -8,7 +8,7 @@
 -------------------------------------------------------------------------------}
 unit frmMainUnit;
 
-{$mode objfpc}{$H+}
+{$I Dweetta.inc}
 
 interface
 

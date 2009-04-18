@@ -8,9 +8,7 @@
 -------------------------------------------------------------------------------}
 unit Common;
 
-{$IFDEF FPC}
-  {$mode objfpc}{$H+}
-{$ENDIF}
+{$I Dweetta.inc}
 
 interface
 
