@@ -1,9 +1,9 @@
 object frmMain: TfrmMain
-  Left = 290
+  Left = 326
   Height = 486
-  Top = 230
+  Top = 177
   Width = 599
-  Caption = 'Dweetta Client v0.1.0.24'
+  Caption = 'Dweetta Client v0.1.0.25'
   ClientHeight = 486
   ClientWidth = 599
   OnCreate = FormCreate
@@ -24,7 +24,7 @@ object frmMain: TfrmMain
       Height = 25
       Top = 12
       Width = 75
-      Caption = 'Test'
+      Caption = '&Test'
       OnClick = btnTestClick
       TabOrder = 0
     end
