@@ -7,9 +7,9 @@
       <MainUnit Value="0"/>
       <IconPath Value="./"/>
       <TargetFileExt Value=".exe"/>
-      <Title Value="Dweetta Client v0.1.0.21"/>
+      <Title Value="Dweetta Client v0.1.0.24"/>
       <UseXPManifest Value="True"/>
-      <ActiveEditorIndexAtStart Value="0"/>
+      <ActiveEditorIndexAtStart Value="9"/>
     </General>
     <i18n>
       <EnableI18N Value="True"/>
@@ -19,7 +19,7 @@
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
       <CurrentMajorRevNr Value="1"/>
-      <CurrentBuildNr Value="53"/>
+      <CurrentBuildNr Value="55"/>
       <ProjectVersion Value="0.1.0.2"/>
       <Language Value="0809"/>
       <FileDescription Value="A simple Twitter Client with the Dweetta Lib"/>
@@ -46,12 +46,12 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="11">
+    <Units Count="12">
       <Unit0>
         <Filename Value="DweettaClient.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="DweettaClient"/>
-        <CursorPos X="19" Y="25"/>
+        <CursorPos X="1" Y="8"/>
         <TopLine Value="1"/>
         <EditorIndex Value="0"/>
         <UsageCount Value="28"/>
@@ -64,7 +64,7 @@
         <ResourceBaseClass Value="Form"/>
         <ResourceFilename Value="frmMainUnit.lrs"/>
         <UnitName Value="frmMainUnit"/>
-        <CursorPos X="28" Y="40"/>
+        <CursorPos X="1" Y="8"/>
         <TopLine Value="1"/>
         <EditorIndex Value="2"/>
         <UsageCount Value="28"/>
@@ -74,7 +74,7 @@
         <Filename Value="..\..\src\DweettaContainers.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="DweettaContainers"/>
-        <CursorPos X="1" Y="1"/>
+        <CursorPos X="1" Y="8"/>
         <TopLine Value="1"/>
         <EditorIndex Value="6"/>
         <UsageCount Value="28"/>
@@ -84,7 +84,7 @@
         <Filename Value="..\..\src\DweettaTransport.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="DweettaTransport"/>
-        <CursorPos X="1" Y="1"/>
+        <CursorPos X="1" Y="9"/>
         <TopLine Value="1"/>
         <EditorIndex Value="7"/>
         <UsageCount Value="28"/>
@@ -94,7 +94,7 @@
         <Filename Value="..\..\src\Dweetta.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Dweetta"/>
-        <CursorPos X="1" Y="1"/>
+        <CursorPos X="1" Y="8"/>
         <TopLine Value="1"/>
         <EditorIndex Value="4"/>
         <UsageCount Value="28"/>
@@ -104,7 +104,7 @@
         <Filename Value="..\..\src\DweettaAPI.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="DweettaAPI"/>
-        <CursorPos X="1" Y="1"/>
+        <CursorPos X="1" Y="9"/>
         <TopLine Value="1"/>
         <EditorIndex Value="5"/>
         <UsageCount Value="28"/>
@@ -121,7 +121,7 @@
         <Filename Value="..\..\src\DweettaSockets.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="DweettaSockets"/>
-        <CursorPos X="1" Y="1"/>
+        <CursorPos X="1" Y="9"/>
         <TopLine Value="1"/>
         <EditorIndex Value="8"/>
         <UsageCount Value="27"/>
@@ -131,7 +131,7 @@
         <Filename Value="Common.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Common"/>
-        <CursorPos X="1" Y="12"/>
+        <CursorPos X="1" Y="8"/>
         <TopLine Value="1"/>
         <EditorIndex Value="3"/>
         <UsageCount Value="26"/>
@@ -145,12 +145,22 @@
       </Unit9>
       <Unit10>
         <Filename Value="..\..\src\Dweetta.inc"/>
-        <CursorPos X="1" Y="1"/>
+        <CursorPos X="1" Y="12"/>
         <TopLine Value="1"/>
         <EditorIndex Value="1"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit10>
+      <Unit11>
+        <Filename Value="..\..\src\DweettaExceptions.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="DweettaExceptions"/>
+        <CursorPos X="1" Y="8"/>
+        <TopLine Value="1"/>
+        <EditorIndex Value="9"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+      </Unit11>
     </Units>
     <JumpHistory Count="27" HistoryIndex="26">
       <Position1>

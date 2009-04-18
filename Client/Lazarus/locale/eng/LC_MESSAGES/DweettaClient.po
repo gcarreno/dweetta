@@ -6,7 +6,7 @@ msgid "Test"
 msgstr ""
 
 #: TFRMMAIN.CAPTION
-msgid "Dweetta Client v0.1.0.21"
+msgid "Dweetta Client v0.1.0.24"
 msgstr ""
 
 #: TFRMMAIN.EDTPASSWORD.TEXT

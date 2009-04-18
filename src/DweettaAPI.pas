@@ -5,6 +5,7 @@
   Some of the code and ideas have been pinched from jamiei.
 
   @Author  $Author$
+  @LastChangedBy $LastChangedBy$
   @Version $Rev$
 -------------------------------------------------------------------------------}
 unit DweettaAPI;

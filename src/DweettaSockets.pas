@@ -5,6 +5,7 @@
   This version uses Synapse.
 
   @Author  $Author$
+  @LastChangedBy $LastChangedBy$
   @Version $Rev$
 -------------------------------------------------------------------------------}
 unit DweettaSockets;

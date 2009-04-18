@@ -4,6 +4,7 @@
   Dweetta Client project
 
   @Author  $Author$
+  @LastChangedBy $LastChangedBy$
   @Version $Rev$
 -------------------------------------------------------------------------------}
 program DweettaClient;
@@ -18,7 +19,7 @@ uses
   Forms
   { you can add units after this }, frmMainUnit, virtualtreeslcl, Common,
   DweettaTransport, Dweetta, DweettaAPI, DweettaContainers,
-  DweettaSockets;
+  DweettaSockets, DweettaExceptions;
 
 {$IFDEF WINDOWS}
   {$R DweettaClient.rc}
@@ -26,6 +27,7 @@ uses
 {$ENDIF}
 
 begin
+  Application.Title:='Dweetta Client v0.1.0.24';
   Application.Initialize;
   Application.CreateForm ( TfrmMain, frmMain ) ;
   Application.Run;

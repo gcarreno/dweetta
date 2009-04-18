@@ -1,8 +1,8 @@
 { This is an automatically generated lazarus resource file }
 
 LazarusResources.Add('TfrmMain','FORMDATA',[
-  'TPF0'#8'TfrmMain'#7'frmMain'#4'Left'#3#170#1#6'Height'#3#230#1#3'Top'#3#209#0
-  +#5'Width'#3'W'#2#7'Caption'#6#24'Dweetta Client v0.1.0.21'#12'ClientHeight'#3
+  'TPF0'#8'TfrmMain'#7'frmMain'#4'Left'#3'"'#1#6'Height'#3#230#1#3'Top'#3#230#0
+  +#5'Width'#3'W'#2#7'Caption'#6#24'Dweetta Client v0.1.0.24'#12'ClientHeight'#3
   +#230#1#11'ClientWidth'#3'W'#2#8'OnCreate'#7#10'FormCreate'#9'OnDestroy'#7#11
   +'FormDestroy'#10'ParentFont'#8#8'Position'#7#16'poDefaultPosOnly'#10'LCLVers'
   +'ion'#6#6'0.9.26'#0#6'TPanel'#6'panTop'#6'Height'#2'6'#5'Width'#3'W'#2#5'Ali'

@@ -4,6 +4,7 @@
   Common variables and definitions for the Dweetta client.
 
   @Author  $Author$
+  @LastChangedBy $LastChangedBy$
   @Version $Rev$
 -------------------------------------------------------------------------------}
 unit Common;
