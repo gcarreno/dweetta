@@ -19,7 +19,7 @@ uses
   Forms
   { you can add units after this }, frmMainUnit, virtualtreeslcl, Common,
   DweettaTransport, Dweetta, DweettaAPI, DweettaContainers,
-  DweettaSockets, DweettaExceptions;
+  DweettaSockets, DweettaExceptions, DweettaTypes, frmSettingsUnit;
 
 {$IFDEF WINDOWS}
   {$R DweettaClient.rc}
@@ -27,9 +27,9 @@ uses
 {$ENDIF}
 
 begin
-  Application.Title:='Dweetta Client v0.1.0.25';
+  Application.Title:='Dweetta Client v0.1.0.29';
   Application.Initialize;
-  Application.CreateForm ( TfrmMain, frmMain ) ;
+  Application.CreateForm(TfrmMain, frmMain);
   Application.Run;
 end.
 

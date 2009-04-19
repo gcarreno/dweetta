@@ -16,24 +16,27 @@ interface
 uses
   Classes, SysUtils, FileUtil, LResources, Forms, Controls, Graphics, Dialogs,
   ExtCtrls, VirtualStringTree, VirtualTrees, ComCtrls, PopupNotifier, StdCtrls,
-  Dweetta;
+  frmSettingsUnit, Dweetta;
 
 type
 
   { TfrmMain }
 
   TfrmMain = class ( TForm )
-    btnTest: TButton;
-    edtUsername: TEdit;
-    edtPassword: TEdit;
+    btnSend: TButton;
+    btnSettings: TButton;
+    edtStatus: TEdit;
     panTop: TPanel;
     panClient: TPanel;
     pnMain: TPopupNotifier;
     sbMain: TStatusBar;
+    tmrMain: TTimer;
     vstTweets: TVirtualStringTree;
-    procedure btnTestClick(Sender: TObject);
+    procedure btnSendClick(Sender: TObject);
+    procedure btnSettingsClick(Sender: TObject);
     procedure FormCreate ( Sender: TObject ) ;
     procedure FormDestroy ( Sender: TObject ) ;
+    procedure tmrMainTimer(Sender: TObject);
     procedure vstTweetsFreenode ( Sender: Tbasevirtualtree; Node: Pvirtualnode
       ) ;
     procedure vstTweetsGetNodeDataSize(Sender: TBaseVirtualTree;
@@ -43,8 +46,17 @@ type
   private
     { private declarations }
     FDweetta: TDweetta;
+    FNextCall: TDateTime;
+    FRateLimitReset: TDateTime;
+    FUsername: String;
+    FPassword: String;
+    FfrmSettings: TfrmSettings;
+
+    procedure GetTimeLine;
   public
     { public declarations }
+    property Username: String read FUsername write FUsername;
+    property Password: String read FPassword write FPassword;
   end; 
 
 var
@@ -53,7 +65,7 @@ var
 implementation
 
 uses
-  Common, DweettaContainers;
+  Common, DateUtils, DweettaContainers;
 
 function GetDweettaNodeText(const ADweettaNode: PDweettaNode): String;
 begin
@@ -78,24 +90,33 @@ end;
 procedure TfrmMain.FormCreate ( Sender: TObject ) ;
 begin
   FDweetta := TDweetta.Create;
+  FNextCall := IncSecond(Now, 3);
+  tmrMain.Enabled := True;
 end;
 
-procedure TfrmMain.btnTestClick(Sender: TObject);
+procedure TfrmMain.FormDestroy ( Sender: TObject ) ;
+begin
+  tmrMain.Enabled := False;
+  FDweetta.Free;
+end;
+
+procedure TfrmMain.GetTimeline;
 var
   vNode: PVirtualNode;
   TwitterNode: PDweettaNode;
   TwitterList: TDweettaStatusElementList;
   Index: Integer;
 begin
-  btnTest.Enabled := False;
   vstTweets.BeginUpdate;
   if vstTweets.RootNodeCount > 0 then
   begin
     vstTweets.Clear;
   end;
-  FDweetta.User := edtUsername.Text;
-  FDweetta.Password := edtPassword.Text;
+  FDweetta.User := FUsername;
+  FDweetta.Password := FPassword;
+  sbMain.Panels[0].Text := 'Getting timeline...';
   TwitterList := FDweetta.StatusesUserTimeline;
+  sbMain.Panels[0].Text := 'Processing data...';
   for Index := 0 to TwitterList.Count -1 do
   begin
     vNode := vstTweets.AddChild(vstTweets.RootNode);
@@ -103,13 +124,45 @@ begin
     TwitterNode^.NodeType := tntStatus;
     TwitterNode^.TwitterElement := TwitterList.Items[Index];
   end;
+  sbMain.Panels[0].Text := 'Done';
   vstTweets.EndUpdate;
-  btnTest.Enabled := True;
 end;
 
-procedure TfrmMain.FormDestroy ( Sender: TObject ) ;
+procedure TfrmMain.btnSendClick(Sender: TObject);
 begin
-  FDweetta.Free;
+  btnSend.Enabled := False;
+  tmrMain.Enabled := False;
+
+  tmrMain.Enabled := True;
+  btnSend.Enabled := True;
+end;
+
+procedure TfrmMain.btnSettingsClick(Sender: TObject);
+var
+  ModalResult: Integer;
+begin
+  btnSend.Enabled := False;
+  btnSettings.Enabled := False;
+  tmrMain.Enabled := False;
+  FfrmSettings := TfrmSettings.Create(Self);
+  ModalResult := FfrmSettings.ShowModal;
+  FfrmSettings.Free;
+  tmrMain.Enabled := True;
+  btnSettings.Enabled := True;
+  btnSend.Enabled := True;
+end;
+
+procedure TfrmMain.tmrMainTimer(Sender: TObject);
+begin
+  sbMain.Panels[0].Text := 'Ready (' + DateTimeToStr(FNextCall) + ')';
+  if CompareTime(Now, FNextCall) = -1 then exit;
+  if Length(FUsername) = 0 then
+  begin
+     FNextCall := IncMinute(Now, 2);
+     exit;
+  end;
+  GetTimeline;
+  FNextCall := IncMinute(Now, 2);
 end;
 
 procedure TfrmMain.vstTweetsFreenode(Sender: Tbasevirtualtree;

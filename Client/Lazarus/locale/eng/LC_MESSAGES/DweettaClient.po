@@ -1,19 +1,35 @@
 msgid ""
 msgstr "Content-Type: text/plain; charset=UTF-8"
 
-#: TFRMMAIN.BTNTEST.CAPTION
-msgid "Test"
+#: TFRMMAIN.BTNSEND.CAPTION
+msgid "&Send"
+msgstr ""
+
+#: TFRMMAIN.BTNSETTINGS.CAPTION
+msgid "S&ettings"
 msgstr ""
 
 #: TFRMMAIN.CAPTION
-msgid "Dweetta Client v0.1.0.24"
+msgid "Dweetta Client v0.1.0.25"
 msgstr ""
 
-#: TFRMMAIN.EDTPASSWORD.TEXT
-msgid "Password"
+#: TFRMSETTINGS.BTNCANCEL.CAPTION
+msgid "&Cancel"
 msgstr ""
 
-#: TFRMMAIN.EDTUSERNAME.TEXT
-msgid "Username"
+#: TFRMSETTINGS.BTNOK.CAPTION
+msgid "&Ok"
+msgstr ""
+
+#: TFRMSETTINGS.CAPTION
+msgid "Settings"
+msgstr ""
+
+#: TFRMSETTINGS.LBLPASSWORD.CAPTION
+msgid "&Password"
+msgstr ""
+
+#: TFRMSETTINGS.LBLUSERNAME.CAPTION
+msgid "&Username"
 msgstr ""
 

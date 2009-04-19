@@ -1,9 +1,9 @@
 object frmMain: TfrmMain
-  Left = 326
+  Left = 383
   Height = 486
-  Top = 177
+  Top = 201
   Width = 599
-  Caption = 'Dweetta Client v0.1.0.25'
+  Caption = 'Dweetta Client v0.1.0.29'
   ClientHeight = 486
   ClientWidth = 599
   OnCreate = FormCreate
@@ -12,57 +12,57 @@ object frmMain: TfrmMain
   Position = poDefaultPosOnly
   LCLVersion = '0.9.26'
   object panTop: TPanel
-    Height = 54
+    Height = 74
     Width = 599
     Align = alTop
     BevelOuter = bvNone
-    ClientHeight = 54
+    ClientHeight = 74
     ClientWidth = 599
     TabOrder = 0
-    object btnTest: TButton
-      Left = 12
+    object btnSend: TButton
+      Left = 516
       Height = 25
-      Top = 12
+      Top = 8
       Width = 75
-      Caption = '&Test'
-      OnClick = btnTestClick
+      Caption = '&Send'
+      OnClick = btnSendClick
+      TabOrder = 1
+    end
+    object edtStatus: TEdit
+      Left = 8
+      Height = 52
+      Top = 8
+      Width = 500
+      MaxLength = 140
       TabOrder = 0
     end
-    object edtUsername: TEdit
-      Left = 99
-      Height = 23
-      Top = 12
-      Width = 80
-      TabOrder = 1
-      Text = 'Username'
-    end
-    object edtPassword: TEdit
-      Left = 192
-      Height = 23
-      Top = 12
-      Width = 80
-      EchoMode = emPassword
-      PasswordChar = '*'
+    object btnSettings: TButton
+      Left = 516
+      Height = 25
+      Top = 36
+      Width = 75
+      Caption = 'S&ettings'
+      OnClick = btnSettingsClick
       TabOrder = 2
-      Text = 'Password'
     end
   end
   object panClient: TPanel
-    Height = 409
-    Top = 54
+    Height = 389
+    Top = 74
     Width = 599
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 409
+    ClientHeight = 389
     ClientWidth = 599
     TabOrder = 1
     object vstTweets: TVirtualStringTree
-      Height = 409
+      Height = 389
       Width = 599
       Align = alClient
       Header.MainColumn = -1
       Header.Options = [hoColumnResize, hoDrag]
       TabOrder = 0
+      TabStop = False
       OnFreeNode = vstTweetsFreeNode
       OnGetText = vstTweetsGetText
       OnGetNodeDataSize = vstTweetsGetNodeDataSize
@@ -89,7 +89,13 @@ object frmMain: TfrmMain
     }
     Text = 'Text'
     Title = 'Caption'
-    left = 556
-    top = 12
+    left = 560
+    top = 420
+  end
+  object tmrMain: TTimer
+    Enabled = False
+    OnTimer = tmrMainTimer
+    left = 524
+    top = 421
   end
 end
