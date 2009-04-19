@@ -15,32 +15,11 @@ unit DweettaTransport;
 interface
 
 uses
-  Classes, SysUtils, DweettaSockets, DweettaExceptions;
+  Classes, SysUtils, DweettaTypes, DweettaSockets, DweettaExceptions;
 
 type
-{ TDweettaServices }
 
-  TDweettaServices = (tsStatusesPublicTimeline, tsStatusesFriendsTimeline,
-    tsStatusesUserTimeline, tsStatusesShow, tsStatusesUpdate, tsStatusesReplies,
-    tsStatusesDestroy);
-
-{ TDweettaServiceEndPoints }
-var
-  TDweettaServiceEndPoints: array[tsStatusesPublicTimeline..tsStatusesDestroy] of string =
-    ('/statuses/public_timeline', '/statuses/friends_timeline', '/statuses/user_timeline',
-     '/statuses/show', '/statuses/update', '/statuses/replies', '/statuses/destroy');
-
-type
-{ TDweettaResponseInfo }
-
-  TDweettaResponseInfo = record
-    HTTPStatus: Integer;
-    HTTPMessage: String;
-    RemainingCalls: Integer;
-    RateLimit: Integer;
-  end;
-
-{ TDweettaTrasnport }
+{ TDweettaTransport }
 
   TDweettaTransport = class(TObject)
   private
@@ -94,7 +73,7 @@ begin
   case Service of
     tsStatusesPublicTimeline, tsStatusesFriendsTimeline,
     tsStatusesUserTimeline, tsStatusesReplies:begin
-      URI := FServer + TDweettaServiceEndPoints[Service] + FFormat;
+      URI := FServer + cDweettaServiceEndPoints[Service] + FFormat;
       if Assigned(Params) then
       begin
         URI := URI + '?';
@@ -106,7 +85,7 @@ begin
       end;
     end;
     tsStatusesShow:begin
-      URI := FServer + TDweettaServiceEndPoints[Service] + '/' +  Params.Values['id'] + FFormat;
+      URI := FServer + cDweettaServiceEndPoints[Service] + '/' +  Params.Values['id'] + FFormat;
     end;
     else
       URI := '';

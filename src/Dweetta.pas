@@ -14,7 +14,7 @@ unit Dweetta;
 interface
 
 uses
-  Classes, SysUtils, DweettaAPI, DweettaContainers;
+  Classes, SysUtils, DweettaTypes, DweettaAPI, DweettaContainers;
 
 type
 { TDweetta }
@@ -24,7 +24,12 @@ type
     FUser: String;
     FPassword: String;
     FDweettaAPI: TDweettaAPI;
+    FResponseInfo: TDweettaResponseInfo;
 
+    function GetRateLimit: Integer;
+    function GetRemainingCalls: Integer;
+    function GetResponseCode: Integer;
+    function GetResponseString: String;
     procedure SetUser(Value: String);
     procedure SetPassword(Value: String);
     procedure UpdateAuth;
@@ -46,6 +51,10 @@ type
 
     property User: String read FUser write Setuser;
     property Password: String read FPassword write SetPassword;
+    property ResponseCode: Integer read GetResponseCode;
+    property ResponseString: String read GetResponseString;
+    property RemainingCalls: Integer read GetRemainingCalls;
+    property RateLimit: Integer read GetRateLimit;
   end;
 
 implementation
@@ -59,6 +68,26 @@ begin
     FUser := Value;
     UpdateAuth;
   end;
+end;
+
+function TDweetta.GetRateLimit: Integer;
+begin
+  Result := FResponseInfo.RateLimit;
+end;
+
+function TDweetta.GetRemainingCalls: Integer;
+begin
+  Result := FResponseInfo.RemainingCalls;
+end;
+
+function TDweetta.GetResponseCode: Integer;
+begin
+  Result := FResponseInfo.HTTPStatus;
+end;
+
+function TDweetta.GetResponseString: String;
+begin
+  Result := FResponseInfo.HTTPMessage;
 end;
 
 procedure TDweetta.SetPassword ( Value: String ) ;
@@ -94,59 +123,59 @@ end;
 
 function TDweetta.StatusesPublicTimeline: TDweettaStatusElementList;
 begin
-  Result := FDweettaAPI.Statuses_public_timeline;
+  Result := FDweettaAPI.Statuses_public_timeline(FResponseInfo);
 end;
 
 function TDweetta.StatusesFriendsTimeline: TDweettaStatusElementList;
 begin
-  Result := FDweettaAPI.Statuses_friends_timeline('', 0, 0, 0, 0);
+  Result := FDweettaAPI.Statuses_friends_timeline('', 0, 0, 0, 0, FResponseInfo);
 end;
 
 function TDweetta.StatusesFriendsTimeline(since: String): TDweettaStatusElementList;
 begin
-  Result := FDweettaAPI.Statuses_friends_timeline(since, 0, 0, 0, 0);
+  Result := FDweettaAPI.Statuses_friends_timeline(since, 0, 0, 0, 0, FResponseInfo);
 end;
 
 function TDweetta.StatusesUserTimeline: TDweettaStatusElementList;
 begin
-  Result := FDweettaAPI.Statuses_user_timeline('', 0, '', 0, 0, 0, '');
+  Result := FDweettaAPI.Statuses_user_timeline('', 0, '', 0, 0, 0, '', FResponseInfo);
 end;
 
 function TDweetta.StatusesUserTimeline ( id: String ) : TDweettaStatusElementList;
 begin
-  Result := FDweettaAPI.Statuses_user_timeline(id, 0, '', 0, 0, 0, '');
+  Result := FDweettaAPI.Statuses_user_timeline(id, 0, '', 0, 0, 0, '', FResponseInfo);
 end;
 
 function TDweetta.StatusesShow(id: Integer): TDweettaStatusElement;
 begin
-  Result := FDweettaAPI.Statuses_show(id);
+  Result := FDweettaAPI.Statuses_show(id, FResponseInfo);
 end;
 
 function TDweetta.StatusesUpdate(status: String): TDweettaStatusElement;
 begin
-  Result := FDweettaAPI.Statuses_update(status, 0);
+  Result := FDweettaAPI.Statuses_update(status, 0, FResponseInfo);
 end;
 
 function TDweetta.StatusesUpdate(status: String; in_reply_to_status_id: Integer
   ): TDweettaStatusElement;
 begin
-  Result := FDweettaAPI.Statuses_update(status, in_reply_to_status_id);
+  Result := FDweettaAPI.Statuses_update(status, in_reply_to_status_id, FResponseInfo);
 end;
 
 function TDweetta.StatusesReplies: TDweettaStatusElementList;
 begin
-  Result := FDweettaAPI.Statuses_replies(0, 0, '', 0);
+  Result := FDweettaAPI.Statuses_replies(0, 0, '', 0, FResponseInfo);
 end;
 
 function TDweetta.StatusesReplies(since_id: Integer
   ): TDweettaStatusElementList;
 begin
-  Result := FDweettaAPI.Statuses_replies(since_id, 0, '', 0);
+  Result := FDweettaAPI.Statuses_replies(since_id, 0, '', 0, FResponseInfo);
 end;
 
 function TDweetta.StatusesDestroy(id: Integer): TDweettaStatusElement;
 begin
-  Result := FDweettaAPI.Statuses_destroy(id);
+  Result := FDweettaAPI.Statuses_destroy(id, FResponseInfo);
 end;
 
 end.
