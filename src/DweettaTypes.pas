@@ -1,6 +1,15 @@
+{*------------------------------------------------------------------------------
+  DweettaTypes.pas
+
+  This unit contains misc Dweetta Types
+
+  @Author  $Author$
+  @LastChangedBy $LastChangedBy$
+  @Version $Rev$
+-------------------------------------------------------------------------------}
 unit DweettaTypes;
 
-{$mode objfpc}{$H+}
+{$I Dweetta.inc}
 
 interface
 
