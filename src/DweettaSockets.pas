@@ -92,6 +92,7 @@ end;
 
 function TDweettaSockets.Execute(Method, URL: String): Boolean;
 begin
+  FHTTPSend.Clear;
   Result := FHTTPSend.HTTPMethod(Method, URL);
 end;
 
