@@ -9,7 +9,7 @@
       <TargetFileExt Value=".exe"/>
       <Title Value="Dweetta Client v0.1.0.29"/>
       <UseXPManifest Value="True"/>
-      <ActiveEditorIndexAtStart Value="2"/>
+      <ActiveEditorIndexAtStart Value="7"/>
     </General>
     <i18n>
       <EnableI18N Value="True"/>
@@ -19,7 +19,7 @@
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
       <CurrentMajorRevNr Value="1"/>
-      <CurrentBuildNr Value="103"/>
+      <CurrentBuildNr Value="104"/>
       <ProjectVersion Value="0.1.0.2"/>
       <Language Value="0809"/>
       <FileDescription Value="A simple Twitter Client with the Dweetta Lib"/>
@@ -46,15 +46,15 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="18">
+    <Units Count="19">
       <Unit0>
         <Filename Value="DweettaClient.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="DweettaClient"/>
-        <CursorPos X="49" Y="30"/>
+        <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
         <EditorIndex Value="0"/>
-        <UsageCount Value="34"/>
+        <UsageCount Value="37"/>
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
@@ -64,30 +64,30 @@
         <ResourceBaseClass Value="Form"/>
         <ResourceFilename Value="frmMainUnit.lrs"/>
         <UnitName Value="frmMainUnit"/>
-        <CursorPos X="24" Y="139"/>
-        <TopLine Value="125"/>
+        <CursorPos X="14" Y="17"/>
+        <TopLine Value="1"/>
         <EditorIndex Value="2"/>
-        <UsageCount Value="34"/>
+        <UsageCount Value="37"/>
         <Loaded Value="True"/>
       </Unit1>
       <Unit2>
         <Filename Value="..\..\src\DweettaContainers.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="DweettaContainers"/>
-        <CursorPos X="1" Y="333"/>
-        <TopLine Value="315"/>
+        <CursorPos X="63" Y="183"/>
+        <TopLine Value="162"/>
         <EditorIndex Value="7"/>
-        <UsageCount Value="34"/>
+        <UsageCount Value="37"/>
         <Loaded Value="True"/>
       </Unit2>
       <Unit3>
         <Filename Value="..\..\src\DweettaTransport.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="DweettaTransport"/>
-        <CursorPos X="1" Y="1"/>
-        <TopLine Value="1"/>
+        <CursorPos X="7" Y="121"/>
+        <TopLine Value="86"/>
         <EditorIndex Value="8"/>
-        <UsageCount Value="34"/>
+        <UsageCount Value="37"/>
         <Loaded Value="True"/>
       </Unit3>
       <Unit4>
@@ -97,7 +97,7 @@
         <CursorPos X="1" Y="66"/>
         <TopLine Value="48"/>
         <EditorIndex Value="5"/>
-        <UsageCount Value="34"/>
+        <UsageCount Value="37"/>
         <Loaded Value="True"/>
       </Unit4>
       <Unit5>
@@ -105,9 +105,9 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="DweettaAPI"/>
         <CursorPos X="1" Y="1"/>
-        <TopLine Value="1"/>
+        <TopLine Value="193"/>
         <EditorIndex Value="6"/>
-        <UsageCount Value="34"/>
+        <UsageCount Value="37"/>
         <Loaded Value="True"/>
       </Unit5>
       <Unit6>
@@ -115,16 +115,16 @@
         <UnitName Value="DweettaCommon"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
-        <UsageCount Value="22"/>
+        <UsageCount Value="21"/>
       </Unit6>
       <Unit7>
         <Filename Value="..\..\src\DweettaSockets.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="DweettaSockets"/>
-        <CursorPos X="1" Y="9"/>
-        <TopLine Value="64"/>
+        <CursorPos X="28" Y="95"/>
+        <TopLine Value="61"/>
         <EditorIndex Value="10"/>
-        <UsageCount Value="33"/>
+        <UsageCount Value="36"/>
         <Loaded Value="True"/>
       </Unit7>
       <Unit8>
@@ -134,21 +134,21 @@
         <CursorPos X="1" Y="8"/>
         <TopLine Value="1"/>
         <EditorIndex Value="4"/>
-        <UsageCount Value="32"/>
+        <UsageCount Value="35"/>
         <Loaded Value="True"/>
       </Unit8>
       <Unit9>
         <Filename Value="..\..\src\Dweeta.inc"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit9>
       <Unit10>
         <Filename Value="..\..\src\Dweetta.inc"/>
         <CursorPos X="1" Y="12"/>
-        <TopLine Value="1"/>
+        <TopLine Value="94"/>
         <EditorIndex Value="1"/>
-        <UsageCount Value="12"/>
+        <UsageCount Value="14"/>
         <Loaded Value="True"/>
       </Unit10>
       <Unit11>
@@ -158,7 +158,7 @@
         <CursorPos X="1" Y="8"/>
         <TopLine Value="1"/>
         <EditorIndex Value="11"/>
-        <UsageCount Value="26"/>
+        <UsageCount Value="29"/>
         <Loaded Value="True"/>
       </Unit11>
       <Unit12>
@@ -168,7 +168,7 @@
         <CursorPos X="1" Y="12"/>
         <TopLine Value="1"/>
         <EditorIndex Value="9"/>
-        <UsageCount Value="25"/>
+        <UsageCount Value="28"/>
         <Loaded Value="True"/>
       </Unit12>
       <Unit13>
@@ -181,7 +181,7 @@
         <CursorPos X="23" Y="48"/>
         <TopLine Value="18"/>
         <EditorIndex Value="3"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="26"/>
         <Loaded Value="True"/>
       </Unit13>
       <Unit14>
@@ -210,127 +210,134 @@
         <TopLine Value="88"/>
         <UsageCount Value="10"/>
       </Unit17>
+      <Unit18>
+        <Filename Value="..\..\lib\Synapse\httpsend.pas"/>
+        <UnitName Value="httpsend"/>
+        <CursorPos X="14" Y="124"/>
+        <TopLine Value="106"/>
+        <UsageCount Value="10"/>
+      </Unit18>
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="frmMainUnit.pas"/>
-        <Caret Line="157" Column="22" TopLine="145"/>
+        <Caret Line="157" Column="18" TopLine="139"/>
       </Position1>
       <Position2>
         <Filename Value="frmMainUnit.pas"/>
-        <Caret Line="172" Column="37" TopLine="139"/>
+        <Caret Line="68" Column="15" TopLine="46"/>
       </Position2>
       <Position3>
         <Filename Value="frmMainUnit.pas"/>
-        <Caret Line="157" Column="18" TopLine="139"/>
+        <Caret Line="164" Column="16" TopLine="139"/>
       </Position3>
       <Position4>
         <Filename Value="frmMainUnit.pas"/>
-        <Caret Line="68" Column="15" TopLine="46"/>
+        <Caret Line="70" Column="16" TopLine="60"/>
       </Position4>
       <Position5>
         <Filename Value="frmMainUnit.pas"/>
-        <Caret Line="164" Column="16" TopLine="139"/>
+        <Caret Line="170" Column="1" TopLine="152"/>
       </Position5>
       <Position6>
         <Filename Value="frmMainUnit.pas"/>
-        <Caret Line="70" Column="16" TopLine="60"/>
+        <Caret Line="171" Column="1" TopLine="153"/>
       </Position6>
       <Position7>
         <Filename Value="frmMainUnit.pas"/>
-        <Caret Line="170" Column="1" TopLine="152"/>
+        <Caret Line="170" Column="1" TopLine="157"/>
       </Position7>
       <Position8>
-        <Filename Value="frmMainUnit.pas"/>
-        <Caret Line="171" Column="1" TopLine="153"/>
+        <Filename Value="..\..\src\DweettaContainers.pas"/>
+        <Caret Line="333" Column="1" TopLine="315"/>
       </Position8>
       <Position9>
         <Filename Value="frmMainUnit.pas"/>
-        <Caret Line="170" Column="1" TopLine="157"/>
+        <Caret Line="110" Column="30" TopLine="93"/>
       </Position9>
       <Position10>
-        <Filename Value="..\..\src\DweettaContainers.pas"/>
-        <Caret Line="333" Column="1" TopLine="315"/>
+        <Filename Value="frmMainUnit.pas"/>
+        <Caret Line="177" Column="1" TopLine="147"/>
       </Position10>
       <Position11>
         <Filename Value="frmMainUnit.pas"/>
-        <Caret Line="110" Column="30" TopLine="93"/>
+        <Caret Line="111" Column="1" TopLine="93"/>
       </Position11>
       <Position12>
         <Filename Value="frmMainUnit.pas"/>
-        <Caret Line="177" Column="1" TopLine="147"/>
+        <Caret Line="112" Column="1" TopLine="94"/>
       </Position12>
       <Position13>
         <Filename Value="frmMainUnit.pas"/>
-        <Caret Line="111" Column="1" TopLine="93"/>
+        <Caret Line="113" Column="1" TopLine="95"/>
       </Position13>
       <Position14>
         <Filename Value="frmMainUnit.pas"/>
-        <Caret Line="112" Column="1" TopLine="94"/>
+        <Caret Line="111" Column="1" TopLine="93"/>
       </Position14>
       <Position15>
         <Filename Value="frmMainUnit.pas"/>
-        <Caret Line="113" Column="1" TopLine="95"/>
+        <Caret Line="112" Column="1" TopLine="94"/>
       </Position15>
       <Position16>
         <Filename Value="frmMainUnit.pas"/>
-        <Caret Line="111" Column="1" TopLine="93"/>
+        <Caret Line="113" Column="1" TopLine="95"/>
       </Position16>
       <Position17>
         <Filename Value="frmMainUnit.pas"/>
-        <Caret Line="112" Column="1" TopLine="94"/>
+        <Caret Line="123" Column="5" TopLine="102"/>
       </Position17>
       <Position18>
         <Filename Value="frmMainUnit.pas"/>
-        <Caret Line="113" Column="1" TopLine="95"/>
+        <Caret Line="130" Column="1" TopLine="106"/>
       </Position18>
       <Position19>
         <Filename Value="frmMainUnit.pas"/>
-        <Caret Line="123" Column="5" TopLine="102"/>
+        <Caret Line="136" Column="15" TopLine="109"/>
       </Position19>
       <Position20>
         <Filename Value="frmMainUnit.pas"/>
-        <Caret Line="130" Column="1" TopLine="106"/>
+        <Caret Line="150" Column="21" TopLine="148"/>
       </Position20>
       <Position21>
         <Filename Value="frmMainUnit.pas"/>
-        <Caret Line="136" Column="15" TopLine="109"/>
+        <Caret Line="208" Column="4" TopLine="175"/>
       </Position21>
       <Position22>
         <Filename Value="frmMainUnit.pas"/>
-        <Caret Line="150" Column="21" TopLine="148"/>
+        <Caret Line="111" Column="1" TopLine="93"/>
       </Position22>
       <Position23>
         <Filename Value="frmMainUnit.pas"/>
-        <Caret Line="208" Column="4" TopLine="175"/>
+        <Caret Line="112" Column="1" TopLine="94"/>
       </Position23>
       <Position24>
         <Filename Value="frmMainUnit.pas"/>
-        <Caret Line="111" Column="1" TopLine="93"/>
+        <Caret Line="113" Column="1" TopLine="95"/>
       </Position24>
       <Position25>
         <Filename Value="frmMainUnit.pas"/>
-        <Caret Line="112" Column="1" TopLine="94"/>
+        <Caret Line="117" Column="1" TopLine="99"/>
       </Position25>
       <Position26>
         <Filename Value="frmMainUnit.pas"/>
-        <Caret Line="113" Column="1" TopLine="95"/>
+        <Caret Line="118" Column="1" TopLine="100"/>
       </Position26>
       <Position27>
         <Filename Value="frmMainUnit.pas"/>
-        <Caret Line="117" Column="1" TopLine="99"/>
+        <Caret Line="119" Column="1" TopLine="101"/>
       </Position27>
       <Position28>
         <Filename Value="frmMainUnit.pas"/>
-        <Caret Line="118" Column="1" TopLine="100"/>
+        <Caret Line="120" Column="1" TopLine="102"/>
       </Position28>
       <Position29>
-        <Filename Value="frmMainUnit.pas"/>
-        <Caret Line="119" Column="1" TopLine="101"/>
+        <Filename Value="..\..\src\DweettaSockets.pas"/>
+        <Caret Line="95" Column="28" TopLine="64"/>
       </Position29>
       <Position30>
-        <Filename Value="frmMainUnit.pas"/>
-        <Caret Line="120" Column="1" TopLine="102"/>
+        <Filename Value="..\..\src\DweettaContainers.pas"/>
+        <Caret Line="190" Column="57" TopLine="161"/>
       </Position30>
     </JumpHistory>
   </ProjectOptions>

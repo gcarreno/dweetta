@@ -115,6 +115,10 @@ begin
           ResponseInfo.RateLimit := StrToInt(HeaderValue);
         end;
       end;
+    end
+    else
+    begin
+
     end;
   end;
 end;

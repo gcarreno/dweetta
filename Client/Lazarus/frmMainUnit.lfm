@@ -1,7 +1,7 @@
 object frmMain: TfrmMain
-  Left = 383
+  Left = 466
   Height = 486
-  Top = 201
+  Top = 191
   Width = 599
   Caption = 'Dweetta Client v0.1.0.29'
   ClientHeight = 486

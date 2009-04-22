@@ -20,6 +20,8 @@ type
   // Forward Declarations
   TDweettaStatusElement = class;
 
+{ TDweettaUserElementClass }
+
   TDweettaUserElementClass = class of TDweettaUserElement;
 
 { TDweettaUserElement }
@@ -105,6 +107,21 @@ type
     property Items[Index: Integer]: TDweettaUserElement read GetItem write SetItem; default;
   end;
 
+{$IFDEF DELPHI2007_UP}
+{ TDweettaUserElementIterator }
+
+  { TODO 1 -ogcarreno -cIterators : Implement Iterator for User Elements }
+
+{$IFDEF DELPHI2009_UP}
+{ TDweettaUserElement ? }
+
+  { TODO 1 -ojamiei -cGenerics : Implement Generics for User Elements }
+
+{$ENDIF ~DELPHI2009_UP}
+{$ENDIF ~DELPHI2007_UP}
+
+{ TDweettaStatusElementClass }
+
   TDweettaStatusElementClass = class of TDweettaStatusElement;
   
 { TDweettaStatusElement }
@@ -155,6 +172,23 @@ type
     property Items[Index: Integer]: TDweettaStatusElement read GetItem write SetItem; default;
   end;
 
+{$IFDEF DELPHI2007_UP}
+{ TDweettaStatusElementIterator }
+
+  { TODO 1 -ogcarreno -cIterators : Implement Iterator for Status Elements }
+
+{$IFDEF DELPHI2009_UP}
+{ TDweettaStatusElement ? }
+
+  { TODO 1 -ojamiei -cGenerics : Implement Generics for Status Elements }
+
+{$ENDIF ~DELPHI2009_UP}
+{$ENDIF ~DELPHI2007_UP}
+
+{ TDweettaDirectMessageElementClass }
+
+  TDweettaDirectMessageElementClass = class of TDweettaDirectMessageElement;
+
 { TDweettaDirectMessageElement }
 
   TDweettaDirectMessageElement = class(TObject)
@@ -197,6 +231,19 @@ type
 
     property Items[Index: Integer]: TDweettaDirectMessageElement read GetItem write SetItem; default;
   end;
+
+{$IFDEF DELPHI2007_UP}
+{ TDweettaDirectMessageElementIterator }
+
+  { TODO 1 -ogcarreno -cIterators : Implement Iterator for Direct Messages Elements }
+
+{$IFDEF DELPHI2009_UP}
+{ TDweettaDirectMessageElement ? }
+
+  { TODO 1 -ojamiei -cGenerics : Implement Generics for Direct Messages Elements }
+
+{$ENDIF ~DELPHI2009_UP}
+{$ENDIF ~DELPHI2007_UP}
 
 implementation
 
