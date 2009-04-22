@@ -14,32 +14,32 @@ unit frmSettingsUnit;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, LResources, Forms, Controls, Graphics, Dialogs,
-  ExtCtrls, StdCtrls;
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls;
 
 type
-
-  { TfrmSettings }
-
   TfrmSettings = class(TForm)
+    lblUsername: TLabel;
+    lblPassword: TLabel;
+    edtUsername: TEdit;
+    edtPassword: TEdit;
     btnOk: TButton;
     btnCancel: TButton;
-    edtPassword: TEdit;
-    edtUsername: TEdit;
-    lblPassword: TLabel;
-    lblUsername: TLabel;
-    procedure btnOkClick(Sender: TObject);
+
     procedure FormCreate(Sender: TObject);
+    procedure btnOkClick(Sender: TObject);
   private
-    { private declarations }
+    { Private declarations }
   public
-    { public declarations }
-  end; 
+    { Public declarations }
+  end;
 
 var
   frmSettings: TfrmSettings;
 
 implementation
+
+{$R *.dfm}
 
 uses
   frmMainUnit;
@@ -58,8 +58,4 @@ begin
   edtPassword.Text := frmMain.Password;
 end;
 
-initialization
-  {$I frmSettingsUnit.lrs}
-
 end.
-

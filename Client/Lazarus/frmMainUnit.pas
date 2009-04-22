@@ -26,10 +26,13 @@ type
     btnSend: TButton;
     btnSettings: TButton;
     edtStatus: TEdit;
+    memLog: TMemo;
+    panLog: TPanel;
     panTop: TPanel;
     panClient: TPanel;
     pnMain: TPopupNotifier;
     sbMain: TStatusBar;
+    Splitter1: TSplitter;
     tmrMain: TTimer;
     vstTweets: TVirtualStringTree;
     procedure btnSendClick(Sender: TObject);
@@ -116,6 +119,11 @@ begin
   FDweetta.Password := FPassword;
   sbMain.Panels[0].Text := 'Getting timeline...';
   TwitterList := FDweetta.StatusesUserTimeline;
+  if memLog.Lines.Count <> 0 then
+    memLog.Lines.Add('-----------------------------------------------');
+  memLog.Lines.Add('HTTP: ' + IntToStr(FDweetta.ResponseCode) + ':' + FDweetta.ResponseString);
+  memLog.Lines.Add('Rate Limit: ' + IntToStr(FDweetta.RateLimit));
+  memLog.Lines.Add('Remaining : ' + IntToStr(FDweetta.RemainingCalls));
   sbMain.Panels[0].Text := 'Processing data...';
   for Index := 0 to TwitterList.Count -1 do
   begin

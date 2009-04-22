@@ -1,9 +1,9 @@
 object frmMain: TfrmMain
   Left = 0
   Top = 0
-  Caption = 'Dweetta Client v0.1.0.25'
-  ClientHeight = 486
-  ClientWidth = 635
+  Caption = 'Dweetta Client v0.1.0.33'
+  ClientHeight = 584
+  ClientWidth = 736
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -15,58 +15,73 @@ object frmMain: TfrmMain
   OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
+  object Splitter1: TSplitter
+    Left = 0
+    Top = 421
+    Width = 736
+    Height = 3
+    Cursor = crVSplit
+    Align = alBottom
+    ExplicitTop = 37
+    ExplicitWidth = 343
+  end
   object panTop: TPanel
     Left = 0
     Top = 0
-    Width = 635
-    Height = 37
+    Width = 736
+    Height = 65
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 0
-    object btnTest: TButton
-      Left = 8
-      Top = 8
+    DesignSize = (
+      736
+      65)
+    object btnSend: TButton
+      Left = 656
+      Top = 4
       Width = 75
       Height = 25
-      Caption = '&Test'
-      TabOrder = 0
-      OnClick = btnTestClick
-    end
-    object edtUsername: TEdit
-      Left = 96
-      Top = 10
-      Width = 121
-      Height = 21
+      Anchors = [akLeft, akRight]
+      Caption = '&Send'
       TabOrder = 1
-      Text = 'Username'
+      OnClick = btnSendClick
     end
-    object edtPassword: TEdit
-      Left = 232
-      Top = 10
-      Width = 121
-      Height = 21
-      PasswordChar = '*'
+    object btnSettings: TButton
+      Left = 656
+      Top = 35
+      Width = 75
+      Height = 25
+      Anchors = [akLeft, akRight]
+      Caption = 'S&ettings'
       TabOrder = 2
-      Text = 'Password'
+      OnClick = btnSettingsClick
+    end
+    object edtStatus: TEdit
+      Left = 8
+      Top = 6
+      Width = 642
+      Height = 53
+      Anchors = [akLeft, akTop, akRight]
+      AutoSize = False
+      TabOrder = 0
     end
   end
   object panClient: TPanel
     Left = 0
-    Top = 37
-    Width = 635
-    Height = 430
+    Top = 65
+    Width = 736
+    Height = 356
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 1
-    ExplicitLeft = 116
-    ExplicitTop = 156
-    ExplicitWidth = 185
-    ExplicitHeight = 41
+    ExplicitTop = 37
+    ExplicitWidth = 635
+    ExplicitHeight = 430
     object vstTweets: TVirtualStringTree
       Left = 0
       Top = 0
-      Width = 635
-      Height = 430
+      Width = 736
+      Height = 356
       Align = alClient
       Header.AutoSizeIndex = 0
       Header.DefaultHeight = 17
@@ -80,25 +95,49 @@ object frmMain: TfrmMain
       OnFreeNode = vstTweetsFreenode
       OnGetText = vstTweetsGetText
       OnGetNodeDataSize = vstTweetsGetNodeDataSize
-      ExplicitLeft = 128
-      ExplicitTop = 196
-      ExplicitWidth = 200
-      ExplicitHeight = 100
+      ExplicitWidth = 635
+      ExplicitHeight = 430
       Columns = <>
     end
   end
   object sbMain: TStatusBar
     Left = 0
-    Top = 467
-    Width = 635
+    Top = 565
+    Width = 736
     Height = 19
     Panels = <
       item
         Text = 'Ready'
         Width = 50
       end>
-    ExplicitLeft = 1
-    ExplicitTop = 405
-    ExplicitWidth = 633
+    ExplicitTop = 467
+    ExplicitWidth = 635
+  end
+  object panLog: TPanel
+    Left = 0
+    Top = 424
+    Width = 736
+    Height = 141
+    Align = alBottom
+    BevelOuter = bvNone
+    TabOrder = 3
+    object memLog: TMemo
+      Left = 0
+      Top = 0
+      Width = 736
+      Height = 141
+      Align = alClient
+      TabOrder = 0
+      ExplicitLeft = 176
+      ExplicitTop = 32
+      ExplicitWidth = 185
+      ExplicitHeight = 89
+    end
+  end
+  object tmrMain: TTimer
+    Enabled = False
+    OnTimer = tmrMainTimer
+    Left = 688
+    Top = 448
   end
 end

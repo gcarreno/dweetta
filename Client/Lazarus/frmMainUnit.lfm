@@ -1,10 +1,10 @@
 object frmMain: TfrmMain
-  Left = 466
-  Height = 486
-  Top = 191
+  Left = 132
+  Height = 561
+  Top = 174
   Width = 599
-  Caption = 'Dweetta Client v0.1.0.29'
-  ClientHeight = 486
+  Caption = 'Dweetta Client v0.1.0.33'
+  ClientHeight = 561
   ClientWidth = 599
   OnCreate = FormCreate
   OnDestroy = FormDestroy
@@ -24,6 +24,7 @@ object frmMain: TfrmMain
       Height = 25
       Top = 8
       Width = 75
+      Anchors = [akTop, akRight]
       Caption = '&Send'
       OnClick = btnSendClick
       TabOrder = 1
@@ -33,6 +34,8 @@ object frmMain: TfrmMain
       Height = 52
       Top = 8
       Width = 500
+      Anchors = [akTop, akLeft, akRight]
+      AutoSelect = True
       MaxLength = 140
       TabOrder = 0
     end
@@ -41,22 +44,23 @@ object frmMain: TfrmMain
       Height = 25
       Top = 36
       Width = 75
+      Anchors = [akTop, akRight]
       Caption = 'S&ettings'
       OnClick = btnSettingsClick
       TabOrder = 2
     end
   end
   object panClient: TPanel
-    Height = 389
+    Height = 317
     Top = 74
     Width = 599
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 389
+    ClientHeight = 317
     ClientWidth = 599
     TabOrder = 1
     object vstTweets: TVirtualStringTree
-      Height = 389
+      Height = 317
       Width = 599
       Align = alClient
       Header.MainColumn = -1
@@ -71,7 +75,7 @@ object frmMain: TfrmMain
   end
   object sbMain: TStatusBar
     Height = 23
-    Top = 463
+    Top = 538
     Width = 599
     Panels = <    
       item
@@ -79,6 +83,32 @@ object frmMain: TfrmMain
         Width = 50
       end>
     SimplePanel = False
+  end
+  object panLog: TPanel
+    Height = 142
+    Top = 396
+    Width = 599
+    Align = alBottom
+    BevelOuter = bvNone
+    ClientHeight = 142
+    ClientWidth = 599
+    TabOrder = 3
+    object memLog: TMemo
+      Height = 142
+      Width = 599
+      Align = alClient
+      ReadOnly = True
+      ScrollBars = ssAutoVertical
+      TabOrder = 0
+    end
+  end
+  object Splitter1: TSplitter
+    Cursor = crVSplit
+    Height = 5
+    Top = 391
+    Width = 599
+    Align = alBottom
+    ResizeAnchor = akBottom
   end
   object pnMain: TPopupNotifier
     Color = 14483455
@@ -89,13 +119,13 @@ object frmMain: TfrmMain
     }
     Text = 'Text'
     Title = 'Caption'
-    left = 560
-    top = 420
+    left = 532
+    top = 468
   end
   object tmrMain: TTimer
     Enabled = False
     OnTimer = tmrMainTimer
-    left = 524
-    top = 421
+    left = 472
+    top = 468
   end
 end
