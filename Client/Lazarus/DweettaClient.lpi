@@ -7,7 +7,7 @@
       <MainUnit Value="0"/>
       <IconPath Value="./"/>
       <TargetFileExt Value=".exe"/>
-      <Title Value="Dweetta Client v0.1.0.33"/>
+      <Title Value="Dweetta Client v0.1.0.34"/>
       <UseXPManifest Value="True"/>
       <ActiveEditorIndexAtStart Value="2"/>
     </General>
@@ -18,7 +18,7 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <CurrentMajorRevNr Value="1"/>
-      <CurrentBuildNr Value="33"/>
+      <CurrentBuildNr Value="34"/>
       <ProjectVersion Value="0.1.0.2"/>
       <Language Value="0809"/>
       <FileDescription Value="A simple Twitter Client with the Dweetta Lib"/>
@@ -53,7 +53,7 @@
         <CursorPos X="49" Y="30"/>
         <TopLine Value="1"/>
         <EditorIndex Value="0"/>
-        <UsageCount Value="40"/>
+        <UsageCount Value="41"/>
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
@@ -63,10 +63,10 @@
         <ResourceBaseClass Value="Form"/>
         <ResourceFilename Value="frmMainUnit.lrs"/>
         <UnitName Value="frmMainUnit"/>
-        <CursorPos X="1" Y="152"/>
-        <TopLine Value="64"/>
+        <CursorPos X="50" Y="121"/>
+        <TopLine Value="97"/>
         <EditorIndex Value="2"/>
-        <UsageCount Value="40"/>
+        <UsageCount Value="41"/>
         <Loaded Value="True"/>
       </Unit1>
       <Unit2>
@@ -76,7 +76,7 @@
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
         <EditorIndex Value="7"/>
-        <UsageCount Value="40"/>
+        <UsageCount Value="41"/>
         <Loaded Value="True"/>
       </Unit2>
       <Unit3>
@@ -86,7 +86,7 @@
         <CursorPos X="1" Y="76"/>
         <TopLine Value="57"/>
         <EditorIndex Value="8"/>
-        <UsageCount Value="40"/>
+        <UsageCount Value="41"/>
         <Loaded Value="True"/>
       </Unit3>
       <Unit4>
@@ -96,7 +96,7 @@
         <CursorPos X="1" Y="66"/>
         <TopLine Value="90"/>
         <EditorIndex Value="5"/>
-        <UsageCount Value="40"/>
+        <UsageCount Value="41"/>
         <Loaded Value="True"/>
       </Unit4>
       <Unit5>
@@ -106,7 +106,7 @@
         <CursorPos X="1" Y="1"/>
         <TopLine Value="262"/>
         <EditorIndex Value="6"/>
-        <UsageCount Value="40"/>
+        <UsageCount Value="41"/>
         <Loaded Value="True"/>
       </Unit5>
       <Unit6>
@@ -123,7 +123,7 @@
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
         <EditorIndex Value="10"/>
-        <UsageCount Value="39"/>
+        <UsageCount Value="40"/>
         <Loaded Value="True"/>
       </Unit7>
       <Unit8>
@@ -133,7 +133,7 @@
         <CursorPos X="1" Y="8"/>
         <TopLine Value="1"/>
         <EditorIndex Value="4"/>
-        <UsageCount Value="38"/>
+        <UsageCount Value="39"/>
         <Loaded Value="True"/>
       </Unit8>
       <Unit9>
@@ -157,7 +157,7 @@
         <CursorPos X="1" Y="8"/>
         <TopLine Value="1"/>
         <EditorIndex Value="11"/>
-        <UsageCount Value="32"/>
+        <UsageCount Value="33"/>
         <Loaded Value="True"/>
       </Unit11>
       <Unit12>
@@ -167,7 +167,7 @@
         <CursorPos X="51" Y="17"/>
         <TopLine Value="1"/>
         <EditorIndex Value="9"/>
-        <UsageCount Value="31"/>
+        <UsageCount Value="32"/>
         <Loaded Value="True"/>
       </Unit12>
       <Unit13>
@@ -180,7 +180,7 @@
         <CursorPos X="33" Y="49"/>
         <TopLine Value="27"/>
         <EditorIndex Value="3"/>
-        <UsageCount Value="29"/>
+        <UsageCount Value="30"/>
         <Loaded Value="True"/>
       </Unit13>
       <Unit14>

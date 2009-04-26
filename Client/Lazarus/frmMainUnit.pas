@@ -118,7 +118,7 @@ begin
   FDweetta.User := FUsername;
   FDweetta.Password := FPassword;
   sbMain.Panels[0].Text := 'Getting timeline...';
-  TwitterList := FDweetta.StatusesUserTimeline;
+  TwitterList := FDweetta.StatusesFriendsTimeline;
   if memLog.Lines.Count <> 0 then
     memLog.Lines.Add('-----------------------------------------------');
   memLog.Lines.Add('HTTP: ' + IntToStr(FDweetta.ResponseCode) + ':' + FDweetta.ResponseString);

@@ -1,7 +1,7 @@
 object frmMain: TfrmMain
   Left = 0
   Top = 0
-  Caption = 'Dweetta Client v0.1.0.33'
+  Caption = 'Dweetta Client v0.1.0.34'
   ClientHeight = 584
   ClientWidth = 736
   Color = clBtnFace
@@ -74,9 +74,6 @@ object frmMain: TfrmMain
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 1
-    ExplicitTop = 37
-    ExplicitWidth = 635
-    ExplicitHeight = 430
     object vstTweets: TVirtualStringTree
       Left = 0
       Top = 0
@@ -95,8 +92,6 @@ object frmMain: TfrmMain
       OnFreeNode = vstTweetsFreenode
       OnGetText = vstTweetsGetText
       OnGetNodeDataSize = vstTweetsGetNodeDataSize
-      ExplicitWidth = 635
-      ExplicitHeight = 430
       Columns = <>
     end
   end
@@ -110,8 +105,6 @@ object frmMain: TfrmMain
         Text = 'Ready'
         Width = 50
       end>
-    ExplicitTop = 467
-    ExplicitWidth = 635
   end
   object panLog: TPanel
     Left = 0
@@ -128,10 +121,6 @@ object frmMain: TfrmMain
       Height = 141
       Align = alClient
       TabOrder = 0
-      ExplicitLeft = 176
-      ExplicitTop = 32
-      ExplicitWidth = 185
-      ExplicitHeight = 89
     end
   end
   object tmrMain: TTimer
