@@ -129,6 +129,9 @@ var
   vNode: PVirtualNode;
   TwitterNode: PDweettaNode;
   TwitterList: TDweettaStatusElementList;
+{$IFDEF DELPHI2007_UP}
+  TwitterStatusElement: TDweettaStatusElement;
+{$ENDIF ~DELPHI2007_UP}
   Index: Integer;
 begin
   vstTweets.BeginUpdate;
@@ -146,6 +149,15 @@ begin
   memLog.Lines.Add('Rate Limit: ' + IntToStr(FDweetta.RateLimit));
   memLog.Lines.Add('Remaining : ' + IntToStr(FDweetta.RemainingCalls));
   sbMain.Panels[0].Text := 'Processing data...';
+  {$IFDEF DELPHI2007_UP}
+  for TwitterStatusElement in TwitterList do
+  begin
+    vNode := vstTweets.AddChild(vstTweets.RootNode);
+    TwitterNode := vstTweets.GetNodeData(vNode);
+    TwitterNode^.NodeType := tntStatus;
+    TwitterNode^.TwitterElement := TwitterStatusElement;
+  end;
+  {$ELSE}
   for Index := 0 to TwitterList.Count -1 do
   begin
     vNode := vstTweets.AddChild(vstTweets.RootNode);
@@ -153,6 +165,7 @@ begin
     TwitterNode^.NodeType := tntStatus;
     TwitterNode^.TwitterElement := TwitterList.Items[Index];
   end;
+  {$ENDIF ~DELPHI2007_UP}
   sbMain.Panels[0].Text := 'Done';
   vstTweets.EndUpdate;
 end;

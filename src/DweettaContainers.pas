@@ -96,21 +96,39 @@ type
   end;
 
 { TDweettaUserElementList }
+{$IFDEF DELPHI2007_UP}
+  TDweettaUserElementListEnumerator = class;
+{$ENDIF ~DELPHI2007_UP}
 
   TDweettaUserElementList = class(TObjectList)
   private
     function GetItem(Index: Integer): TDweettaUserElement;
     procedure SetItem(Index: Integer; ADweettaUserElement: TDweettaUserElement);
   public
+    {$IFDEF DELPHI2007_UP}
+    function GetEnumerator: TDweettaUserElementListEnumerator;
+    {$ENDIF ~DELPHI2007_UP}
+
     procedure LoadFromString(const AInString: String);
 
     property Items[Index: Integer]: TDweettaUserElement read GetItem write SetItem; default;
   end;
 
 {$IFDEF DELPHI2007_UP}
-{ TDweettaUserElementIterator }
+{ TDweettaUserElementListEnumerator }
 
-  { TODO 1 -ogcarreno -cIterators : Implement Iterator for User Elements }
+  TDweettaUserElementListEnumerator = class
+  private
+    FIndex: Integer;
+    FList: TDweettaUserElementList;
+  public
+    constructor Create(aList: TDweettaUserElementList);
+
+    function GetCurrent: TDweettaUserElement;
+    function MoveNext: Boolean;
+
+    property Current: TDweettaUserElement read GetCurrent;
+  end;
 
 {$IFDEF DELPHI2009_UP}
 { TDweettaUserElement ? }
@@ -123,7 +141,7 @@ type
 { TDweettaStatusElementClass }
 
   TDweettaStatusElementClass = class of TDweettaStatusElement;
-  
+
 { TDweettaStatusElement }
 
   TDweettaStatusElement = class(TObject)
@@ -161,21 +179,39 @@ type
   end;
 
 { TDweettaStatusElementList }
+{$IFDEF DELPHI2007_UP}
+  TDweettaStatusElementListEnumerator = class;
+{$ENDIF ~DELPHI2007_UP}
 
   TDweettaStatusElementList = class(TObjectList)
   private
     function GetItem(Index: Integer): TDweettaStatusElement;
     procedure SetItem(Index: Integer; ADweettaStatusElement: TDweettaStatusElement);
   public
+    {$IFDEF DELPHI2007_UP}
+    function GetEnumerator: TDweettaStatusElementListEnumerator;
+    {$ENDIF ~DELPHI2007_UP}
+
     procedure LoadFromString(const AInString: String);
 
     property Items[Index: Integer]: TDweettaStatusElement read GetItem write SetItem; default;
   end;
 
 {$IFDEF DELPHI2007_UP}
-{ TDweettaStatusElementIterator }
+{ TDweettaStatusElementListEnumerator }
 
-  { TODO 1 -ogcarreno -cIterators : Implement Iterator for Status Elements }
+  TDweettaStatusElementListEnumerator = class
+  private
+    FIndex: Integer;
+    FList: TDweettaStatusElementList;
+  public
+    constructor Create(aList: TDweettaStatusElementList);
+
+    function GetCurrent: TDweettaStatusElement;
+    function MoveNext: Boolean;
+
+    property Current: TDweettaStatusElement read GetCurrent;
+  end;
 
 {$IFDEF DELPHI2009_UP}
 { TDweettaStatusElement ? }
@@ -222,20 +258,39 @@ type
 
 { TDweettaDirectMessageElementList }
 
+{$IFDEF DELPHI2007_UP}
+  TDweettaDirectMessageElementListEnumerator = class;
+{$ENDIF ~DELPHI2007_UP}
+
   TDweettaDirectMessageElementList = class(TObjectList)
   private
     function GetItem(Index: Integer): TDweettaDirectMessageElement;
     procedure SetItem(Index: Integer; ADweettaDirectMessageElement: TDweettaDirectMessageElement);
   public
+    {$IFDEF DELPHI2007_UP}
+    function GetEnumerator: TDweettaDirectMessageElementListEnumerator;
+    {$ENDIF ~DELPHI2007_UP}
+
     procedure LoadFromString(const AInString: String);
 
     property Items[Index: Integer]: TDweettaDirectMessageElement read GetItem write SetItem; default;
   end;
 
 {$IFDEF DELPHI2007_UP}
-{ TDweettaDirectMessageElementIterator }
+{ TDweettaStatusElementListEnumerator }
 
-  { TODO 1 -ogcarreno -cIterators : Implement Iterator for Direct Messages Elements }
+  TDweettaDirectMessageElementListEnumerator = class
+  private
+    FIndex: Integer;
+    FList: TDweettaDirectMessageElementList;
+  public
+    constructor Create(aList: TDweettaDirectMessageElementList);
+
+    function GetCurrent: TDweettaDirectMessageElement;
+    function MoveNext: Boolean;
+
+    property Current: TDweettaDirectMessageElement read GetCurrent;
+  end;
 
 {$IFDEF DELPHI2009_UP}
 { TDweettaDirectMessageElement ? }
@@ -357,6 +412,13 @@ begin
   Put(Index, Pointer(ADweettaUserElement));
 end;
 
+{$IFDEF DELPHI2007_UP}
+function TDweettaUserElementList.GetEnumerator: TDweettaUserElementListEnumerator;
+begin
+  Result := TDweettaUserElementListEnumerator.Create(Self);
+end;
+{$ENDIF ~DELPHI2007_UP}
+
 procedure TDweettaUserElementList.LoadFromString(const AInString: String);
 var
   Users: ISuperObject;
@@ -372,10 +434,34 @@ begin
   end;
 end;
 
+{$IFDEF DELPHI2007_UP}
+{ TDweettaUserElementListEnumerator }
+
+constructor TDweettaUserElementListEnumerator.Create(aList: TDweettaUserElementList);
+begin
+  inherited Create;
+  FIndex := -1;
+  FList := aList;
+end;
+
+function TDweettaUserElementListEnumerator.GetCurrent: TDweettaUserElement;
+begin
+  Result := FList.GetItem(FIndex);
+end;
+
+function TDweettaUserElementListEnumerator.MoveNext: Boolean;
+begin
+  Result := FIndex < (FList.Count - 1);
+  if Result then
+  begin
+    Inc(FIndex);
+  end;
+end;
+{$ENDIF ~DELPHI2007_UP}
+
 { TDweettaStatusElementList }
 
-function TDweettaStatuselEmentList.Getitem ( Index: Integer
-  ) : TDweettaStatusElement;
+function TDweettaStatuselEmentList.Getitem (Index: Integer) : TDweettaStatusElement;
 begin
   Result := TDweettaStatusElement(inherited Get(Index));
 end;
@@ -393,6 +479,13 @@ begin
   Put(Index, Pointer(ADweettaStatusElement));
 end;
 
+{$IFDEF DELPHI2007_UP}
+function TDweettaStatusElementList.GetEnumerator: TDweettaStatusElementListEnumerator;
+begin
+  Result := TDweettaStatusElementListEnumerator.Create(Self);
+end;
+{$ENDIF ~DELPHI2007_UP}
+
 procedure TDweettaStatusElementList.LoadFromString ( const AInString: String ) ;
 var
   Statuses: ISuperObject;
@@ -407,6 +500,31 @@ begin
     end;
   end;
 end;
+
+{$IFDEF DELPHI2007_UP}
+{ TDweettaStatusElementListEnumerator }
+
+constructor TDweettaStatusElementListEnumerator.Create(aList: TDweettaStatusElementList);
+begin
+  inherited Create;
+  FIndex := -1;
+  FList := aList;
+end;
+
+function TDweettaStatusElementListEnumerator.GetCurrent: TDweettaStatusElement;
+begin
+  Result := FList.GetItem(FIndex);
+end;
+
+function TDweettaStatusElementListEnumerator.MoveNext: Boolean;
+begin
+  Result := FIndex < (FList.Count - 1);
+  if Result then
+  begin
+    Inc(FIndex);
+  end;
+end;
+{$ENDIF ~DELPHI2007_UP}
 
 { TDweettaDirectMessageElementList }
 
@@ -429,6 +547,13 @@ begin
   Put(Index, Pointer(ADweettaDirectMessageElement));
 end;
 
+{$IFDEF DELPHI2007_UP}
+function TDweettaDirectMessageElementList.GetEnumerator: TDweettaDirectMessageElementListEnumerator;
+begin
+  Result := TDweettaDirectMessageElementListEnumerator.Create(Self);
+end;
+{$ENDIF ~DELPHI2007_UP}
+
 procedure TDweettaDirectMessageElementList.LoadFromString(
   const AInString: String);
 var
@@ -444,6 +569,31 @@ begin
     end;
   end;
 end;
+
+{$IFDEF DELPHI2007_UP}
+{ TDweettaDirectMessageElementListEnumerator }
+
+constructor TDweettaDirectMessageElementListEnumerator.Create(aList: TDweettaDirectMessageElementList);
+begin
+  inherited Create;
+  FIndex := -1;
+  FList := aList;
+end;
+
+function TDweettaDirectMessageElementListEnumerator.GetCurrent: TDweettaDirectMessageElement;
+begin
+  Result := FList.GetItem(FIndex);
+end;
+
+function TDweettaDirectMessageElementListEnumerator.MoveNext: Boolean;
+begin
+  Result := FIndex < (FList.Count - 1);
+  if Result then
+  begin
+    Inc(FIndex);
+  end;
+end;
+{$ENDIF ~DELPHI2007_UP}
 
 { TDweettaUserElement }
 

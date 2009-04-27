@@ -27,7 +27,7 @@ uses
 {$ENDIF}
 
 begin
-  Application.Title:='Dweetta Client v0.1.0.34';
+  Application.Title:='Dweetta Client v0.1.0.35';
   Application.Initialize;
   Application.CreateForm(TfrmMain, frmMain);
   Application.Run;

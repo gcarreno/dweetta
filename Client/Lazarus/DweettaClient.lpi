@@ -7,7 +7,7 @@
       <MainUnit Value="0"/>
       <IconPath Value="./"/>
       <TargetFileExt Value=".exe"/>
-      <Title Value="Dweetta Client v0.1.0.34"/>
+      <Title Value="Dweetta Client v0.1.0.35"/>
       <UseXPManifest Value="True"/>
       <ActiveEditorIndexAtStart Value="2"/>
     </General>
@@ -18,7 +18,7 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <CurrentMajorRevNr Value="1"/>
-      <CurrentBuildNr Value="34"/>
+      <CurrentBuildNr Value="35"/>
       <ProjectVersion Value="0.1.0.2"/>
       <Language Value="0809"/>
       <FileDescription Value="A simple Twitter Client with the Dweetta Lib"/>
@@ -63,8 +63,8 @@
         <ResourceBaseClass Value="Form"/>
         <ResourceFilename Value="frmMainUnit.lrs"/>
         <UnitName Value="frmMainUnit"/>
-        <CursorPos X="50" Y="121"/>
-        <TopLine Value="97"/>
+        <CursorPos X="54" Y="129"/>
+        <TopLine Value="112"/>
         <EditorIndex Value="2"/>
         <UsageCount Value="41"/>
         <Loaded Value="True"/>
