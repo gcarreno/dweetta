@@ -49,6 +49,9 @@ type
 
 implementation
 
+uses
+  DateUtils, SuperObject;
+
 { TDweettaTransport }
 
 constructor TDweettaTransport.Create;
@@ -66,10 +69,13 @@ end;
 function TDweettaTransport.Get(Service: TDweettaServices; const Params: TStringList;
   out ResponseInfo: TDweettaResponseInfo) : String;
 var
-  URI, HeaderValue: String;
+  ErrorObject: ISuperObject;
+  URI, HeaderValue, OriginalReq, JSONMessage: String;
   Index: Integer;
 begin
-  Result := '';
+  { TODO 1 -ogcarreno -cDRY : Refactor repeated code into functions or procedures }
+  Result := '[()]';
+  URI := '';
   case Service of
     tsStatusesPublicTimeline, tsStatusesFriendsTimeline,
     tsStatusesUserTimeline, tsStatusesReplies:begin
@@ -86,6 +92,7 @@ begin
     end;
     tsStatusesShow:begin
       URI := FServer + cDweettaServiceEndPoints[Service] + '/' +  Params.Values['id'] + FFormat;
+      Params.Delete(Params.IndexOf('id'));
     end;
     else
       URI := '';
@@ -97,42 +104,163 @@ begin
       URI := FUser + ':' + FPassword + '@' + URI;
     end;
     URI := 'http://' + URI;
-    if FDweettaSocket.Execute('GET', URI) then
+    if FDweettaSocket.Execute('GET', URI, Params) then
     begin
       Result := FDweettaSocket.Content.Text;
       ResponseInfo.HTTPStatus := FDweettaSocket.Result;
       ResponseInfo.HTTPMessage := FDweettaSocket.ResultText;
-      for Index := 0 to FDweettaSocket.Headers.Count -1 do
+      if ResponseInfo.HTTPStatus = 200 then
       begin
-        if Pos('X-RateLimit-Remaining', FDweettaSocket.Headers[Index]) > 0 then
+        for Index := 0 to FDweettaSocket.Headers.Count -1 do
         begin
-          HeaderValue := Copy(FDweettaSocket.Headers[Index], Pos(':', FDweettaSocket.Headers[Index]) + 1, Length(FDweettaSocket.Headers[Index]));
-          ResponseInfo.RemainingCalls := StrToInt(HeaderValue);
+          if Pos('X-RateLimit-Remaining', FDweettaSocket.Headers[Index]) > 0 then
+          begin
+            HeaderValue := Copy(FDweettaSocket.Headers[Index], Pos(':', FDweettaSocket.Headers[Index]) + 1, Length(FDweettaSocket.Headers[Index]));
+            ResponseInfo.RemainingCalls := StrToInt(HeaderValue);
+          end;
+          if Pos('X-RateLimit-Limit', FDweettaSocket.Headers[Index]) > 0 then
+          begin
+            HeaderValue := Copy(FDweettaSocket.Headers[Index], Pos(':', FDweettaSocket.Headers[Index]) + 1, Length(FDweettaSocket.Headers[Index]));
+            ResponseInfo.RateLimit := StrToInt(HeaderValue);
+          end;
+          if Pos('X-RateLimit-Reset', FDweettaSocket.Headers[Index]) > 0 then
+          begin
+            HeaderValue := Copy(FDweettaSocket.Headers[Index], Pos(':', FDweettaSocket.Headers[Index]) + 1, Length(FDweettaSocket.Headers[Index]));
+            ResponseInfo.RateLimitReset := UnixToDateTime(StrToInt(HeaderValue));
+          end;
         end;
-        if Pos('X-RateLimit-Limit', FDweettaSocket.Headers[Index]) > 0 then
-        begin
-          HeaderValue := Copy(FDweettaSocket.Headers[Index], Pos(':', FDweettaSocket.Headers[Index]) + 1, Length(FDweettaSocket.Headers[Index]));
-          ResponseInfo.RateLimit := StrToInt(HeaderValue);
-        end;
+      end
+      else
+      begin
+        ErrorObject := SO(Result);
+        OriginalReq := ErrorObject['request'].AsString;
+        JSONMessage := ErrorObject['error'].AsString;
+        raise EDweettaTransportError.Create(ResponseInfo.HTTPStatus, OriginalReq, ResponseInfo.HTTPMessage, JSONMessage);
       end;
     end
     else
     begin
-
+      raise EDweettaTransportError.Create(FDweettaSocket.Result, '', FDweettaSocket.ResultText, '');
     end;
   end;
 end;
 
-function TDweettaTransport.Post ( Service: TDweettaServices; const Params: TStringList;
-  out ResponseInfo: TDweettaResponseInfo ) : String;
+function TDweettaTransport.Post (Service: TDweettaServices; const Params: TStringList;
+  out ResponseInfo: TDweettaResponseInfo) : String;
+var
+  ErrorObject: ISuperObject;
+  URI, HeaderValue, OriginalReq, JSONMessage: String;
+  Index: Integer;
 begin
-  Result := '';
+  { TODO 1 -ogcarreno -cDRY : Refactor repeated code into functions or procedures }
+  Result := '[()]';
+  URI := '';
+  case Service of
+    tsStatusesUpdate:begin
+      URI := FServer + cDweettaServiceEndPoints[Service] + FFormat;
+    end;
+  end;
+  if URI <> '' then
+  begin
+    if FUser <> '' then
+    begin
+      URI := FUser + ':' + FPassword + '@' + URI;
+    end;
+    URI := 'http://' + URI;
+    if FDweettaSocket.Execute('POST', URI, Params) then
+    begin
+      Result := FDweettaSocket.Content.Text;
+      ResponseInfo.HTTPStatus := FDweettaSocket.Result;
+      ResponseInfo.HTTPMessage := FDweettaSocket.ResultText;
+      if ResponseInfo.HTTPStatus = 200 then
+      begin
+        for Index := 0 to FDweettaSocket.Headers.Count -1 do
+        begin
+          if Pos('X-RateLimit-Remaining', FDweettaSocket.Headers[Index]) > 0 then
+          begin
+            HeaderValue := Copy(FDweettaSocket.Headers[Index], Pos(':', FDweettaSocket.Headers[Index]) + 1, Length(FDweettaSocket.Headers[Index]));
+            ResponseInfo.RemainingCalls := StrToInt(HeaderValue);
+          end;
+          if Pos('X-RateLimit-Limit', FDweettaSocket.Headers[Index]) > 0 then
+          begin
+            HeaderValue := Copy(FDweettaSocket.Headers[Index], Pos(':', FDweettaSocket.Headers[Index]) + 1, Length(FDweettaSocket.Headers[Index]));
+            ResponseInfo.RateLimit := StrToInt(HeaderValue);
+          end;
+          if Pos('X-RateLimit-Reset', FDweettaSocket.Headers[Index]) > 0 then
+          begin
+            HeaderValue := Copy(FDweettaSocket.Headers[Index], Pos(':', FDweettaSocket.Headers[Index]) + 1, Length(FDweettaSocket.Headers[Index]));
+            ResponseInfo.RateLimitReset := UnixToDateTime(StrToInt(HeaderValue));
+          end;
+        end;
+      end
+      else
+      begin
+        ErrorObject := SO(Result);
+        OriginalReq := ErrorObject['request'].AsString;
+        JSONMessage := ErrorObject['error'].AsString;
+        raise EDweettaTransportError.Create(ResponseInfo.HTTPStatus, OriginalReq, ResponseInfo.HTTPMessage, JSONMessage);
+      end;
+    end
+    else
+    begin
+      raise EDweettaTransportError.Create(FDweettaSocket.Result, '', FDweettaSocket.ResultText, '');
+    end;
+  end;
 end;
 
-function TDweettaTransport.Delete ( Service: TDweettaServices; const Params: TStringList;
-  out ResponseInfo: TDweettaResponseInfo ) : String;
+function TDweettaTransport.Delete (Service: TDweettaServices; const Params: TStringList;
+  out ResponseInfo: TDweettaResponseInfo) : String;
+var
+  ErrorObject: ISuperObject;
+  URI, HeaderValue, OriginalReq, JSONMessage: String;
+  Index: Integer;
 begin
-  Result := '';
+  Result := '[()]';
+  URI := '';
+
+  { TODO 1 -ogcarreno -cMissingCode : Insert the case statement. }
+
+  if URI <> '' then
+  begin
+    if FUser <> '' then
+    begin
+      URI := FUser + ':' + FPassword + '@' + URI;
+    end;
+    URI := 'http://' + URI;
+    if FDweettaSocket.Execute('DELETE', URI, Params) then
+    begin
+      Result := FDweettaSocket.Content.Text;
+      ResponseInfo.HTTPStatus := FDweettaSocket.Result;
+      ResponseInfo.HTTPMessage := FDweettaSocket.ResultText;
+      if ResponseInfo.HTTPStatus = 200 then
+      begin
+        for Index := 0 to FDweettaSocket.Headers.Count -1 do
+        begin
+          if Pos('X-RateLimit-Remaining', FDweettaSocket.Headers[Index]) > 0 then
+          begin
+            HeaderValue := Copy(FDweettaSocket.Headers[Index], Pos(':', FDweettaSocket.Headers[Index]) + 1, Length(FDweettaSocket.Headers[Index]));
+            ResponseInfo.RemainingCalls := StrToInt(HeaderValue);
+          end;
+          if Pos('X-RateLimit-Limit', FDweettaSocket.Headers[Index]) > 0 then
+          begin
+            HeaderValue := Copy(FDweettaSocket.Headers[Index], Pos(':', FDweettaSocket.Headers[Index]) + 1, Length(FDweettaSocket.Headers[Index]));
+            ResponseInfo.RateLimit := StrToInt(HeaderValue);
+          end;
+        end;
+      end
+      else
+      begin
+        ErrorObject := SO(Result);
+        OriginalReq := ErrorObject['request'].AsString;
+        JSONMessage := ErrorObject['error'].AsString;
+        raise EDweettaTransportError.Create(ResponseInfo.HTTPStatus, OriginalReq, ResponseInfo.HTTPMessage, JSONMessage);
+      end;
+    end
+    else
+    begin
+      raise EDweettaTransportError.Create(FDweettaSocket.Result, '', FDweettaSocket.ResultText, '');
+    end;
+  end;
 end;
 
 end.
