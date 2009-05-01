@@ -106,6 +106,7 @@ type
     HTTPMessage: String;
     RemainingCalls: Integer;
     RateLimit: Integer;
+    RateLimitReset: TDateTime;
   end;
 
 implementation
