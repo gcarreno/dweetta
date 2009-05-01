@@ -34,7 +34,7 @@ type
     constructor Create;
     destructor Destroy; override;
 
-    function Execute(Method, URL: String): Boolean;
+    function Execute(Method, URL: String; const Params: TStringList = nil): Boolean;
 
     property UserAgent: String read GetUserAgent write SetUserAgent;
     property Headers: TStringList read GetHeaders;
@@ -90,9 +90,13 @@ begin
   inherited Destroy;
 end;
 
-function TDweettaSockets.Execute(Method, URL: String): Boolean;
+function TDweettaSockets.Execute(Method, URL: String; const Params: TStringList = nil): Boolean;
 begin
   FHTTPSend.Clear;
+  if Assigned(Params) then
+  begin
+    FHTTPSend.Document.Write(Pointer(Params.Text)^, Length(Params.Text));
+  end;
   Result := FHTTPSend.HTTPMethod(Method, URL);
 end;
 
