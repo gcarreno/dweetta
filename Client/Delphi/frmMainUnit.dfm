@@ -1,7 +1,7 @@
 object frmMain: TfrmMain
   Left = 0
   Top = 0
-  Caption = 'Dweetta Client v0.1.0.35'
+  Caption = 'Dweetta Client v0.1.0.42'
   ClientHeight = 584
   ClientWidth = 736
   Color = clBtnFace

@@ -27,6 +27,7 @@ type
     FResponseInfo: TDweettaResponseInfo;
 
     function GetRateLimit: Integer;
+    function GetRateLimitReset: TDateTime;
     function GetRemainingCalls: Integer;
     function GetResponseCode: Integer;
     function GetResponseString: String;
@@ -38,15 +39,29 @@ type
     destructor Destroy; override;
 
     function StatusesPublicTimeline: TDweettaStatusElementList;
+
     function StatusesFriendsTimeline: TDweettaStatusElementList; overload;
-    function StatusesFriendsTimeline(since: String): TDweettaStatusElementList; overload;
+    function StatusesFriendsTimeline(since: TDateTime): TDweettaStatusElementList; overload;
+    function StatusesFriendsTimeline(count: Integer): TDweettaStatusElementList; overload;
+    function StatusesFriendsTimelinePage(page: Integer): TDweettaStatusElementList;
+
     function StatusesUserTimeline: TDweettaStatusElementList; overload;
-    function StatusesUserTimeline(id: String): TDweettaStatusElementList; overload;
+    function StatusesUserTimeline(id: Integer): TDweettaStatusElementList; overload;
+    function StatusesUserTimeline(id: integer; page: Integer): TDweettaStatusElementList; overload;
+    function StatusesUserTimeline(id: Integer; since: TDateTime): TDweettaStatusElementList; overload;
+    function StatusesUserTimeline(screen_name: String): TDweettaStatusElementList; overload;
+    function StatusesUserTimeline(screen_name: String; page: Integer): TDweettaStatusElementList; overload;
+    function StatusesUserTimeline(screen_name: String; since: TDateTime): TDweettaStatusElementList; overload;
+    function StatusesUserTimeline(since: TDateTime): TDweettaStatusElementList; overload;
+
     function StatusesShow(id: Integer): TDweettaStatusElement;
+
     function StatusesUpdate(status: String): TDweettaStatusElement; overload;
     function StatusesUpdate(status: String; in_reply_to_status_id: Integer): TDweettaStatusElement; overload;
+
     function StatusesReplies: TDweettaStatusElementList; overload;
     function StatusesReplies(since_id: Integer): TDweettaStatusElementList; overload;
+
     function StatusesDestroy(id: Integer): TDweettaStatusElement;
 
     property User: String read FUser write Setuser;
@@ -55,9 +70,13 @@ type
     property ResponseString: String read GetResponseString;
     property RemainingCalls: Integer read GetRemainingCalls;
     property RateLimit: Integer read GetRateLimit;
+    property RateLimitReset: TDateTime read GetRateLimitReset;
   end;
 
 implementation
+
+uses
+  DweettaUtils;
 
 { TDweetta }
 
@@ -73,6 +92,11 @@ end;
 function TDweetta.GetRateLimit: Integer;
 begin
   Result := FResponseInfo.RateLimit;
+end;
+
+function TDweetta.GetRateLimitReset: TDateTime;
+begin
+  Result := FResponseInfo.RateLimitReset;
 end;
 
 function TDweetta.GetRemainingCalls: Integer;
@@ -131,9 +155,19 @@ begin
   Result := FDweettaAPI.Statuses_friends_timeline('', 0, 0, 0, 0, FResponseInfo);
 end;
 
-function TDweetta.StatusesFriendsTimeline(since: String): TDweettaStatusElementList;
+function TDweetta.StatusesFriendsTimeline(since: TDateTime): TDweettaStatusElementList;
 begin
-  Result := FDweettaAPI.Statuses_friends_timeline(since, 0, 0, 0, 0, FResponseInfo);
+  Result := FDweettaAPI.Statuses_friends_timeline(DateTimeToInternet(since), 0, 0, 0, 0, FResponseInfo);
+end;
+
+function TDweetta.StatusesFriendsTimeline(count: Integer): TDweettaStatusElementList;
+begin
+  Result := FDweettaAPI.Statuses_friends_timeline('', 0, 0, count, 0, FResponseInfo);
+end;
+
+function TDweetta.StatusesFriendsTimelinePage(page: Integer): TDweettaStatusElementList;
+begin
+  Result := FDweettaAPI.Statuses_friends_timeline('', 0, 0, 0, page, FResponseInfo);
 end;
 
 function TDweetta.StatusesUserTimeline: TDweettaStatusElementList;
@@ -141,9 +175,39 @@ begin
   Result := FDweettaAPI.Statuses_user_timeline('', 0, '', 0, 0, 0, '', FResponseInfo);
 end;
 
-function TDweetta.StatusesUserTimeline ( id: String ) : TDweettaStatusElementList;
+function TDweetta.StatusesUserTimeline(id: integer; page: Integer): TDweettaStatusElementList;
 begin
-  Result := FDweettaAPI.Statuses_user_timeline(id, 0, '', 0, 0, 0, '', FResponseInfo);
+  Result := FDweettaAPI.Statuses_user_timeline(IntToStr(id), 0, '', 0, 0, page, '', FResponseInfo);
+end;
+
+function TDweetta.StatusesUserTimeline(id: Integer; since: TDateTime): TDweettaStatusElementList;
+begin
+  Result := FDweettaAPI.Statuses_user_timeline(IntToStr(id), 0, '', 0, 0, 0, DateTimeToInternet(since), FResponseInfo);
+end;
+
+function TDweetta.StatusesUserTimeline(screen_name: String): TDweettaStatusElementList;
+begin
+  Result := FDweettaAPI.Statuses_user_timeline('', 0, screen_name, 0, 0, 0, '', FResponseInfo);
+end;
+
+function TDweetta.StatusesUserTimeline (id: Integer) : TDweettaStatusElementList;
+begin
+  Result := FDweettaAPI.Statuses_user_timeline(IntToStr(id), 0, '', 0, 0, 0, '', FResponseInfo);
+end;
+
+function TDweetta.StatusesUserTimeline(screen_name: String; page: Integer): TDweettaStatusElementList;
+begin
+  Result := FDweettaAPI.Statuses_user_timeline('', 0, screen_name, 0, 0, page, '', FResponseInfo);
+end;
+
+function TDweetta.StatusesUserTimeline(screen_name: String; since: TDateTime): TDweettaStatusElementList;
+begin
+  Result := FDweettaAPI.Statuses_user_timeline('', 0, screen_name, 0, 0, 0, DateTimeToInternet(since), FResponseInfo);
+end;
+
+function TDweetta.StatusesUserTimeline(since: TDateTime): TDweettaStatusElementList;
+begin
+  Result := FDweettaAPI.Statuses_user_timeline('', 0, '', 0, 0, 0, DateTimeToInternet(since), FResponseInfo);
 end;
 
 function TDweetta.StatusesShow(id: Integer): TDweettaStatusElement;
@@ -156,8 +220,7 @@ begin
   Result := FDweettaAPI.Statuses_update(status, 0, FResponseInfo);
 end;
 
-function TDweetta.StatusesUpdate(status: String; in_reply_to_status_id: Integer
-  ): TDweettaStatusElement;
+function TDweetta.StatusesUpdate(status: String; in_reply_to_status_id: Integer): TDweettaStatusElement;
 begin
   Result := FDweettaAPI.Statuses_update(status, in_reply_to_status_id, FResponseInfo);
 end;
@@ -167,8 +230,7 @@ begin
   Result := FDweettaAPI.Statuses_replies(0, 0, '', 0, FResponseInfo);
 end;
 
-function TDweetta.StatusesReplies(since_id: Integer
-  ): TDweettaStatusElementList;
+function TDweetta.StatusesReplies(since_id: Integer): TDweettaStatusElementList;
 begin
   Result := FDweettaAPI.Statuses_replies(since_id, 0, '', 0, FResponseInfo);
 end;

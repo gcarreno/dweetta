@@ -91,11 +91,21 @@ begin
 end;
 
 function TDweettaSockets.Execute(Method, URL: String; const Params: TStringList = nil): Boolean;
+var
+  Index: Integer;
+  Data: String;
 begin
   FHTTPSend.Clear;
   if Assigned(Params) then
   begin
-    FHTTPSend.Document.Write(Pointer(Params.Text)^, Length(Params.Text));
+    Data := '';
+    for Index := 0 to Params.Count - 1 do
+    begin
+      Data := Data + Params[Index] + '&';
+    end;
+    SetLength(Data, Length(Data) - 1);
+    FHTTPSend.Document.Write(Pointer(Data)^, Length(Data));
+    FHTTPSend.MimeType := 'application/x-www-form-urlencoded';
   end;
   Result := FHTTPSend.HTTPMethod(Method, URL);
 end;

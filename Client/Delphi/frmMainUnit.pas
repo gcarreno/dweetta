@@ -65,7 +65,7 @@ implementation
 {$R *.dfm}
 
 uses
-  Common, DateUtils, DweettaContainers;
+  Common, DateUtils, DweettaContainers, DweettaExceptions;
 
 function GetDweettaNodeText(const ADweettaNode: PDweettaNode): String;
 begin
@@ -88,10 +88,32 @@ end;
 { TfrmMain }
 
 procedure TfrmMain.btnSendClick(Sender: TObject);
+var
+  TwitterStatus: TDweettaStatusElement;
+  vNode: PVirtualNode;
+  TwitterNode: PDweettaNode;
 begin
   btnSend.Enabled := False;
   tmrMain.Enabled := False;
-
+  FDweetta.User := FUsername;
+  FDweetta.Password := FPassword;
+  sbMain.Panels[0].Text := 'Posting update...';
+  try
+    TwitterStatus := FDweetta.StatusesUpdate(edtStatus.Text);
+  except
+    on E:EDweettaTransportError do
+      ShowMessage('Error:' + E.JSONMessage);
+  end;
+  if memLog.Lines.Count <> 0 then
+    memLog.Lines.Add('-----------------------------------------------');
+  memLog.Lines.Add('HTTP: ' + IntToStr(FDweetta.ResponseCode) + ':' + FDweetta.ResponseString);
+  memLog.Lines.Add('Rate Limit: ' + IntToStr(FDweetta.RateLimit));
+  memLog.Lines.Add('Remaining : ' + IntToStr(FDweetta.RemainingCalls));
+  vNode := vstTweets.InsertNode(vstTweets.RootNode, amInsertBefore);
+  TwitterNode := vstTweets.GetNodeData(vNode);
+  TwitterNode^.NodeType := tntStatus;
+  TwitterNode^.TwitterElement := TwitterStatus;
+  sbMain.Panels[0].Text := 'Done';
   tmrMain.Enabled := True;
   btnSend.Enabled := True;
 end;
@@ -131,8 +153,9 @@ var
   TwitterList: TDweettaStatusElementList;
 {$IFDEF DELPHI2007_UP}
   TwitterStatusElement: TDweettaStatusElement;
-{$ENDIF ~DELPHI2007_UP}
+{$ELSE}
   Index: Integer;
+{$ENDIF ~DELPHI2007_UP}
 begin
   vstTweets.BeginUpdate;
   if vstTweets.RootNodeCount > 0 then

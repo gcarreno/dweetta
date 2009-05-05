@@ -87,7 +87,7 @@ begin
         begin
           URI := URI + Params[Index] + '&';
         end;
-        SetLength(URI, Length(URI) -1);
+        SetLength(URI, Length(URI) - 1);
       end;
     end;
     tsStatusesShow:begin
