@@ -1,3 +1,15 @@
+//      Mozilla Public License.
+//
+//      The contents of this file are subject to the Mozilla Public License
+//      Version 1.1 (the "License"); you may not use this file except in compliance
+//      with the License. You may obtain a copy of the License at
+//
+//      http://www.mozilla.org/MPL/
+//
+//      Software distributed under the License is distributed on an "AS IS"
+//      basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+//      License for the specific language governing rights and limitations under
+//      the License.
 {*------------------------------------------------------------------------------
   DweettaTransport.pas
 
@@ -50,7 +62,7 @@ type
 implementation
 
 uses
-  DateUtils, SuperObject;
+  DateUtils, SuperObject, DweettaUtils;
 
 { TDweettaTransport }
 
@@ -80,14 +92,9 @@ begin
     tsStatusesPublicTimeline, tsStatusesFriendsTimeline,
     tsStatusesUserTimeline, tsStatusesReplies:begin
       URI := FServer + cDweettaServiceEndPoints[Service] + FFormat;
-      if Assigned(Params) then
+      if (Assigned(Params)) and (Params.Count > 0) then
       begin
-        URI := URI + '?';
-        for Index := 0 to Params.Count -1 do
-        begin
-          URI := URI + Params[Index] + '&';
-        end;
-        SetLength(URI, Length(URI) - 1);
+        URI := URI + '?' + URLEncodeParams(Params, true);
       end;
     end;
     tsStatusesShow:begin

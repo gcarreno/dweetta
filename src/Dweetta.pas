@@ -1,3 +1,15 @@
+//      Mozilla Public License.
+//
+//      The contents of this file are subject to the Mozilla Public License
+//      Version 1.1 (the "License"); you may not use this file except in compliance
+//      with the License. You may obtain a copy of the License at
+//
+//      http://www.mozilla.org/MPL/
+//
+//      Software distributed under the License is distributed on an "AS IS"
+//      basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+//      License for the specific language governing rights and limitations under
+//      the License.
 {*------------------------------------------------------------------------------
   Dweetta.pas
 
@@ -135,7 +147,7 @@ begin
   FDweettaAPI := TDweettaAPI.Create;
   FDweettaAPI.User := FUser;
   FDweettaAPI.Password := FPassword;
-  FDweettaAPI.UserAgent := 'Dweetta/0.1';
+  FDweettaAPI.UserAgent := 'Dweetta/0.1 (http://www.assembla.com/spaces/Dweetta)';
   FDweettaAPI.Server := 'twitter.com';
 end;
 
@@ -157,7 +169,7 @@ end;
 
 function TDweetta.StatusesFriendsTimeline(since: TDateTime): TDweettaStatusElementList;
 begin
-  Result := FDweettaAPI.Statuses_friends_timeline(DateTimeToInternet(since), 0, 0, 0, 0, FResponseInfo);
+  Result := FDweettaAPI.Statuses_friends_timeline(DateTimeToInternetTime(since), 0, 0, 0, 0, FResponseInfo);
 end;
 
 function TDweetta.StatusesFriendsTimeline(count: Integer): TDweettaStatusElementList;
@@ -182,7 +194,7 @@ end;
 
 function TDweetta.StatusesUserTimeline(id: Integer; since: TDateTime): TDweettaStatusElementList;
 begin
-  Result := FDweettaAPI.Statuses_user_timeline(IntToStr(id), 0, '', 0, 0, 0, DateTimeToInternet(since), FResponseInfo);
+  Result := FDweettaAPI.Statuses_user_timeline(IntToStr(id), 0, '', 0, 0, 0, DateTimeToInternetTime(since), FResponseInfo);
 end;
 
 function TDweetta.StatusesUserTimeline(screen_name: String): TDweettaStatusElementList;
@@ -202,12 +214,12 @@ end;
 
 function TDweetta.StatusesUserTimeline(screen_name: String; since: TDateTime): TDweettaStatusElementList;
 begin
-  Result := FDweettaAPI.Statuses_user_timeline('', 0, screen_name, 0, 0, 0, DateTimeToInternet(since), FResponseInfo);
+  Result := FDweettaAPI.Statuses_user_timeline('', 0, screen_name, 0, 0, 0, DateTimeToInternetTime(since), FResponseInfo);
 end;
 
 function TDweetta.StatusesUserTimeline(since: TDateTime): TDweettaStatusElementList;
 begin
-  Result := FDweettaAPI.Statuses_user_timeline('', 0, '', 0, 0, 0, DateTimeToInternet(since), FResponseInfo);
+  Result := FDweettaAPI.Statuses_user_timeline('', 0, '', 0, 0, 0, DateTimeToInternetTime(since), FResponseInfo);
 end;
 
 function TDweetta.StatusesShow(id: Integer): TDweettaStatusElement;
