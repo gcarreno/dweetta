@@ -147,7 +147,7 @@ begin
   FDweettaAPI := TDweettaAPI.Create;
   FDweettaAPI.User := FUser;
   FDweettaAPI.Password := FPassword;
-  FDweettaAPI.UserAgent := 'Dweetta/0.1 (http://www.assembla.com/spaces/Dweetta)';
+  FDweettaAPI.UserAgent := 'Dweetta/0.1 (http://dweetta.assembla.com)';
   FDweettaAPI.Server := 'twitter.com';
 end;
 

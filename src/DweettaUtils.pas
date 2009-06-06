@@ -34,18 +34,28 @@ uses
 
 implementation
 
+{$IFDEF WIN32}
 uses
   Windows;
+{$ELSE}
+
+{$ENDIF ~WIN32}
 
 function DateTimeToInternetTime(const aDateTime: TDateTime): String;
+{$IFDEF WIN32}
 var
   LocalTimeZone: TTimeZoneInformation;
+{$ENDIF ~WIN32}
 begin
+{$IFDEF WIN32}
   // eg. Sun, 06 Nov 1994 08:49:37 GMT  RFC 822, updated by 1123
   Result := FormatDateTime('ddd, dd mmm yyyy hh:nn:ss', aDateTime);
   // Get the Local Time Zone Bias and report as GMT +/-Bias
   GetTimeZoneInformation(LocalTimeZone);
   Result := Result + 'GMT ' + IntToStr(LocalTimeZone.Bias div 60);
+{$ELSE}
+  Result := 'Staurday, 06 June 2009 18:00:00 GMT 0000';
+{$ENDIF ~WIN32}
 end;
 
 function InternetTimeToDateTime(const aInternetTime: String): TDateTime;
