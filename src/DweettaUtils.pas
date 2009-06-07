@@ -54,7 +54,7 @@ begin
   GetTimeZoneInformation(LocalTimeZone);
   Result := Result + 'GMT ' + IntToStr(LocalTimeZone.Bias div 60);
 {$ELSE}
-  Result := 'Staurday, 06 June 2009 18:00:00 GMT 0000';
+  Result := 'Sat, 06 Jun 2009 18:00:00 GMT 0000';
 {$ENDIF ~WIN32}
 end;
 

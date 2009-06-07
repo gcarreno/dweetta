@@ -32,6 +32,7 @@ type
 { TDweettaServices }
 
   TDweettaServices = (
+      { Statuses }
     tsStatusesPublicTimeline,
     tsStatusesFriendsTimeline,
     tsStatusesUserTimeline,
@@ -39,18 +40,23 @@ type
     tsStatusesUpdate,
     tsStatusesReplies,
     tsStatusesDestroy,
+      { Users }
     tsUsersFriends,
     tsUsersFollowers,
     tsUsersShow,
+      { Direct Messages }
     tsDirectMessagesDirectMessages,
     tsDirectMessagesSent,
     tsDirectMessagesNew,
     tsDirectMessagesDestroy,
-    tsFrienshipsCreate,
+      { Friendship }
+    tsFriendshipsCreate,
     tsFriendshipsDestroy,
     tsFriendshipsExists,
     tsFriendsIds,
+      { Followers }
     tsFollowersIds,
+      { Account }
     tsAccountVerifyCredentials,
     tsAccountEndSession,
     tsAccountUpdateLocation,
@@ -60,38 +66,48 @@ type
     tsAccountUpdateProfileBackgroundImage,
     tsAccountRateLimitStatus,
     tsAccountUpdateProfile,
+      { Favorites }
     tsFavoritesFavorites,
     tsFavoritesCreate,
     tsFavoritesDestroy,
+      { Notifications }
     tsNotificationsFollow,
     tsNotificationsLeave,
+      { Blocks }
     tsBlocksCreate,
     tsBlocksDestroy,
+      { Help }
     tsHelpTest);
 
 { cDweettaServiceEndPoints }
 const
   cDweettaServiceEndPoints:
     array[tsStatusesPublicTimeline..tsHelpTest] of String =
-    ('/statuses/public_timeline',
+    (  { Statuses }
+     '/statuses/public_timeline',
      '/statuses/friends_timeline',
      '/statuses/user_timeline',
      '/statuses/show',
      '/statuses/update',
      '/statuses/replies',
      '/statuses/destroy',
+       { Users }
      '/statuses/friends',
      '/statuses/followers',
      '/users/show',
+       { Direct Messages }
      '/direct_messages',
      '/direct_messages/sent',
      '/direct_messages/new',
      '/direct_messages/destroy',
+       { Friendship }
      '/friendships/create',
      '/friendships/destroy',
      '/friendships/exists',
      '/friends/ids',
+        { Followers }
      '/followers/ids',
+       { Account }
      '/account/verify_credentials',
      '/account/end_session',
      '/account/update_location',
@@ -101,13 +117,17 @@ const
      '/account/update_profile_background_image',
      '/account/rate_limit_status',
      '/account/update_profile',
+       { Favorites }
      '/favorites',
      '/favorites/create',
-     'favorites/destroy',
+     '/favorites/destroy',
+       { Notifications }
      '/notifications/follow',
      '/notifications/leave',
+       { Blocks }
      '/blocks/create',
      '/blocks/destroy',
+       { Help }
      '/help/test');
 
 type
