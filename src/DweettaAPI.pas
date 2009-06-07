@@ -368,8 +368,24 @@ function TDweettaAPI.Users_friends(id: String; user_id: Integer;
   screen_name: String; page: Integer; out ResponseInfo: TDweettaResponseInfo): TDweettaUserElementList;
 begin
   FParams.Clear;
+  if id <> '' then
+  begin
+    FParams.Add('id=' + id);
+  end;
+  if user_id <> 0 then
+  begin
+    FParams.Add('user_id=' + IntToStr(user_id));
+  end;
+  if screen_name <> '' then
+  begin
+    FParams.Add('screen_name=' + screen_name);
+  end;
+  if page <> 0 then
+  begin
+    FParams.Add('page=' + IntToStr(page));
+  end;
   Result := TDweettaUserElementList.Create;
-  //Result.LoadFromString(FDweettaTransport.Get(tsStatusesPublicTimeline, FParams, FResponseInfo));
+  Result.LoadFromString(FDweettaTransport.Get(tsUsersFriends, FParams, FResponseInfo));
   ResponseInfo := FResponseInfo;
 end;
 

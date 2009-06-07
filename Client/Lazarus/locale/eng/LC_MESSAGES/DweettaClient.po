@@ -10,7 +10,7 @@ msgid "S&ettings"
 msgstr ""
 
 #: TFRMMAIN.CAPTION
-msgid "Dweetta Client v0.1.0.42"
+msgid "Dweetta Simple Client v0.1.0.42"
 msgstr ""
 
 #: TFRMSETTINGS.BTNCANCEL.CAPTION

@@ -1,9 +1,9 @@
 object frmMain: TfrmMain
-  Left = 287
+  Left = 321
   Height = 561
-  Top = 114
+  Top = 148
   Width = 599
-  Caption = 'Dweetta Client v0.1.0.42'
+  Caption = 'Dweetta Simple Client v0.1.0.48'
   ClientHeight = 561
   ClientWidth = 599
   OnCreate = FormCreate

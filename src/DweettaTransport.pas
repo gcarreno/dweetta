@@ -156,7 +156,7 @@ begin
 
   case Service of
     tsStatusesPublicTimeline, tsStatusesFriendsTimeline,
-    tsStatusesUserTimeline, tsStatusesReplies:begin
+    tsStatusesUserTimeline, tsStatusesReplies, tsUsersFriends:begin
       URI := FServer + cDweettaServiceEndPoints[Service] + FFormat;
       if (Assigned(Params)) and (Params.Count > 0) then
       begin
