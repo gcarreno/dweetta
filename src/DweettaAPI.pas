@@ -512,25 +512,52 @@ function TDweettaAPI.Friendships_create(id: String; follow: Boolean;
   out ResponseInfo: TDweettaResponseInfo): TDweettaUserElement;
 begin
   FParams.Clear;
+  if id <> '' then
+  begin
+    FParams.Add('id=' + id);
+  end;
+  if follow then
+  begin
+    FParams.Add('follow=true');
+  end
+  else
+  begin
+    FParams.Add('follow=false');
+  end;
   Result := TDweettaUserElement.Create;
-  //Result.LoadFromString(FDweettaTransport.Get(tsStatusesPublicTimeline, FParams, FResponseInfo));
+  Result.LoadFromString(FDweettaTransport.Post(tsFriendshipsCreate, FParams, FResponseInfo));
   ResponseInfo := FResponseInfo;
 end;
 
 function TDweettaAPI.Friendships_destroy(id: String; out ResponseInfo: TDweettaResponseInfo): TDweettaUserElement;
 begin
   FParams.Clear;
+  if id <> '' then
+  begin
+    FParams.Add('id=' + id);
+  end;
   Result := TDweettaUserElement.Create;
-  //Result.LoadFromString(FDweettaTransport.Get(tsStatusesPublicTimeline, FParams, FResponseInfo));
+  Result.LoadFromString(FDweettaTransport.Delete(tsFriendshipsDestroy, FParams, FResponseInfo));
   ResponseInfo := FResponseInfo;
 end;
 
 function TDweettaAPI.Friendships_exists(user_a: String; user_b: String;
   out ResponseInfo: TDweettaResponseInfo): Boolean;
+var
+  OutString: String;
 begin
   FParams.Clear;
+  if user_a <> '' then
+  begin
+    FParams.Add('user_a=' + user_a);
+  end;
+  if user_b <> '' then
+  begin
+    FParams.Add('user_b=' + user_b);
+  end;
   Result := False;
-  //Result.LoadFromString(FDweettaTransport.Get(tsStatusesPublicTimeline, FParams, FResponseInfo));
+  OutString := FDweettaTransport.Get(tsFriendshipsExists, FParams, FResponseInfo);
+  Result := OutString = 'true';
   ResponseInfo := FResponseInfo;
 end;
 
