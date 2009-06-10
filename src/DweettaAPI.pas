@@ -565,8 +565,21 @@ function TDweettaAPI.Friends_ids(id: String; user_id: Integer;
   screen_name: String; out ResponseInfo: TDweettaResponseInfo): String;
 begin
   FParams.Clear;
+  if id <> '' then
+  begin
+    FParams.Add('id=' + id);
+  end;
+  if user_id <> 0 then
+  begin
+    FParams.Add('user_id=' + IntToStr(user_id));
+  end;
+  if screen_name <> '' then
+  begin
+    FParams.Add('screen_name=' + screen_name);
+  end;
+  { TODO 0 -ogcarreno -cRefacturing : This needs to return an array of Integers }
   Result := '';
-  //Result.LoadFromString(FDweettaTransport.Get(tsStatusesPublicTimeline, FParams, FResponseInfo));
+  Result := FDweettaTransport.Get(tsFriendsIds, FParams, FResponseInfo);
   ResponseInfo := FResponseInfo;
 end;
 
@@ -574,8 +587,21 @@ function TDweettaAPI.Followers_ids(id: String; user_id: Integer;
   screen_name: String; out ResponseInfo: TDweettaResponseInfo): String;
 begin
   FParams.Clear;
+  if id <> '' then
+  begin
+    FParams.Add('id=' + id);
+  end;
+  if user_id <> 0 then
+  begin
+    FParams.Add('user_id=' + IntToStr(user_id));
+  end;
+  if screen_name <> '' then
+  begin
+    FParams.Add('screen_name=' + screen_name);
+  end;
+  { TODO 0 -ogcarreno -cRefacturing : This needs to return an array of Integers }
   Result := '';
-  //Result.LoadFromString(FDweettaTransport.Get(tsStatusesPublicTimeline, FParams, FResponseInfo));
+  Result := FDweettaTransport.Get(tsFollowersIds, FParams, FResponseInfo);
   ResponseInfo := FResponseInfo;
 end;
 
