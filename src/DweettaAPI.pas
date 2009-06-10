@@ -440,8 +440,20 @@ function TDweettaAPI.DirectMessages_direct_messages(since: String;
   since_id: Integer; page: Integer; out ResponseInfo: TDweettaResponseInfo): TDweettaDirectMessageElementList;
 begin
   FParams.Clear;
+  if since <> '' then
+  begin
+    FParams.Add('since=' + since);
+  end;
+  if since_id <> 0 then
+  begin
+    FParams.Add('since_id=' + IntToStr(since_id));
+  end;
+  if page <> 0 then
+  begin
+    FParams.Add('page=' + IntToStr(page));
+  end;
   Result := TDweettaDirectMessageElementList.Create;
-  //Result.LoadFromString(FDweettaTransport.Get(tsStatusesPublicTimeline, FParams, FResponseInfo));
+  Result.LoadFromString(FDweettaTransport.Get(tsDirectMessagesDirectMessages, FParams, FResponseInfo));
   ResponseInfo := FResponseInfo;
 end;
 
@@ -449,8 +461,20 @@ function TDweettaAPI.DirectMessages_sent(since: String; since_id: Integer;
   page: Integer; out ResponseInfo: TDweettaResponseInfo): TDweettaDirectMessageElementList;
 begin
   FParams.Clear;
+  if since <> '' then
+  begin
+    FParams.Add('since=' + since);
+  end;
+  if since_id <> 0 then
+  begin
+    FParams.Add('since_id=' + IntToStr(since_id));
+  end;
+  if page <> 0 then
+  begin
+    FParams.Add('page=' + IntToStr(page));
+  end;
   Result := TDweettaDirectMessageElementList.Create;
-  //Result.LoadFromString(FDweettaTransport.Get(tsStatusesPublicTimeline, FParams, FResponseInfo));
+  Result.LoadFromString(FDweettaTransport.Get(tsDirectMessagesSent, FParams, FResponseInfo));
   ResponseInfo := FResponseInfo;
 end;
 
@@ -458,8 +482,16 @@ function TDweettaAPI.DirectMessages_new(user: String; text: String;
   out ResponseInfo: TDweettaResponseInfo): TDweettaDirectMessageElement;
 begin
   FParams.Clear;
+  if user <> '' then
+  begin
+    FParams.Add('user=' + user);
+  end;
+  if text <> '' then
+  begin
+    FParams.Add('text=' + text);
+  end;
   Result := TDweettaDirectMessageElement.Create;
-  //Result.LoadFromString(FDweettaTransport.Get(tsStatusesPublicTimeline, FParams, FResponseInfo));
+  Result.LoadFromString(FDweettaTransport.Post(tsDirectMessagesNew, FParams, FResponseInfo));
   ResponseInfo := FResponseInfo;
 end;
 
@@ -467,8 +499,12 @@ function TDweettaAPI.DirectMessages_destroy(id: integer;
   out ResponseInfo: TDweettaResponseInfo): TDweettaDirectMessageElementList;
 begin
   FParams.Clear;
+  if id <> 0 then
+  begin
+    FParams.Add('id=' + IntToStr(id));
+  end;
   Result := TDweettaDirectMessageElementList.Create;
-  //Result.LoadFromString(FDweettaTransport.Get(tsStatusesPublicTimeline, FParams, FResponseInfo));
+  Result.LoadFromString(FDweettaTransport.Delete(tsDirectMessagesDestroy, FParams, FResponseInfo));
   ResponseInfo := FResponseInfo;
 end;
 

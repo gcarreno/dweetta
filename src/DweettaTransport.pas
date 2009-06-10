@@ -156,7 +156,8 @@ begin
 
   case Service of
     tsStatusesPublicTimeline, tsStatusesFriendsTimeline,
-    tsStatusesUserTimeline, tsStatusesReplies, tsUsersFriends, tsUsersFollowers:begin
+    tsStatusesUserTimeline, tsStatusesReplies, tsUsersFriends, tsUsersFollowers,
+    tsDirectMessagesDirectMessages, tsDirectMessagesSent:begin
       URI := FServer + cDweettaServiceEndPoints[Service] + FFormat;
       if (Assigned(Params)) and (Params.Count > 0) then
       begin
@@ -193,7 +194,7 @@ begin
   URI := '';
 
   case Service of
-    tsStatusesUpdate:begin
+    tsStatusesUpdate, tsDirectMessagesNew:begin
       URI := FServer + cDweettaServiceEndPoints[Service] + FFormat;
     end;
   end;
@@ -220,7 +221,7 @@ begin
   URI := '';
 
   case Service of
-    tsStatusesDestroy:begin
+    tsStatusesDestroy, tsDirectMessagesDestroy:begin
       URI := FServer + cDweettaServiceEndPoints[Service] + '/' +  Params.Values['id'] + FFormat;
       Params.Delete(Params.IndexOf('id'));
     end;
