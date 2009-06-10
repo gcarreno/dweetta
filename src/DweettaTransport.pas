@@ -156,14 +156,14 @@ begin
 
   case Service of
     tsStatusesPublicTimeline, tsStatusesFriendsTimeline,
-    tsStatusesUserTimeline, tsStatusesReplies, tsUsersFriends:begin
+    tsStatusesUserTimeline, tsStatusesReplies, tsUsersFriends, tsUsersFollowers:begin
       URI := FServer + cDweettaServiceEndPoints[Service] + FFormat;
       if (Assigned(Params)) and (Params.Count > 0) then
       begin
         URI := URI + '?' + URLEncodeParams(Params, true);
       end;
     end;
-    tsStatusesShow:begin
+    tsStatusesShow, tsUsersShow:begin
       URI := FServer + cDweettaServiceEndPoints[Service] + '/' +  Params.Values['id'] + FFormat;
       Params.Delete(Params.IndexOf('id'));
     end;

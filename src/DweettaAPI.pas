@@ -235,6 +235,7 @@ function TDweettaAPI.Statuses_friends_timeline(since: String; since_id: Integer;
   max_id: Integer; count: Integer; page: Integer; out ResponseInfo: TDweettaResponseInfo): TDweettaStatusElementList;
 begin
   FParams.Clear;
+  { TODO 1 -ogcarreno -cRefactor : Refactor params checking inside a procedure/function }
   if since <> '' then
   begin
     FParams.Add('since=' + since);
@@ -393,8 +394,24 @@ function TDweettaAPI.Users_followers(id: string; user_id: Integer;
   screen_name: String; page: Integer; out ResponseInfo: TDweettaResponseInfo): TDweettaUserElementList;
 begin
   FParams.Clear;
+  if id <> '' then
+  begin
+    FParams.Add('id=' + id);
+  end;
+  if user_id <> 0 then
+  begin
+    FParams.Add('user_id=' + IntToStr(user_id));
+  end;
+  if screen_name <> '' then
+  begin
+    FParams.Add('screen_name=' + screen_name);
+  end;
+  if page <> 0 then
+  begin
+    FParams.Add('page=' + IntToStr(page));
+  end;
   Result := TDweettaUserElementList.Create;
-  //Result.LoadFromString(FDweettaTransport.Get(tsStatusesPublicTimeline, FParams, FResponseInfo));
+  Result.LoadFromString(FDweettaTransport.Get(tsUsersFollowers, FParams, FResponseInfo));
   ResponseInfo := FResponseInfo;
 end;
 
@@ -402,8 +419,20 @@ function TDweettaAPI.Users_show(id: String; user_id: Integer;
   screen_name: String; out ResponseInfo: TDweettaResponseInfo): TDweettaUserElement;
 begin
   FParams.Clear;
+  if id <> '' then
+  begin
+    FParams.Add('id=' + id);
+  end;
+  if user_id <> 0 then
+  begin
+    FParams.Add('user_id=' + IntToStr(user_id));
+  end;
+  if screen_name <> '' then
+  begin
+    FParams.Add('screen_name=' + screen_name);
+  end;
   Result := TDweettaUserElement.Create;
-  //Result.LoadFromString(FDweettaTransport.Get(tsStatusesPublicTimeline, FParams, FResponseInfo));
+  Result.LoadFromString(FDweettaTransport.Get(tsUsersShow, FParams, FResponseInfo));
   ResponseInfo := FResponseInfo;
 end;
 
