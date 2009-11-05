@@ -16,6 +16,11 @@
  *   http://oss.metaparadigm.com/json-c/
  *
  *  CHANGES:
+ *  v1.2
+ *   + support of currency data type
+ *   + right trim unquoted string
+ *   + read Unicode Files and streams (Litle Endian with BOM)
+ *   + Fix bug on javadate functions
  *  v1.1
  *   + Double licence MPL or LGPL.
  *   + Delphi 2009 compatibility & Unicode support.
@@ -74,12 +79,16 @@
 {$DEFINE SUPER_METHOD}
 {.$DEFINE DEBUG} // track memory leack
 {$DEFINE UNICODE} // not needed since delphi 2009
-{.$UNDEF UNICODE} // possible :)
 
 unit superobject;
 
 interface
-uses Classes;
+uses
+  Classes
+{$IFDEF VER210}
+  ,Generics.Collections, RTTI, TypInfo
+{$ENDIF}
+  ;
 
 type
 {$IFNDEF FPC}
@@ -203,6 +212,8 @@ type
     function GetM(const k: SOString): TSuperMethod;
     procedure PutN(const k: SOString; const value: ISuperObject);
     function GetN(const k: SOString): ISuperObject;
+    procedure PutC(const k: SOString; value: Currency);
+    function GetC(const k: SOString): Currency;
   public
     property O[const k: SOString]: ISuperObject read GetO write PutO; default;
     property S[const k: SOString]: SOString read GetS write PutS;
@@ -211,6 +222,7 @@ type
     property B[const k: SOString]: Boolean read GetB write PutB;
     property M[const k: SOString]: TSuperMethod read GetM write PutM;
     property N[const k: SOString]: ISuperObject read GetN write PutN;
+    property C[const k: SOString]: Currency read GetC write PutC;
 
     function GetValues: ISuperObject;
     function GetNames: ISuperObject;
@@ -253,6 +265,8 @@ type
     procedure PutI(const index: integer; Value: SuperInt);
     function GetD(const index: integer): Double;
     procedure PutD(const index: integer; Value: Double);
+    function GetC(const index: integer): Currency;
+    procedure PutC(const index: integer; Value: Currency);
     function GetS(const index: integer): SOString;
     procedure PutS(const index: integer; const Value: SOString);
 {$IFDEF SUPER_METHOD}
@@ -276,6 +290,7 @@ type
     property B[const index: integer]: boolean read GetB write PutB;
     property I[const index: integer]: SuperInt read GetI write PutI;
     property D[const index: integer]: Double read GetD write PutD;
+    property C[const index: integer]: Currency read GetC write PutC;
     property S[const index: integer]: SOString read GetS write PutS;
 {$IFDEF SUPER_METHOD}
     property M[const index: integer]: TSuperMethod read GetM write PutM;
@@ -303,6 +318,7 @@ type
     procedure TrimRight;
     constructor Create; virtual;
     destructor Destroy; override;
+    function GetString: SOString;
     property Data: PSOChar read FBuf;
     property Size: Integer read FSize;
     property Position: integer read FBPos;
@@ -412,11 +428,12 @@ type
   public
     str: PSOChar;
     pb: TSuperWriterString;
-    depth, is_double, st_pos, char_offset: Integer;
+    depth, is_double, floatcount, st_pos, char_offset: Integer;
     err:  TSuperTokenizerError;
     ucs_char: Word;
     quote_char: SOChar;
     stack: array[0..SUPER_TOKENER_MAX_DEPTH-1] of TSuperTokenerSrec;
+    line, col: Integer;
   public
     constructor Create; virtual;
     destructor Destroy; override;
@@ -429,6 +446,7 @@ type
     stNull,
     stBoolean,
     stDouble,
+    stCurrency,
     stInt,
     stObject,
     stArray,
@@ -492,6 +510,8 @@ type
     function GetI(const path: SOString): SuperInt;
     procedure PutI(const path: SOString; Value: SuperInt);
     function GetD(const path: SOString): Double;
+    procedure PutC(const path: SOString; Value: Currency);
+    function GetC(const path: SOString): Currency;
     procedure PutD(const path: SOString; Value: Double);
     function GetS(const path: SOString): SOString;
     procedure PutS(const path: SOString; const Value: SOString);
@@ -516,6 +536,7 @@ type
     function AsBoolean: Boolean;
     function AsInteger: SuperInt;
     function AsDouble: Double;
+    function AsCurrency: Currency;
     function AsString: SOString;
     function AsArray: TSuperArray;
     function AsObject: TSuperTableString;
@@ -532,6 +553,7 @@ type
     property B[const path: SOString]: boolean read GetB write PutB;
     property I[const path: SOString]: SuperInt read GetI write PutI;
     property D[const path: SOString]: Double read GetD write PutD;
+    property C[const path: SOString]: Currency read GetC write PutC;
     property S[const path: SOString]: SOString read GetS write PutS;
 {$IFDEF SUPER_METHOD}
     property M[const path: SOString]: TSuperMethod read GetM write PutM;
@@ -573,10 +595,12 @@ type
     FProcessing: boolean;
     FDataType: TSuperType;
     FDataPtr: Pointer;
+{$if true}
     FO: record
       case TSuperType of
         stBoolean: (c_boolean: boolean);
         stDouble: (c_double: double);
+        stCurrency: (c_currency: Currency);
         stInt: (c_int: SuperInt);
         stObject: (c_object: TSuperTableString);
         stArray: (c_array: TSuperArray);
@@ -584,6 +608,7 @@ type
         stMethod: (c_method: TSuperMethod);
 {$ENDIF}
       end;
+{$ifend}
     FOString: SOString;
     function GetDataType: TSuperType;
     function GetDataPtr: Pointer;
@@ -601,6 +626,8 @@ type
     procedure PutI(const path: SOString; Value: SuperInt);
     function GetD(const path: SOString): Double;
     procedure PutD(const path: SOString; Value: Double);
+    procedure PutC(const path: SOString; Value: Currency);
+    function GetC(const path: SOString): Currency;
     function GetS(const path: SOString): SOString;
     procedure PutS(const path: SOString; const Value: SOString);
 {$IFDEF SUPER_METHOD}
@@ -627,13 +654,13 @@ type
     function AsJSon(indent: boolean = false; escape: boolean = true): SOString;
 
     // parser  ... owned!
-    class function ParseString(s: PSOChar; partial: boolean = true; const this: ISuperObject = nil; options: TSuperFindOptions = [];
+    class function ParseString(s: PSOChar; strict: Boolean; partial: boolean = true; const this: ISuperObject = nil; options: TSuperFindOptions = [];
        const put: ISuperObject = nil; dt: TSuperType = stNull): ISuperObject;
-    class function ParseStream(stream: TStream; partial: boolean = true; const this: ISuperObject = nil; options: TSuperFindOptions = [];
+    class function ParseStream(stream: TStream; strict: Boolean; partial: boolean = true; const this: ISuperObject = nil; options: TSuperFindOptions = [];
        const put: ISuperObject = nil; dt: TSuperType = stNull): ISuperObject;
-    class function ParseFile(const FileName: string; partial: boolean = true; const this: ISuperObject = nil; options: TSuperFindOptions = [];
+    class function ParseFile(const FileName: string; strict: Boolean; partial: boolean = true; const this: ISuperObject = nil; options: TSuperFindOptions = [];
        const put: ISuperObject = nil; dt: TSuperType = stNull): ISuperObject;
-    class function ParseEx(tok: TSuperTokenizer; str: PSOChar; len: integer; const this: ISuperObject = nil;
+    class function ParseEx(tok: TSuperTokenizer; str: PSOChar; len: integer; strict: Boolean; const this: ISuperObject = nil;
       options: TSuperFindOptions = []; const put: ISuperObject = nil; dt: TSuperType = stNull): ISuperObject;
 
     // constructors / destructor
@@ -641,6 +668,7 @@ type
     constructor Create(b: boolean); overload; virtual;
     constructor Create(i: SuperInt); overload; virtual;
     constructor Create(d: double); overload; virtual;
+    constructor CreateCurrency(c: Currency); overload; virtual;
     constructor Create(const s: SOString); overload; virtual;
 {$IFDEF SUPER_METHOD}
     constructor Create(m: TSuperMethod); overload; virtual;
@@ -651,6 +679,7 @@ type
     function AsBoolean: Boolean; virtual;
     function AsInteger: SuperInt; virtual;
     function AsDouble: Double; virtual;
+    function AsCurrency: Currency; virtual;
     function AsString: SOString; virtual;
     function AsArray: TSuperArray; virtual;
     function AsObject: TSuperTableString; virtual;
@@ -669,6 +698,7 @@ type
     property B[const path: SOString]: boolean read GetB write PutB;
     property I[const path: SOString]: SuperInt read GetI write PutI;
     property D[const path: SOString]: Double read GetD write PutD;
+    property C[const path: SOString]: Currency read GetC write PutC;
     property S[const path: SOString]: SOString read GetS write PutS;
 {$IFDEF SUPER_METHOD}
     property M[const path: SOString]: TSuperMethod read GetM write PutM;
@@ -702,6 +732,29 @@ type
     property Processing: boolean read GetProcessing;
   end;
 
+{$IFDEF VER210}
+  TSerialFromJson = function(const obj: ISuperObject; var Value: TValue): Boolean;
+  TSerialToJson = function(var value: TValue; const index: ISuperObject): ISuperObject;
+
+  TSuperRttiContext = class
+  public
+    Context: TRttiContext;
+    SerialFromJson: TDictionary<PTypeInfo, TSerialFromJson>;
+    SerialToJson: TDictionary<PTypeInfo, TSerialToJson>;
+    constructor Create; virtual;
+    destructor Destroy; override;
+    function FromJson(TypeInfo: PTypeInfo; const obj: ISuperObject; var Value: TValue): Boolean; virtual;
+    function ToJson(var value: TValue; const index: ISuperObject): ISuperObject; virtual;
+  end;
+
+  TSuperObjectHelper = class helper for TObject
+  public
+    function ToJson(ctx: TSuperRttiContext = nil): ISuperObject;
+    constructor FromJson(const obj: ISuperObject; ctx: TSuperRttiContext = nil); overload;
+    constructor FromJson(const str: string; ctx: TSuperRttiContext = nil); overload;
+  end;
+{$ENDIF}
+
   TSuperObjectIter = record
     key: SOString;
     val: ISuperObject;
@@ -725,10 +778,16 @@ function SA(const Args: array of const): ISuperObject; overload;
 function JavaToDelphiDateTime(const dt: int64): TDateTime;
 function DelphiToJavaDateTime(const dt: TDateTime): int64;
 
+{$IFDEF VER210}
+function TrySOInvoke(var ctx: TSuperRttiContext; const obj: TValue; const method: string; const params: ISuperObject; var Return: ISuperObject): Boolean; overload;
+function SOInvoke(const obj: TValue; const method: string; const params: ISuperObject; ctx: TSuperRttiContext = nil): ISuperObject; overload;
+function SOInvoke(const obj: TValue; const method: string; const params: string; ctx: TSuperRttiContext = nil): ISuperObject; overload;
+{$ENDIF}
+
 implementation
 uses sysutils,
 {$IFDEF UNIX}
-  baseunix, unix
+  baseunix, unix, DateUtils
 {$ELSE}
   Windows
 {$ENDIF}
@@ -756,6 +815,7 @@ const
   ESC_QUOT: PSOChar = '\"';
   ESC_SL: PSOChar = '\\';
   ESC_SR: PSOChar = '\/';
+  ESC_ZERO: PSOChar = '\u0000';
 
   TOK_CRLF: PSOChar = #13#10;
   TOK_SP: PSOChar = #32;
@@ -843,6 +903,40 @@ begin
 end;
 {$ifend}
 
+function CurrToStr(c: Currency): SOString;
+var
+  p: PSOChar;
+  i, len: Integer;
+begin
+  Result := IntToStr(PInt64(@c)^);
+  len := Length(Result);
+  p := PSOChar(Result);
+  inc(p, len-1);
+  i := 0;
+  if c <> 0 then
+  repeat
+    if p^ <> '0' then
+    begin
+      len := len - i + 1;
+      repeat
+        p[1] := p^;
+        dec(p);
+        inc(i);
+      until i > 3;
+      Break;
+    end;
+    dec(p);
+    inc(i);
+    if i > 3 then
+    begin
+      len := len - i + 1;
+      Break;
+    end;
+  until false;
+  p[1] := '.';
+  SetLength(Result, len);
+end;
+
 {$IFDEF UNIX}
   {$linklib c}
 {$ENDIF}
@@ -850,38 +944,79 @@ function gcvt(value: Double; ndigit: longint; buf: PAnsiChar): PAnsiChar; cdecl;
   external {$IFDEF MSWINDOWS} 'msvcrt.dll' name '_gcvt'{$ENDIF};
 
 {$IFDEF UNIX}
-function GetTimeBias: integer;
+type
+  ptm = ^tm;
+  tm = record
+    tm_sec: Integer;		(* Seconds: 0-59 (K&R says 0-61?) *)
+    tm_min: Integer;		(* Minutes: 0-59 *)
+    tm_hour: Integer;	(* Hours since midnight: 0-23 *)
+    tm_mday: Integer;	(* Day of the month: 1-31 *)
+    tm_mon: Integer;		(* Months *since* january: 0-11 *)
+    tm_year: Integer;	(* Years since 1900 *)
+    tm_wday: Integer;	(* Days since Sunday (0-6) *)
+    tm_yday: Integer;	(* Days since Jan. 1: 0-365 *)
+    tm_isdst: Integer;	(* +1 Daylight Savings Time, 0 No DST, -1 don't know *)
+  end;
+
+function mktime(p: ptm): LongInt; cdecl; external;
+function gmtime(const t: PLongint): ptm; cdecl; external;
+function localtime (const t: PLongint): ptm; cdecl; external;
+
+function DelphiToJavaDateTime(const dt: TDateTime): Int64;
 var
-  TimeVal: TTimeVal;
-  TimeZone: TTimeZone;
+  p: ptm;
+  l, ms: Integer;
+  v: Int64;
 begin
-  fpGetTimeOfDay(@TimeVal, @TimeZone);
-  Result := TimeZone.tz_minuteswest;
+  v := Round((dt - 25569) * 86400000);
+  ms := v mod 1000;
+  l := v div 1000;
+  p := localtime(@l);
+  Result := Int64(mktime(p)) * 1000 + ms;
 end;
-{$ELSE}
-function GetTimeBias: integer;
-var
-  tzi : TTimeZoneInformation;
-begin
-  if GetTimeZoneInformation (tzi) = TIME_ZONE_ID_DAYLIGHT then
-    Result := tzi.Bias + tzi.DaylightBias else
-    Result := tzi.Bias;
-end;
-{$ENDIF}
 
 function JavaToDelphiDateTime(const dt: int64): TDateTime;
+var
+  p: ptm;
+  l, ms: Integer;
 begin
-  Result := 25569 + ((dt - (GetTimeBias * 60000)) / 86400000);
+  l := dt div 1000;
+  ms := dt mod 1000;
+  p := gmtime(@l);
+  Result := EncodeDateTime(p^.tm_year+1900, p^.tm_mon+1, p^.tm_mday, p^.tm_hour, p^.tm_min, p^.tm_sec, ms);
+end;
+{$ELSE}
+function TzSpecificLocalTimeToSystemTime(
+  lpTimeZoneInformation: PTimeZoneInformation;
+  lpLocalTime, lpUniversalTime: PSystemTime): BOOL; stdcall; external 'kernel32';
+
+function SystemTimeToTzSpecificLocalTime(
+  lpTimeZoneInformation: PTimeZoneInformation;
+  lpUniversalTime, lpLocalTime: PSystemTime): BOOL; stdcall; external 'kernel32';
+
+function JavaToDelphiDateTime(const dt: int64): TDateTime;
+var
+  t: TSystemTime;
+begin
+  DateTimeToSystemTime(25569 + (dt / 86400000), t);
+  SystemTimeToTzSpecificLocalTime(nil, @t, @t);
+  Result := SystemTimeToDateTime(t);
 end;
 
 function DelphiToJavaDateTime(const dt: TDateTime): int64;
+var
+  t: TSystemTime;
 begin
-  Result := Round((dt - 25569) * 86400000) + (GetTimeBias * 60000);
+  DateTimeToSystemTime(dt, t);
+  TzSpecificLocalTimeToSystemTime(nil, @t, @t);
+  Result := Round((SystemTimeToDateTime(t) - 25569) * 86400000)
 end;
+{$ENDIF}
+
 
 function SO(const s: SOString): ISuperObject; overload;
 begin
-  Result := TSuperObject.ParseString(PSOChar(s));
+  Result := TSuperObject.ParseString(PSOChar(s), False);
 end;
 
 function SA(const Args: array of const): ISuperObject; overload;
@@ -902,7 +1037,7 @@ begin
       vtChar    : Add(TSuperObject.Create(SOString(TVarRec(Args[j]).VChar)));
       vtWideChar: Add(TSuperObject.Create(SOChar(TVarRec(Args[j]).VWideChar)));
       vtExtended: Add(TSuperObject.Create(TVarRec(Args[j]).VExtended^));
-      vtCurrency: Add(TSuperObject.Create(TVarRec(Args[j]).VCurrency^));
+      vtCurrency: Add(TSuperObject.CreateCurrency(TVarRec(Args[j]).VCurrency^));
       vtString  : Add(TSuperObject.Create(SOString(TVarRec(Args[j]).VString^)));
       vtPChar   : Add(TSuperObject.Create(SOString(TVarRec(Args[j]).VPChar^)));
       vtAnsiString: Add(TSuperObject.Create(SOString(AnsiString(TVarRec(Args[j]).VAnsiString))));
@@ -929,8 +1064,6 @@ begin
           Add(TSuperObject.Create(PtrInt(TVarRec(Args[j]).VPointer)));
 {$if declared(vtUnicodeString)}
       vtUnicodeString:
-        if TVarRec(Args[j]).VUnicodeString = nil then
-          Add(nil) else
           Add(TSuperObject.Create(SOString(string(TVarRec(Args[j]).VUnicodeString))));
 {$ifend}
     else
@@ -960,7 +1093,7 @@ begin
     varInteger:  Result := TSuperObject.Create(VInteger);
     varSingle:   Result := TSuperObject.Create(VSingle);
     varDouble:   Result := TSuperObject.Create(VDouble);
-    varCurrency: Result := TSuperObject.Create(VCurrency);
+    varCurrency: Result := TSuperObject.CreateCurrency(VCurrency);
     varDate:     Result := TSuperObject.Create(DelphiToJavaDateTime(vDate));
     varOleStr:   Result := TSuperObject.Create(SOString(VOleStr));
     varBoolean:  Result := TSuperObject.Create(VBoolean);
@@ -1037,6 +1170,102 @@ begin
   F.Ite.Free;
   F.val := nil;
 end;
+
+{$IFDEF VER210}
+function SOInvoke(const obj: TValue; const method: string; const params: ISuperObject; ctx: TSuperRttiContext): ISuperObject; overload;
+var
+  owned: Boolean;
+begin
+  if ctx = nil then
+  begin
+    ctx := TSuperRttiContext.Create;
+    owned := True;
+  end else
+    owned := False;
+  try
+    if not TrySOInvoke(ctx, obj, method, params, Result) then
+      raise Exception.Create('Invalid method call');
+  finally
+    if owned then
+      ctx.Free;
+  end;
+end;
+
+function SOInvoke(const obj: TValue; const method: string; const params: string; ctx: TSuperRttiContext): ISuperObject; overload;
+begin
+  Result := SOInvoke(obj, method, so(params), ctx)
+end;
+
+function TrySOInvoke(var ctx: TSuperRttiContext; const obj: TValue; const method: string; const params: ISuperObject; var Return: ISuperObject): Boolean;
+var
+  t: TRttiInstanceType;
+  m: TRttiMethod;
+  a: TArray<TValue>;
+  ps: TArray<TRttiParameter>;
+  v: TValue;
+
+  function GetParams: Boolean;
+  var
+    i: Integer;
+  begin
+    case ObjectGetType(params) of
+      stArray:
+        for i := 0 to Length(ps) - 1 do
+          if not ctx.FromJson(ps[i].ParamType.Handle, params.AsArray[i], a[i]) then
+            Exit(False);
+      stObject:
+        for i := 0 to Length(ps) - 1 do
+          if not ctx.FromJson(ps[i].ParamType.Handle, params.AsObject[ps[i].Name], a[i]) then
+            Exit(False);
+      stNull: ;
+    else
+      Exit(False);
+    end;
+    Result := True;
+  end;
+begin
+  Result := True;
+  case obj.Kind of
+    tkClass:
+      begin
+        t := TRttiInstanceType(ctx.Context.GetType(obj.AsObject.ClassType));
+        m := t.GetMethod(method);
+        if m = nil then Exit(False);
+        ps := m.GetParameters;
+        SetLength(a, Length(ps));
+        if not GetParams then Exit(False);
+        if m.IsClassMethod then
+        begin
+          v := m.Invoke(obj.AsObject.ClassType, a);
+          Return := ctx.ToJson(v, SO);
+        end else
+        begin
+          v := m.Invoke(obj, a);
+          Return := ctx.ToJson(v, SO);
+        end;
+      end;
+    tkClassRef:
+      begin
+        t := TRttiInstanceType(ctx.Context.GetType(obj.AsClass));
+        m := t.GetMethod(method);
+        if m = nil then Exit(False);
+        ps := m.GetParameters;
+        SetLength(a, Length(ps));
+
+        if not GetParams then Exit(False);
+        if m.IsClassMethod then
+        begin
+          v := m.Invoke(obj, a);
+          Return := ctx.ToJson(v, SO);
+        end else
+          Exit(False);
+      end;
+  else
+    Exit(False);
+  end;
+end;
+
+{$ENDIF}
 
 { TSuperEnumerator }
 
@@ -1120,6 +1349,12 @@ begin
   FO.c_double := d;
 end;
 
+constructor TSuperObject.CreateCurrency(c: Currency);
+begin
+  Create(stCurrency);
+  FO.c_currency := c;
+end;
+
 destructor TSuperObject.Destroy;
 begin
 {$IFDEF DEBUG}
@@ -1133,7 +1368,7 @@ begin
 end;
 
 function TSuperObject.Write(writer: TSuperWriter; indent: boolean; escape: boolean; level: integer): Integer;
-function DoEscape(str: PSOChar): Integer;
+function DoEscape(str: PSOChar; len: Integer): Integer;
 var
   pos, start_offset: Integer;
   c: SOChar;
@@ -1154,10 +1389,10 @@ type
     end;
     pos := 0; start_offset := 0;
     with writer do
-    repeat
+    while pos < len do
+    begin
       c := str[pos];
       case c of
-        #0: break;
         #8,#9,#10,#12,#13,'"','\','/':
           begin
             if(pos - start_offset > 0) then
@@ -1207,13 +1442,13 @@ type
         end else
           inc(pos);
       end;
-    until c = #0;
+    end;
     if(pos - start_offset > 0) then
       writer.Append(str + start_offset, pos - start_offset);
     Result := 0;
   end;
 
-function DoMinimalEscape(str: PSOChar): Integer;
+function DoMinimalEscape(str: PSOChar; len: Integer): Integer;
 var
   pos, start_offset: Integer;
   c: SOChar;
@@ -1233,24 +1468,46 @@ type
     end;
     pos := 0; start_offset := 0;
     with writer do
-    repeat
+    while pos < len do
+    begin
       c := str[pos];
       case c of
-        #0: break;
-        '"','\','/':
+        #0:
           begin
             if(pos - start_offset > 0) then
               Append(str + start_offset, pos - start_offset);
-            if (c = '"') then Append(ESC_QUOT, 2)
-            else if (c = '\') then Append(ESC_SL, 2)
-            else if (c = '/') then Append(ESC_SR, 2);
+            Append(ESC_ZERO, 6);
+            inc(pos);
+            start_offset := pos;
+          end;
+        '"':
+          begin
+            if(pos - start_offset > 0) then
+              Append(str + start_offset, pos - start_offset);
+            Append(ESC_QUOT, 2);
+            inc(pos);
+            start_offset := pos;
+          end;
+        '\':
+          begin
+            if(pos - start_offset > 0) then
+              Append(str + start_offset, pos - start_offset);
+            Append(ESC_SL, 2);
+            inc(pos);
+            start_offset := pos;
+          end;
+        '/':
+          begin
+            if(pos - start_offset > 0) then
+              Append(str + start_offset, pos - start_offset);
+            Append(ESC_SR, 2);
             inc(pos);
             start_offset := pos;
           end;
       else
         inc(pos);
       end;
-    until c = #0;
+    end;
     if(pos - start_offset > 0) then
       writer.Append(str + start_offset, pos - start_offset);
     Result := 0;
@@ -1312,8 +1569,8 @@ begin
                 if indent then _indent(0, true);
                 Append(TOK_DQT, 1);
                 if escape then
-                  doEscape(PSOChar(iter.key)) else
-                  DoMinimalEscape(PSOChar(iter.key));
+                  doEscape(PSOChar(iter.key), Length(iter.key)) else
+                  DoMinimalEscape(PSOChar(iter.key), Length(iter.key));
                 if indent then
                   Append(ENDSTR_A, 3) else
                   Append(ENDSTR_B, 2);
@@ -1348,12 +1605,16 @@ begin
 {$ELSE}
         Result := Append(gcvt(FO.c_double, 15, fbuffer));
 {$ENDIF}
+      stCurrency:
+        begin
+          Result := Append(PSOChar(CurrToStr(FO.c_currency)));
+        end;
       stString:
         begin
           Append(TOK_DQT, 1);
           if escape then
-            doEscape(PSOChar(FOString)) else
-            DoMinimalEscape(PSOChar(FOString));
+            doEscape(PSOChar(FOString), Length(FOString)) else
+            DoMinimalEscape(PSOChar(FOString), Length(FOString));
           Append(TOK_DQT, 1);
           Result := 0;
         end;
@@ -1411,6 +1672,7 @@ begin
     stBoolean: Result := FO.c_boolean;
     stInt: Result := (FO.c_int <> 0);
     stDouble: Result := (FO.c_double <> 0);
+    stCurrency: Result := (FO.c_currency <> 0);
     stString: Result := (Length(FOString) <> 0);
     stNull: Result := False;
   else
@@ -1426,6 +1688,7 @@ begin
   case FDataType of
     stInt: Result := FO.c_int;
     stDouble: Result := round(FO.c_double);
+    stCurrency: Result := round(FO.c_currency);
     stBoolean: Result := ord(FO.c_boolean);
     stString:
       begin
@@ -1446,6 +1709,29 @@ var
 begin
   case FDataType of
     stDouble: Result := FO.c_double;
+    stCurrency: Result := FO.c_currency;
+    stInt: Result := FO.c_int;
+    stBoolean: Result := ord(FO.c_boolean);
+    stString:
+      begin
+        Val(FOString, cdouble, code);
+        if code = 0 then
+          Result := cdouble else
+          Result := 0.0;
+      end;
+  else
+    Result := 0.0;
+  end;
+end;
+
+function TSuperObject.AsCurrency: Currency;
+var
+  code: integer;
+  cdouble: double;
+begin
+  case FDataType of
+    stDouble: Result := FO.c_double;
+    stCurrency: Result := FO.c_currency;
     stInt: Result := FO.c_int;
     stBoolean: Result := ord(FO.c_boolean);
     stString:
@@ -1516,21 +1802,22 @@ begin
   end;
 end;
 
-class function TSuperObject.ParseString(s: PSOChar; partial: boolean; const this: ISuperObject;
+class function TSuperObject.ParseString(s: PSOChar; strict: Boolean; partial: boolean; const this: ISuperObject;
   options: TSuperFindOptions; const put: ISuperObject; dt: TSuperType): ISuperObject;
 var
   tok: TSuperTokenizer;
   obj: ISuperObject;
 begin
   tok := TSuperTokenizer.Create;
-  obj := ParseEx(tok, s, -1, this, options, put, dt);
+  obj := ParseEx(tok, s, -1, strict, this, options, put, dt);
   if(tok.err <> teSuccess) or (not partial and (s[tok.char_offset] <> #0)) then
     Result := nil else
     Result := obj;
   tok.Free;
 end;
 
-class function TSuperObject.ParseStream(stream: TStream; partial: boolean; const this: ISuperObject; options: TSuperFindOptions;
+class function TSuperObject.ParseStream(stream: TStream; strict: Boolean;
+  partial: boolean; const this: ISuperObject; options: TSuperFindOptions;
    const put: ISuperObject; dt: TSuperType): ISuperObject;
 const
   BUFFER_SIZE = 1024;
@@ -1539,24 +1826,51 @@ var
   buffera: array[0..BUFFER_SIZE-1] of AnsiChar;
 {$IFDEF UNICODE}
   bufferw: array[0..BUFFER_SIZE-1] of SOChar;
+  bom: array[0..1] of byte;
+  unicode: boolean;
 {$ENDIF}
   j, size: Integer;
   st: string;
 begin
   st := '';
   tok := TSuperTokenizer.Create;
+
+{$IFDEF UNICODE}
+  if (stream.Read(bom, sizeof(bom)) = 2) and (bom[0] = $FF) and (bom[1] = $FE) then
+  begin
+    unicode := true;
+    size := stream.Read(bufferw, BUFFER_SIZE * SizeOf(SoChar)) div SizeOf(SoChar);
+  end else
+    begin
+      unicode := false;
+      stream.Seek(0, soFromBeginning);
+      size := stream.Read(buffera, BUFFER_SIZE);
+    end;
+{$ELSE}
   size := stream.Read(buffera, BUFFER_SIZE);
+{$ENDIF}
+
   while size > 0 do
   begin
 {$IFDEF UNICODE}
-    for j := 0 to size - 1 do
-      bufferw[j] := SOChar(buffera[j]);
-    ParseEx(tok, bufferw, size, this, options, put, dt);
+    if not unicode then
+      for j := 0 to size - 1 do
+        bufferw[j] := SOChar(buffera[j]);
+    ParseEx(tok, bufferw, size, strict, this, options, put, dt);
 {$ELSE}
     ParseEx(tok, buffera, size, this, options, put, dt);
 {$ENDIF}
+
     if tok.err = teContinue then
+    {$IFDEF UNICODE}
+      begin
+        if not unicode then
+          size := stream.Read(buffera, BUFFER_SIZE) else
+          size := stream.Read(bufferw, BUFFER_SIZE * SizeOf(SoChar)) div SizeOf(SoChar);
+      end else
+    {$ELSE}
       size := stream.Read(buffera, BUFFER_SIZE) else
+    {$ENDIF}
       Break;
   end;
   if(tok.err <> teSuccess) or (not partial and (st[tok.char_offset] <> #0)) then
@@ -1565,26 +1879,28 @@ begin
   tok.Free;
 end;
 
-class function TSuperObject.ParseFile(const FileName: string; partial: boolean; const this: ISuperObject; options: TSuperFindOptions;
+class function TSuperObject.ParseFile(const FileName: string; strict: Boolean;
+  partial: boolean; const this: ISuperObject; options: TSuperFindOptions;
   const put: ISuperObject; dt: TSuperType): ISuperObject;
 var
   stream: TFileStream;
 begin
   stream := TFileStream.Create(FileName, fmOpenRead, fmShareDenyWrite);
   try
-    Result := ParseStream(stream, partial, this, options, put, dt);
+    Result := ParseStream(stream, strict, partial, this, options, put, dt);
   finally
     stream.Free;
   end;
 end;
 
 class function TSuperObject.ParseEx(tok: TSuperTokenizer; str: PSOChar; len: integer;
-  const this: ISuperObject; options: TSuperFindOptions; const put: ISuperObject; dt: TSuperType): ISuperObject;
+  strict: Boolean; const this: ISuperObject; options: TSuperFindOptions; const put: ISuperObject; dt: TSuperType): ISuperObject;
 
 const
   spaces = [#32,#8,#9,#10,#12,#13];
   delimiters = ['"', '.', '[', ']', '{', '}', '(', ')', ',', ':', #0];
   reserved = delimiters + spaces;
+  path = ['a'..'z', 'A'..'Z', '.', '_'];
 
   function hexdigit(x: SOChar): byte;
   begin
@@ -1596,26 +1912,27 @@ const
 
 var
   obj: ISuperObject;
-  c: SOChar;
+  v: SOChar;
 {$IFDEF SUPER_METHOD}
   sm: TSuperMethod;
 {$ENDIF}
   numi: SuperInt;
-  numd: double;
+  numd: Double;
   code: integer;
   TokRec: PSuperTokenerSrec;
   evalstack: integer;
+  p: PSOChar;
 
-  function IsEndDelimiter(c: AnsiChar): Boolean;
+  function IsEndDelimiter(v: AnsiChar): Boolean;
   begin
     if tok.depth > 0 then
       case tok.stack[tok.depth - 1].state of
-        tsArrayAdd: Result := c in [',', ']', #0];
-        tsObjectValueAdd: Result := c in [',', '}', #0];
+        tsArrayAdd: Result := v in [',', ']', #0];
+        tsObjectValueAdd: Result := v in [',', '}', #0];
       else
-        Result := c = #0;
+        Result := v = #0;
       end else
-        Result := c = #0;
+        Result := v = #0;
   end;
 
 label out, redo_char;
@@ -1638,16 +1955,28 @@ begin
       goto out;
     end;
 
-    c := str^;
+    v := str^;
+
+    case v of
+    #10:
+      begin
+        inc(tok.line);
+        tok.col := 0;
+      end;
+    #9: inc(tok.col, 4);
+    else
+      inc(tok.col);
+    end;
+
 redo_char:
     case TokRec^.state of
     tsEatws:
       begin
-        if {$IFDEF UNICODE}(SOIChar(c) < 256) and {$ENDIF} (AnsiChar(c) in spaces) then {nop} else
-        if (c = '/') then
+        if {$IFDEF UNICODE}(SOIChar(v) < 256) and {$ENDIF} (AnsiChar(v) in spaces) then {nop} else
+        if (v = '/') then
         begin
           tok.pb.Reset;
-          tok.pb.Append(@c, 1);
+          tok.pb.Append(@v, 1);
           TokRec^.state := tsCommentStart;
         end else begin
           TokRec^.state := TokRec^.saved_state;
@@ -1656,19 +1985,20 @@ redo_char:
       end;
 
     tsStart:
-      case c of
+      case v of
       '"',
       '''':
         begin
           TokRec^.state := tsString;
           tok.pb.Reset;
-          tok.quote_char := c;
+          tok.quote_char := v;
         end;
       '-':
         begin
           TokRec^.state := tsNumber;
           tok.pb.Reset;
           tok.is_double := 0;
+          tok.floatcount := -1;
           goto redo_char;
         end;
 
@@ -1686,6 +2016,7 @@ redo_char:
           TokRec^.state := tsNumber;
           tok.pb.Reset;
           tok.is_double := 0;
+          tok.floatcount := -1;
           goto redo_char;
         end;
       '{':
@@ -1746,11 +2077,11 @@ redo_char:
 
     tsNull:
       begin
-        tok.pb.Append(@c, 1);
+        tok.pb.Append(@v, 1);
         if (StrLComp(TOK_NULL, PSOChar(tok.pb.FBuf), min(tok.st_pos + 1, 4)) = 0) then
         begin
           if (tok.st_pos = 4) then
-          if not({$IFDEF UNICODE}(SOIChar(c) < 256) and {$ENDIF} (AnsiChar(c) in reserved)) then
+          if (({$IFDEF UNICODE}(SOIChar(v) < 256) and {$ENDIF} (AnsiChar(v) in path)) or (SOIChar(v) >= 256)) then
             TokRec^.state := tsIdentifier else
           begin
             TokRec^.current := TSuperObject.Create(stNull);
@@ -1770,11 +2101,11 @@ redo_char:
 
     tsCommentStart:
       begin
-        if(c = '*') then
+        if(v = '*') then
         begin
           TokRec^.state := tsComment;
         end else
-        if (c = '/') then
+        if (v = '/') then
         begin
           TokRec^.state := tsCommentEol;
         end else
@@ -1782,46 +2113,46 @@ redo_char:
           tok.err := teParseComment;
           goto out;
         end;
-        tok.pb.Append(@c, 1);
+        tok.pb.Append(@v, 1);
       end;
 
     tsComment:
       begin
-        if(c = '*') then
+        if(v = '*') then
           TokRec^.state := tsCommentEnd;
-        tok.pb.Append(@c, 1);
+        tok.pb.Append(@v, 1);
       end;
 
     tsCommentEol:
       begin
-        if (c = #10) then
+        if (v = #10) then
           TokRec^.state := tsEatws else
-          tok.pb.Append(@c, 1);
+          tok.pb.Append(@v, 1);
       end;
 
     tsCommentEnd:
       begin
-        tok.pb.Append(@c, 1);
-        if (c = '/') then
+        tok.pb.Append(@v, 1);
+        if (v = '/') then
           TokRec^.state := tsEatws else
           TokRec^.state := tsComment;
       end;
 
     tsString:
       begin
-        if (c = tok.quote_char) then
+        if (v = tok.quote_char) then
         begin
-          TokRec^.current := TSuperObject.Create(tok.pb.Fbuf);
+          TokRec^.current := TSuperObject.Create(SOString(tok.pb.GetString));
           TokRec^.saved_state := tsFinish;
           TokRec^.state := tsEatws;
         end else
-        if (c = '\') then
+        if (v = '\') then
         begin
           TokRec^.saved_state := tsString;
           TokRec^.state := tsStringEscape;
         end else
         begin
-          tok.pb.Append(@c, 1);
+          tok.pb.Append(@v, 1);
         end
       end;
 
@@ -1876,7 +2207,7 @@ redo_char:
 
     tsMethodValue:
       begin
-        case c of
+        case v of
         ')':
             TokRec^.state := tsIdentifier;
         else
@@ -1897,7 +2228,7 @@ redo_char:
     tsMethodPut:
       begin
         TokRec^.obj.AsArray.Add(obj);
-        case c of
+        case v of
           ',':
             begin
               tok.pb.Reset;
@@ -1921,7 +2252,7 @@ redo_char:
 {$ENDIF}
     tsParamValue:
       begin
-        case c of
+        case v of
         ']':
             TokRec^.state := tsIdentifier;
         else
@@ -1946,7 +2277,7 @@ redo_char:
         tok.pb.Reset;
         TokRec^.saved_state := tsIdentifier;
         TokRec^.state := tsEatws;
-        if c <> ']' then
+        if v <> ']' then
         begin
           tok.err := teEvalArray;
           goto out;
@@ -1957,22 +2288,30 @@ redo_char:
       begin
         if (this = nil) then
         begin
-          if {$IFDEF UNICODE}(SOIChar(c) < 256) and {$ENDIF} IsEndDelimiter(AnsiChar(c)) then
+          if {$IFDEF UNICODE}(SOIChar(v) < 256) and {$ENDIF} IsEndDelimiter(AnsiChar(v)) then
           begin
-            TokRec^.current := TSuperObject.Create(tok.pb.Fbuf);
-            TokRec^.saved_state := tsFinish;
-            TokRec^.state := tsEatws;
-            goto redo_char;
+            if not strict then
+            begin
+              tok.pb.TrimRight;
+              TokRec^.current := TSuperObject.Create(tok.pb.Fbuf);
+              TokRec^.saved_state := tsFinish;
+              TokRec^.state := tsEatws;
+              goto redo_char;
+            end else
+            begin
+              tok.err := teParseString;
+              goto out;
+            end;
           end else
-          if (c = '\') then
+          if (v = '\') then
           begin
             TokRec^.saved_state := tsIdentifier;
             TokRec^.state := tsStringEscape;
           end else
-            tok.pb.Append(@c, 1);
+            tok.pb.Append(@v, 1);
         end else
         begin
-         if {$IFDEF UNICODE}(SOIChar(c) < 256) and {$ENDIF} (AnsiChar(c) in reserved) then
+         if {$IFDEF UNICODE}(SOIChar(v) < 256) and {$ENDIF} (AnsiChar(v) in reserved) then
          begin
            TokRec^.gparent := TokRec^.parent;
            if TokRec^.current = nil then
@@ -1981,7 +2320,7 @@ redo_char:
 
              case ObjectGetType(TokRec^.parent) of
                stObject:
-                 case c of
+                 case v of
                    '.':
                      begin
                        TokRec^.state := tsEvalProperty;
@@ -2035,7 +2374,7 @@ redo_char:
                      TokRec^.obj := nil;
 
                      TokRec^.current := TokRec^.parent.AsArray.GetO(numi);
-                     case c of
+                     case v of
                        '.':
                          if (TokRec^.current = nil) and (foCreatePath in options) then
                          begin
@@ -2078,7 +2417,7 @@ redo_char:
                      end;
                    end else
                    begin
-                     case c of
+                     case v of
                        '.':
                          begin
                            if (foPutValue in options) then
@@ -2121,7 +2460,7 @@ redo_char:
                  end;
 {$IFDEF SUPER_METHOD}
                stMethod:
-                 case c of
+                 case v of
                    '.':
                      begin
                        TokRec^.current := nil;
@@ -2164,23 +2503,23 @@ redo_char:
 {$ENDIF}
              end;
           end else
-            tok.pb.Append(@c, 1);
+            tok.pb.Append(@v, 1);
         end;
       end;
 
     tsStringEscape:
-      case c of
+      case v of
       'b',
       'n',
       'r',
       't',
       'f':
         begin
-          if(c = 'b') then tok.pb.Append(TOK_BS, 1)
-          else if(c = 'n') then tok.pb.Append(TOK_LF, 1)
-          else if(c = 'r') then tok.pb.Append(TOK_CR, 1)
-          else if(c = 't') then tok.pb.Append(TOK_TAB, 1)
-          else if(c = 'f') then tok.pb.Append(TOK_FF, 1);
+          if(v = 'b') then tok.pb.Append(TOK_BS, 1)
+          else if(v = 'n') then tok.pb.Append(TOK_LF, 1)
+          else if(v = 'r') then tok.pb.Append(TOK_CR, 1)
+          else if(v = 't') then tok.pb.Append(TOK_TAB, 1)
+          else if(v = 'f') then tok.pb.Append(TOK_FF, 1);
           TokRec^.state := TokRec^.saved_state;
         end;
       'u':
@@ -2196,15 +2535,15 @@ redo_char:
           TokRec^.state := tsEscapeHexadecimal;
         end
       else
-        tok.pb.Append(@c, 1);
+        tok.pb.Append(@v, 1);
         TokRec^.state := TokRec^.saved_state;
       end;
 
     tsEscapeUnicode:
       begin
-        if ({$IFDEF UNICODE}(SOIChar(c) < 256) and {$ENDIF} (AnsiChar(c) in super_hex_chars_set)) then
+        if ({$IFDEF UNICODE}(SOIChar(v) < 256) and {$ENDIF} (AnsiChar(v) in super_hex_chars_set)) then
         begin
-          inc(tok.ucs_char, (Word(hexdigit(c)) shl ((3-tok.st_pos)*4)));
+          inc(tok.ucs_char, (Word(hexdigit(v)) shl ((3-tok.st_pos)*4)));
           inc(tok.st_pos);
           if (tok.st_pos = 4) then
           begin
@@ -2219,9 +2558,9 @@ redo_char:
       end;
     tsEscapeHexadecimal:
       begin
-        if ({$IFDEF UNICODE}(SOIChar(c) < 256) and {$ENDIF} (AnsiChar(c) in super_hex_chars_set)) then
+        if ({$IFDEF UNICODE}(SOIChar(v) < 256) and {$ENDIF} (AnsiChar(v) in super_hex_chars_set)) then
         begin
-          inc(tok.ucs_char, (Word(hexdigit(c)) shl ((1-tok.st_pos)*4)));
+          inc(tok.ucs_char, (Word(hexdigit(v)) shl ((1-tok.st_pos)*4)));
           inc(tok.st_pos);
           if (tok.st_pos = 2) then
           begin
@@ -2236,11 +2575,11 @@ redo_char:
       end;
     tsBoolean:
       begin
-        tok.pb.Append(@c, 1);
+        tok.pb.Append(@v, 1);
         if (StrLComp('true', PSOChar(tok.pb.FBuf), min(tok.st_pos + 1, 4)) = 0) then
         begin
           if (tok.st_pos = 4) then
-          if not({$IFDEF UNICODE}(SOIChar(c) < 256) and {$ENDIF} (AnsiChar(c) in reserved)) then
+          if (({$IFDEF UNICODE}(SOIChar(v) < 256) and {$ENDIF} (AnsiChar(v) in path)) or (SOIChar(v) >= 256)) then
             TokRec^.state := tsIdentifier else
           begin
             TokRec^.current := TSuperObject.Create(true);
@@ -2252,7 +2591,7 @@ redo_char:
         if (StrLComp('false', PSOChar(tok.pb.FBuf), min(tok.st_pos + 1, 5)) = 0) then
         begin
           if (tok.st_pos = 5) then
-          if not({$IFDEF UNICODE}(SOIChar(c) < 256) and {$ENDIF} (AnsiChar(c) in reserved)) then
+          if (({$IFDEF UNICODE}(SOIChar(v) < 256) and {$ENDIF} (AnsiChar(v) in path)) or (SOIChar(v) >= 256)) then
             TokRec^.state := tsIdentifier else
           begin
             TokRec^.current := TSuperObject.Create(false);
@@ -2272,10 +2611,31 @@ redo_char:
 
     tsNumber:
       begin
-        if {$IFDEF UNICODE}(SOIChar(c) < 256) and {$ENDIF} (AnsiChar(c) in super_number_chars_set) then
+        if {$IFDEF UNICODE}(SOIChar(v) < 256) and {$ENDIF} (AnsiChar(v) in super_number_chars_set) then
         begin
-          tok.pb.Append(@c, 1);
-          if {$IFDEF UNICODE}(SOIChar(c) < 256) and {$ENDIF} (AnsiChar(c) in ['.','e','E']) then tok.is_double := 1;
+          tok.pb.Append(@v, 1);
+          {$IFDEF UNICODE} if (SOIChar(v) < 256) then {$ENDIF}
+          case v of
+          '.': begin
+                 tok.is_double := 1;
+                 tok.floatcount := 0;
+               end;
+          'e','E':
+            begin
+              tok.is_double := 1;
+              tok.floatcount := -1;
+            end;
+          '0'..'9':
+            begin
+
+              if (tok.is_double = 1) and (tok.floatcount >= 0) then
+              begin
+                inc(tok.floatcount);
+                if tok.floatcount > 4 then
+                  tok.floatcount := -1;
+              end;
+            end;
+          end;
         end else
         begin
           if (tok.is_double = 0) then
@@ -2297,8 +2657,29 @@ redo_char:
           end else
           if (tok.is_double <> 0) then
           begin
-            val(tok.pb.FBuf, numd, code);
-            TokRec^.current := TSuperObject.Create(numd);
+            if tok.floatcount >= 0 then
+            begin
+              p := tok.pb.FBuf;
+              while p^ <> '.' do inc(p);
+              for code := 0 to tok.floatcount - 1 do
+              begin
+                p^ := p[1];
+                inc(p);
+              end;
+              p^ := #0;
+              val(tok.pb.FBuf, numi, code);
+              case tok.floatcount of
+                0: numi := numi * 10000;
+                1: numi := numi * 1000;
+                2: numi := numi * 100;
+                3: numi := numi * 10;
+              end;
+              TokRec^.current := TSuperObject.CreateCurrency(PCurrency(@numi)^);
+            end else
+            begin
+              val(tok.pb.FBuf, numd, code);
+              TokRec^.current := TSuperObject.Create(numd);
+            end;
           end else
           begin
             tok.err := teParseNumber;
@@ -2312,7 +2693,7 @@ redo_char:
 
     tsArray:
       begin
-        if (c = ']') then
+        if (v = ']') then
         begin
           TokRec^.saved_state := tsFinish;
           TokRec^.state := tsEatws;
@@ -2341,12 +2722,12 @@ redo_char:
 
     tsArraySep:
       begin
-        if (c = ']') then
+        if (v = ']') then
         begin
           TokRec^.saved_state := tsFinish;
           TokRec^.state := tsEatws;
         end else
-        if (c = ',') then
+        if (v = ',') then
         begin
           TokRec^.saved_state := tsArray;
           TokRec^.state := tsEatws;
@@ -2359,18 +2740,18 @@ redo_char:
 
     tsObjectFieldStart:
       begin
-        if (c = '}') then
+        if (v = '}') then
         begin
           TokRec^.saved_state := tsFinish;
           TokRec^.state := tsEatws;
         end else
-        if {$IFDEF UNICODE}(SOIChar(c) < 256) and {$ENDIF} (AnsiChar(c) in ['"', '''']) then
+        if {$IFDEF UNICODE}(SOIChar(v) < 256) and {$ENDIF} (AnsiChar(v) in ['"', '''']) then
         begin
-          tok.quote_char := c;
+          tok.quote_char := v;
           tok.pb.Reset;
           TokRec^.state := tsObjectField;
         end else
-        if not({$IFDEF UNICODE}(SOIChar(c) < 256) and {$ENDIF} (AnsiChar(c) in reserved)) then
+        if not((SOIChar(v) < 256) and ((AnsiChar(v) in reserved) or strict)) then
         begin
           TokRec^.state := tsObjectUnquotedField;
           tok.pb.Reset;
@@ -2384,42 +2765,42 @@ redo_char:
 
     tsObjectField:
       begin
-        if (c = tok.quote_char) then
+        if (v = tok.quote_char) then
         begin
           TokRec^.field_name := tok.pb.FBuf;
           TokRec^.saved_state := tsObjectFieldEnd;
           TokRec^.state := tsEatws;
         end else
-        if (c = '\') then
+        if (v = '\') then
         begin
           TokRec^.saved_state := tsObjectField;
           TokRec^.state := tsStringEscape;
         end else
         begin
-          tok.pb.Append(@c, 1);
+          tok.pb.Append(@v, 1);
         end
       end;
 
     tsObjectUnquotedField:
       begin
-        if {$IFDEF UNICODE}(SOIChar(c) < 256) and {$ENDIF} (AnsiChar(c) in [':', #0]) then
+        if {$IFDEF UNICODE}(SOIChar(v) < 256) and {$ENDIF} (AnsiChar(v) in [':', #0]) then
         begin
           TokRec^.field_name := tok.pb.FBuf;
           TokRec^.saved_state := tsObjectFieldEnd;
           TokRec^.state := tsEatws;
           goto redo_char;
         end else
-        if (c = '\') then
+        if (v = '\') then
         begin
           TokRec^.saved_state := tsObjectUnquotedField;
           TokRec^.state := tsStringEscape;
         end else
-          tok.pb.Append(@c, 1);
+          tok.pb.Append(@v, 1);
       end;
 
     tsObjectFieldEnd:
       begin
-        if (c = ':') then
+        if (v = ':') then
         begin
           TokRec^.saved_state := tsObjectValue;
           TokRec^.state := tsEatws;
@@ -2455,12 +2836,12 @@ redo_char:
 
     tsObjectSep:
       begin
-        if (c = '}') then
+        if (v = '}') then
         begin
           TokRec^.saved_state := tsFinish;
           TokRec^.state := tsEatws;
         end else
-        if (c = ',') then
+        if (v = ',') then
         begin
           TokRec^.saved_state := tsObjectFieldStart;
           TokRec^.state := tsEatws;
@@ -2473,7 +2854,7 @@ redo_char:
     end;
     inc(str);
     inc(tok.char_offset);
-  until c = #0;
+  until v = #0;
 
   if(TokRec^.state <> tsFinish) and
      (TokRec^.saved_state <> tsFinish) then
@@ -2496,27 +2877,32 @@ end;
 
 procedure TSuperObject.PutO(const path: SOString; const Value: ISuperObject);
 begin
-  ParseString(PSOChar(path), true, self, [foCreatePath, foPutValue], Value);
+  ParseString(PSOChar(path), true, False, self, [foCreatePath, foPutValue], Value);
 end;
 
 procedure TSuperObject.PutB(const path: SOString; Value: Boolean);
 begin
-  ParseString(PSOChar(path), true, self, [foCreatePath, foPutValue], TSuperObject.Create(Value));
+  ParseString(PSOChar(path), true, False, self, [foCreatePath, foPutValue], TSuperObject.Create(Value));
 end;
 
 procedure TSuperObject.PutD(const path: SOString; Value: Double);
 begin
-  ParseString(PSOChar(path), true, self, [foCreatePath, foPutValue], TSuperObject.Create(Value));
+  ParseString(PSOChar(path), true, False, self, [foCreatePath, foPutValue], TSuperObject.Create(Value));
+end;
+
+procedure TSuperObject.PutC(const path: SOString; Value: Currency);
+begin
+  ParseString(PSOChar(path), true, False, self, [foCreatePath, foPutValue], TSuperObject.CreateCurrency(Value));
 end;
 
 procedure TSuperObject.PutI(const path: SOString; Value: SuperInt);
 begin
-  ParseString(PSOChar(path), true, self, [foCreatePath, foPutValue], TSuperObject.Create(Value));
+  ParseString(PSOChar(path), true, False, self, [foCreatePath, foPutValue], TSuperObject.Create(Value));
 end;
 
 procedure TSuperObject.PutS(const path: SOString; const Value: SOString);
 begin
-  ParseString(PSOChar(path), true, self, [foCreatePath, foPutValue], TSuperObject.Create(Value));
+  ParseString(PSOChar(path), true, False, self, [foCreatePath, foPutValue], TSuperObject.Create(Value));
 end;
 
 function TSuperObject.QueryInterface(const IID: TGUID; out Obj): HResult; stdcall;
@@ -2587,6 +2973,7 @@ begin
     case FDataType of
       stBoolean: FO.c_boolean := false;
       stDouble: FO.c_double := 0.0;
+      stCurrency: FO.c_currency := 0.0;
       stInt: FO.c_int := 0;
       stObject: FO.c_object.Clear(all);
       stArray: FO.c_array.Clear(all);
@@ -2616,7 +3003,7 @@ end;
 
 function TSuperObject.GetN(const path: SOString): ISuperObject;
 begin
-  Result := ParseString(PSOChar(path), true, self);
+  Result := ParseString(PSOChar(path), False, true, self);
   if Result = nil then
     Result := TSuperObject.Create(stNull);
 end;
@@ -2624,13 +3011,13 @@ end;
 procedure TSuperObject.PutN(const path: SOString; const Value: ISuperObject);
 begin
   if Value = nil then
-    ParseString(PSOChar(path), true, self, [foCreatePath, foPutValue], TSuperObject.Create(stNull)) else
-    ParseString(PSOChar(path), true, self, [foCreatePath, foPutValue], Value);
+    ParseString(PSOChar(path), False, True, self, [foCreatePath, foPutValue], TSuperObject.Create(stNull)) else
+    ParseString(PSOChar(path), False, True, self, [foCreatePath, foPutValue], Value);
 end;
 
 function TSuperObject.Delete(const path: SOString): ISuperObject;
 begin
-  Result := ParseString(PSOChar(path), true, self, [foDelete]);
+  Result := ParseString(PSOChar(path), False, true, self, [foDelete]);
 end;
 
 function TSuperObject.Clone: ISuperObject;
@@ -2642,6 +3029,7 @@ begin
   case FDataType of
     stBoolean: Result := TSuperObject.Create(FO.c_boolean);
     stDouble: Result := TSuperObject.Create(FO.c_double);
+    stCurrency: Result := TSuperObject.CreateCurrency(FO.c_currency);
     stInt: Result := TSuperObject.Create(FO.c_int);
     stString: Result := TSuperObject.Create(FOString);
 {$IFDEF SUPER_METHOD}
@@ -2681,6 +3069,7 @@ begin
   case FDataType of
     stBoolean: FO.c_boolean := obj.AsBoolean;
     stDouble: FO.c_double := obj.AsDouble;
+    stCurrency: FO.c_currency := obj.AsCurrency;
     stInt: FO.c_int := obj.AsInteger;
     stString: FOString := obj.AsString;
 {$IFDEF SUPER_METHOD}
@@ -2720,7 +3109,7 @@ end;
 
 procedure TSuperObject.Merge(const str: SOString);
 begin
-  Merge(TSuperObject.ParseString(PSOChar(str)), true);
+  Merge(TSuperObject.ParseString(PSOChar(str), False), true);
 end;
 
 class function TSuperObject.NewInstance: TObject;
@@ -2731,7 +3120,7 @@ end;
 
 function TSuperObject.ForcePath(const path: SOString; dataType: TSuperType = stObject): ISuperObject;
 begin
-  Result := ParseString(PSOChar(path), true, self, [foCreatePath], nil, dataType);
+  Result := ParseString(PSOChar(path), False, True, Self, [foCreatePath], nil, dataType);
 end;
 
 function TSuperObject.Format(const str: SOString; BeginSep: SOChar; EndSep: SOChar): SOString;
@@ -2767,14 +3156,14 @@ end;
 
 function TSuperObject.GetO(const path: SOString): ISuperObject;
 begin
-  Result := ParseString(PSOChar(path), true, self);
+  Result := ParseString(PSOChar(path), False, True, Self);
 end;
 
 function TSuperObject.GetA(const path: SOString): TSuperArray;
 var
   obj: ISuperObject;
 begin
-  obj := ParseString(PSOChar(path), true, self);
+  obj := ParseString(PSOChar(path), False, True, Self);
   if obj <> nil then
     Result := obj.AsArray else
     Result := nil;
@@ -2797,6 +3186,16 @@ begin
   obj := GetO(path);
   if obj <> nil then
     Result := obj.AsDouble else
+    Result := 0.0;
+end;
+
+function TSuperObject.GetC(const path: SOString): Currency;
+var
+  obj: ISuperObject;
+begin
+  obj := GetO(path);
+  if obj <> nil then
+    Result := obj.AsCurrency else
     Result := 0.0;
 end;
 
@@ -2844,7 +3243,7 @@ end;
 
 function TSuperObject.Validate(const rules: SOString; const defs: SOString = ''; callback: TSuperOnValidateError = nil; sender: Pointer = nil): boolean;
 begin
-  Result := Validate(TSuperObject.ParseString(PSOChar(rules)), TSuperObject.ParseString(PSOChar(defs)), callback, sender);
+  Result := Validate(TSuperObject.ParseString(PSOChar(rules), False), TSuperObject.ParseString(PSOChar(defs), False), callback, sender);
 end;
 
 function TSuperObject.Validate(const rules: ISuperObject; const defs: ISuperObject = nil; callback: TSuperOnValidateError = nil; sender: Pointer = nil): boolean;
@@ -3218,7 +3617,7 @@ var
           end;
         dtFloat:
           case ObjectGetType(o) of
-            stDouble:
+            stDouble, stCurrency:
               begin
                 Result := Result and CheckRange(o, p, objpath);
               end;
@@ -3363,7 +3762,7 @@ var
         dtNumber:
           case ObjectGetType(o) of
             stInt,
-            stDouble:
+            stDouble, stCurrency:
               begin
                 Result := Result and CheckRange(o, p, objpath);
               end;
@@ -3376,6 +3775,7 @@ var
           case ObjectGetType(o) of
             stInt,
             stDouble,
+            stCurrency,
             stString:
               begin
                 result := result and CheckLength(Length(o.AsString), p, objpath);
@@ -3390,6 +3790,7 @@ var
           case ObjectGetType(o) of
             stBoolean,
             stDouble,
+            stCurrency,
             stInt,
             stString:
               begin
@@ -3470,7 +3871,7 @@ end;
 
 function TSuperObject.Compare(const str: SOString): TSuperCompareResult;
 begin
-  Result := Compare(TSuperObject.ParseString(PSOChar(str)));
+  Result := Compare(TSuperObject.ParseString(PSOChar(str), False));
 end;
 
 function TSuperObject.Compare(const obj: ISuperObject): TSuperCompareResult;
@@ -3494,6 +3895,7 @@ begin
       case ObjectGetType(obj) of
         stBoolean: Result := GetIntCompResult(ord(FO.c_boolean) - ord(obj.AsBoolean));
         stDouble:  Result := GetDblCompResult(ord(FO.c_boolean) - obj.AsDouble);
+        stCurrency:Result := GetDblCompResult(ord(FO.c_boolean) - obj.AsCurrency);
         stInt:     Result := GetIntCompResult(ord(FO.c_boolean) - obj.AsInteger);
         stString:  Result := GetIntCompResult(StrComp(PSOChar(AsString), PSOChar(obj.AsString)));
       else
@@ -3503,7 +3905,18 @@ begin
       case ObjectGetType(obj) of
         stBoolean: Result := GetDblCompResult(FO.c_double - ord(obj.AsBoolean));
         stDouble:  Result := GetDblCompResult(FO.c_double - obj.AsDouble);
+        stCurrency:Result := GetDblCompResult(FO.c_double - obj.AsCurrency);
         stInt:     Result := GetDblCompResult(FO.c_double - obj.AsInteger);
+        stString:  Result := GetIntCompResult(StrComp(PSOChar(AsString), PSOChar(obj.AsString)));
+      else
+        Result := cpError;
+      end;
+    stCurrency:
+      case ObjectGetType(obj) of
+        stBoolean: Result := GetDblCompResult(FO.c_currency - ord(obj.AsBoolean));
+        stDouble:  Result := GetDblCompResult(FO.c_currency - obj.AsDouble);
+        stCurrency:Result := GetDblCompResult(FO.c_currency - obj.AsCurrency);
+        stInt:     Result := GetDblCompResult(FO.c_currency - obj.AsInteger);
         stString:  Result := GetIntCompResult(StrComp(PSOChar(AsString), PSOChar(obj.AsString)));
       else
         Result := cpError;
@@ -3512,6 +3925,7 @@ begin
       case ObjectGetType(obj) of
         stBoolean: Result := GetIntCompResult(FO.c_int - ord(obj.AsBoolean));
         stDouble:  Result := GetDblCompResult(FO.c_int - obj.AsDouble);
+        stCurrency:Result := GetDblCompResult(FO.c_int - obj.AsCurrency);
         stInt:     Result := GetIntCompResult(FO.c_int - obj.AsInteger);
         stString:  Result := GetIntCompResult(StrComp(PSOChar(AsString), PSOChar(obj.AsString)));
       else
@@ -3521,6 +3935,7 @@ begin
       case ObjectGetType(obj) of
         stBoolean,
         stDouble,
+        stCurrency,
         stInt,
         stString:  Result := GetIntCompResult(StrComp(PSOChar(AsString), PSOChar(obj.AsString)));
       else
@@ -3553,7 +3968,7 @@ function TSuperObject.GetM(const path: SOString): TSuperMethod;
 var
   v: ISuperObject;
 begin
-  v := ParseString(PSOChar(path), true, Self);
+  v := ParseString(PSOChar(path), False, True, Self);
   if (v <> nil) and (ObjectGetType(v) = stMethod) then
     Result := v.AsMethod else
     Result := nil;
@@ -3563,21 +3978,21 @@ end;
 {$IFDEF SUPER_METHOD}
 procedure TSuperObject.PutM(const path: SOString; Value: TSuperMethod);
 begin
-  ParseString(PSOChar(path), true, self, [foCreatePath, foPutValue], TSuperObject.Create(Value));
+  ParseString(PSOChar(path), False, True, Self, [foCreatePath, foPutValue], TSuperObject.Create(Value));
 end;
 {$ENDIF}
 
 {$IFDEF SUPER_METHOD}
 function TSuperObject.call(const path: SOString; const param: ISuperObject): ISuperObject;
 begin
-  Result := ParseString(PSOChar(path), true, Self, [foCallMethod], param);
+  Result := ParseString(PSOChar(path), False, True, Self, [foCallMethod], param);
 end;
 {$ENDIF}
 
 {$IFDEF SUPER_METHOD}
 function TSuperObject.call(const path, param: SOString): ISuperObject;
 begin
-  Result := ParseString(PSOChar(path), true, Self, [foCallMethod], TSuperObject.ParseString(PSOChar(param)));
+  Result := ParseString(PSOChar(path), False, True, Self, [foCallMethod], TSuperObject.ParseString(PSOChar(param), False));
 end;
 {$ENDIF}
 
@@ -3793,6 +4208,21 @@ begin
   PutO(index, TSuperObject.Create(Value));
 end;
 
+function TSuperArray.GetC(const index: integer): Currency;
+var
+  obj: ISuperObject;
+begin
+  obj := GetO(index);
+  if obj <> nil then
+    Result := obj.AsCurrency else
+    Result := 0.0;
+end;
+
+procedure TSuperArray.PutC(const index: integer; Value: Currency);
+begin
+  PutO(index, TSuperObject.CreateCurrency(Value));
+end;
+
 procedure TSuperArray.PutI(const index: integer; Value: SuperInt);
 begin
   PutO(index, TSuperObject.Create(Value));
@@ -3874,6 +4304,11 @@ begin
     FreeMem(FBuf)
 end;
 
+function TSuperWriterString.GetString: SOString;
+begin
+  SetString(Result, FBuf, FBPos);
+end;
+
 procedure TSuperWriterString.Reset;
 begin
   FBuf[0] := #0;
@@ -3882,7 +4317,7 @@ end;
 
 procedure TSuperWriterString.TrimRight;
 begin
-  while (FBPos > 0) and (FBuf[FBPos-1] = #32) do
+  while (FBPos > 0) and {$IFDEF UNICODE}(FBuf[FBPos-1] < #256) and{$ENDIF} (AnsiChar(FBuf[FBPos-1]) in [#32, #13, #10]) do
   begin
     dec(FBPos);
     FBuf[FBPos] := #0;
@@ -4032,6 +4467,8 @@ end;
 constructor TSuperTokenizer.Create;
 begin
   pb := TSuperWriterString.Create;
+  line := 1;
+  col := 0;
   Reset;
 end;
 
@@ -4820,8 +5257,10 @@ var
   i: Integer;
 begin
   h := 0;
+{$Q-}
   for i := 1 to Length(k) do
     h := h*129 + ord(k[i]) + $9e370001;
+{$Q+}
   Result := h;
 end;
 
@@ -4938,6 +5377,21 @@ begin
   PutO(k, TSuperObject.Create(Value));
 end;
 
+procedure TSuperTableString.PutC(const k: SOString; value: Currency);
+begin
+  PutO(k, TSuperObject.CreateCurrency(Value));
+end;
+
+function TSuperTableString.GetC(const k: SOString): Currency;
+var
+  obj: ISuperObject;
+begin
+ obj := GetO(k);
+ if obj <> nil then
+   Result := obj.AsCurrency else
+   Result := 0.0;
+end;
+
 function TSuperTableString.GetD(const k: SOString): Double;
 var
   obj: ISuperObject;
@@ -4995,12 +5449,587 @@ begin
    Result := TSuperObject.Create(stNull);
 end;
 
+
+{$IFDEF VER210}
+
+{ TSuperRttiContext }
+
+constructor TSuperRttiContext.Create;
+begin
+  Context := TRttiContext.Create;
+  SerialFromJson := TDictionary<PTypeInfo, TSerialFromJson>.Create;
+  SerialToJson := TDictionary<PTypeInfo, TSerialToJson>.Create;
+end;
+
+destructor TSuperRttiContext.Destroy;
+begin
+  SerialFromJson.Free;
+  SerialToJson.Free;
+  Context.Free;
+end;
+
+function TSuperRttiContext.FromJson(TypeInfo: PTypeInfo; const obj: ISuperObject;
+  var Value: TValue): Boolean;
+
+  procedure FromChar;
+  begin
+    if ObjectIsType(obj, stString) and (Length(obj.AsString) = 1) then
+      begin
+        Value := string(AnsiString(obj.AsString)[1]);
+        Result := True;
+      end else
+        Result := False;
+  end;
+
+  procedure FromWideChar;
+  begin
+    if ObjectIsType(obj, stString) and (Length(obj.AsString) = 1) then
+    begin
+      Value := obj.AsString[1];
+      Result := True;
+    end else
+      Result := False;
+  end;
+
+  procedure FromInt64;
+  begin
+    if ObjectIsType(obj, stInt) then
+    begin
+      TValue.Make(nil, TypeInfo, Value);
+      TValueData(Value).FAsSInt64 := obj.AsInteger;
+      Result := True;
+    end else
+      Result := False;
+  end;
+
+  procedure FromInt;
+  var
+    TypeData: PTypeData;
+    i: Integer;
+  begin
+    if ObjectGetType(obj) in [stInt, stBoolean] then
+    begin
+      i := obj.AsInteger;
+      TypeData := GetTypeData(TypeInfo);
+      Result := (i >= TypeData.MinValue) and (i <= TypeData.MaxValue);
+      if Result then
+        TValue.Make(@i, TypeInfo, Value);
+    end else
+      Result := False;
+  end;
+
+  procedure fromSet;
+  begin
+    if ObjectIsType(obj, stInt) then
+    begin
+      TValue.Make(nil, TypeInfo, Value);
+      TValueData(Value).FAsSLong := obj.AsInteger;
+      Result := True;
+    end else
+      Result := False;
+  end;
+
+  procedure FromFloat;
+  begin
+    if ObjectGetType(obj) in [stInt, stDouble, stCurrency] then
+    begin
+      TValue.Make(nil, TypeInfo, Value);
+      case GetTypeData(TypeInfo).FloatType of
+        ftSingle: TValueData(Value).FAsSingle := obj.AsDouble;
+        ftDouble: TValueData(Value).FAsDouble := obj.AsDouble;
+        ftExtended: TValueData(Value).FAsExtended := obj.AsDouble;
+        ftComp: TValueData(Value).FAsSInt64 := obj.AsInteger;
+        ftCurr: TValueData(Value).FAsCurr := obj.AsCurrency;
+      end;
+      Result := True;
+    end else
+      Result := False;
+  end;
+
+  procedure FromString;
+  begin
+    case ObjectGetType(obj) of
+    stString, stBoolean, stDouble, stCurrency, stInt:
+      begin
+        Value := obj.AsString;
+        Result := True;
+      end;
+    else
+        Result := False;
+    end;
+  end;
+
+  procedure FromClass;
+  var
+    r: TRttiType;
+    f: TRttiField;
+    v: TValue;
+  begin
+    case ObjectGetType(obj) of
+      stObject:
+        begin
+          Result := True;
+          if Value.Kind <> tkClass then
+          begin
+            r := Context.FindType(obj.AsObject.S['class']);
+            if r <> nil then
+              Value := TRttiInstanceType(r).MetaclassType.Create else
+              Value := GetTypeData(TypeInfo).ClassType.Create;
+          end;
+
+          for f in Context.GetType(Value.AsObject.ClassType).GetFields do
+            if f.FieldType <> nil then
+            begin
+              Result := FromJson(f.FieldType.Handle, obj.AsObject[f.Name], v);
+              if Result then
+                f.SetValue(Value.AsObject, v) else
+                Exit;
+            end;
+        end;
+      stNull:
+        begin
+          Value := nil;
+          Result := True;
+        end
+    else
+      // error
+      Value := nil;
+      Result := False;
+    end;
+  end;
+
+  procedure FromRecord;
+  var
+    f: TRttiField;
+    p: Pointer;
+    v: TValue;
+  begin
+    Result := True;
+    TValue.Make(nil, TypeInfo, Value);
+    for f in Context.GetType(TypeInfo).GetFields do
+    begin
+      if f.FieldType <> nil then
+      begin
+        p := IValueData(TValueData(Value).FHeapData).GetReferenceToRawData;
+        Result := FromJson(f.FieldType.Handle, obj.AsObject[f.Name], v);
+        if Result then
+          f.SetValue(p, v) else
+          Exit;
+      end else
+      begin
+        Result := False;
+        Exit;
+      end;
+    end;
+  end;
+
+  procedure FromDynArray;
+  var
+    i: Integer;
+    p: Pointer;
+    pb: PByte;
+    val: TValue;
+    typ: PTypeData;
+    el: PTypeInfo;
+  begin
+    i := obj.AsArray.Length;
+    p := nil;
+    DynArraySetLength(p, TypeInfo, 1, @i);
+    pb := p;
+    typ := GetTypeData(TypeInfo);
+    if typ.elType <> nil then
+      el := typ.elType^ else
+      el := typ.elType2^;
+
+    Result := True;
+    for i := 0 to i - 1 do
+    begin
+      Result := FromJson(el, obj.AsArray[i], val);
+      if not Result then
+        Break;
+      val.ExtractRawData(pb);
+      Inc(pb, typ.elSize);
+    end;
+    if Result then
+      TValue.MakeWithoutCopy(@p, TypeInfo, Value) else
+      DynArrayClear(p, TypeInfo);
+  end;
+
+  procedure FromArray;
+  var
+    ArrayData: PArrayTypeData;
+    idx: Integer;
+    function ProcessDim(dim: Byte; const o: ISuperobject): Boolean;
+    var
+      i: Integer;
+      v: TValue;
+      a: PTypeData;
+    begin
+      if ObjectIsType(o, stArray) and (ArrayData.Dims[dim-1] <> nil) then
+      begin
+        a := @GetTypeData(ArrayData.Dims[dim-1]^).ArrayData;
+        if (a.MaxValue - a.MinValue + 1) <> o.AsArray.Length then
+        begin
+          Result := False;
+          Exit;
+        end;
+        Result := True;
+        if dim = ArrayData.DimCount then
+          for i := a.MinValue to a.MaxValue do
+          begin
+            Result := FromJson(ArrayData.ElType^, o.AsArray[i], v);
+            if not Result then
+              Exit;
+            Value.SetArrayElement(idx, v);
+            inc(idx);
+          end
+        else
+          for i := a.MinValue to a.MaxValue do
+          begin
+            Result := ProcessDim(dim + 1, o.AsArray[i]);
+            if not Result then
+              Exit;
+          end;
+      end else
+        Result := False;
+    end;
+  var
+    i: Integer;
+    v: TValue;
+  begin
+    TValue.Make(nil, TypeInfo, Value);
+    ArrayData := @GetTypeData(TypeInfo).ArrayData;
+    idx := 0;
+    if ArrayData.DimCount = 1 then
+    begin
+      if ObjectIsType(obj, stArray) and (obj.AsArray.Length = ArrayData.ElCount) then
+      begin
+        Result := True;
+        for i := 0 to ArrayData.ElCount - 1 do
+        begin
+          Result := FromJson(ArrayData.ElType^, obj.AsArray[i], v);
+          if not Result then
+            Exit;
+          Value.SetArrayElement(idx, v);
+          inc(idx);
+        end;
+      end else
+        Result := False;
+    end else
+      Result := ProcessDim(1, obj);
+  end;
+
+  procedure FromClassRef;
+  var
+    r: TRttiType;
+  begin
+    if ObjectIsType(obj, stString) then
+    begin
+      r := Context.FindType(obj.AsString);
+      if r <> nil then
+      begin
+        Value := TRttiInstanceType(r).MetaclassType;
+        Result := True;
+      end else
+        Result := False;
+    end else
+      Result := False;
+  end;
+
+  procedure FromUnknown;
+  begin
+    case ObjectGetType(obj) of
+      stBoolean:
+        begin
+          Value := obj.AsBoolean;
+          Result := True;
+        end;
+      stDouble:
+        begin
+          Value := obj.AsDouble;
+          Result := True;
+        end;
+      stCurrency:
+        begin
+          Value := obj.AsCurrency;
+          Result := True;
+        end;
+      stInt:
+        begin
+          Value := obj.AsInteger;
+          Result := True;
+        end;
+      stString:
+        begin
+          Value := obj.AsString;
+          Result := True;
+        end
+    else
+      Value := nil;
+      Result := False;
+    end;
+  end;
+var
+  Serial: TSerialFromJson;
+begin
+  if TypeInfo <> nil then
+  begin
+    if not SerialFromJson.TryGetValue(TypeInfo, Serial) then
+      case TypeInfo.Kind of
+        tkChar: FromChar;
+        tkInt64: FromInt64;
+        tkEnumeration, tkInteger: FromInt;
+        tkSet: fromSet;
+        tkFloat: FromFloat;
+        tkString, tkLString, tkUString, tkWString: FromString;
+        tkClass: FromClass;
+        tkMethod: ;
+        tkWChar: FromWideChar;
+        tkRecord: FromRecord;
+        tkPointer: ;
+        tkInterface: ;
+        tkArray: FromArray;
+        tkDynArray: FromDynArray;
+        tkClassRef: FromClassRef;
+      else
+        FromUnknown
+      end else
+      begin
+        TValue.Make(nil, TypeInfo, Value);
+        Result := Serial(obj, Value);
+      end;
+  end else
+    Result := False;
+end;
+
+function TSuperRttiContext.ToJson(var value: TValue; const index: ISuperObject): ISuperObject;
+  procedure ToInt64;
+  begin
+    Result := TSuperObject.Create(SuperInt(Value.AsInt64));
+  end;
+
+  procedure ToChar;
+  begin
+    Result := TSuperObject.Create(string(Value.AsType<AnsiChar>));
+  end;
+
+  procedure ToInteger;
+  begin
+    Result := TSuperObject.Create(TValueData(Value).FAsSLong);
+  end;
+
+  procedure ToFloat;
+  begin
+    case Value.TypeData.FloatType of
+      ftSingle: Result := TSuperObject.Create(TValueData(Value).FAsSingle);
+      ftDouble: Result := TSuperObject.Create(TValueData(Value).FAsDouble);
+      ftExtended: Result := TSuperObject.Create(TValueData(Value).FAsExtended);
+      ftComp: Result := TSuperObject.Create(TValueData(Value).FAsSInt64);
+      ftCurr: Result := TSuperObject.CreateCurrency(TValueData(Value).FAsCurr);
+    end;
+  end;
+
+  procedure ToString;
+  begin
+    Result := TSuperObject.Create(string(Value.AsType<string>));
+  end;
+
+  procedure ToClass;
+  var
+    o: ISuperObject;
+    f: TRttiField;
+    v: TValue;
+  begin
+    if TValueData(Value).FAsObject <> nil then
+    begin
+      o := index[IntToStr(Integer(Value.AsObject))];
+      if o = nil then
+      begin
+        Result := TSuperObject.Create(stObject);
+        index[IntToStr(Integer(Value.AsObject))] := Result;
+        if Value.TypeData.ClassType <> Value.AsObject.ClassType then
+          Result.AsObject.S['class'] := Value.AsObject.UnitName + '.' + Value.AsObject.ClassName;
+        for f in Context.GetType(Value.AsObject.ClassType).GetFields do
+          if f.FieldType <> nil then
+          begin
+            v := f.GetValue(Value.AsObject);
+            Result.AsObject[f.Name] := ToJson(v, index);
+          end
+      end else
+        Result := o;
+    end else
+      Result := nil;
+  end;
+
+  procedure ToWChar;
+  begin
+    Result :=  TSuperObject.Create(string(Value.AsType<WideChar>));
+  end;
+
+  procedure ToVariant;
+  begin
+    Result := SO(Value.AsVariant);
+  end;
+
+  procedure ToRecord;
+  var
+    f: TRttiField;
+    v: TValue;
+  begin
+    Result := TSuperObject.Create(stObject);
+    for f in Context.GetType(Value.TypeInfo).GetFields do
+    begin
+      v := f.GetValue(IValueData(TValueData(Value).FHeapData).GetReferenceToRawData);
+      Result.AsObject[f.Name] := ToJson(v, index);
+    end;
+  end;
+
+  procedure ToArray;
+  var
+    idx: Integer;
+    ArrayData: PArrayTypeData;
+
+    procedure ProcessDim(dim: Byte; const o: ISuperObject);
+    var
+      dt: PTypeData;
+      i: Integer;
+      o2: ISuperObject;
+      v: TValue;
+    begin
+      if ArrayData.Dims[dim-1] = nil then Exit;
+      dt := GetTypeData(ArrayData.Dims[dim-1]^);
+      if Dim = ArrayData.DimCount then
+        for i := dt.MinValue to dt.MaxValue do
+        begin
+          v := Value.GetArrayElement(idx);
+          o.AsArray.Add(toJSon(v, index));
+          inc(idx);
+        end
+      else
+        for i := dt.MinValue to dt.MaxValue do
+        begin
+          o2 := TSuperObject.Create(stArray);
+          o.AsArray.Add(o2);
+          ProcessDim(dim + 1, o2);
+        end;
+    end;
+  var
+    i: Integer;
+    v: TValue;
+  begin
+    Result := TSuperObject.Create(stArray);
+    ArrayData := @Value.TypeData.ArrayData;
+    idx := 0;
+    if ArrayData.DimCount = 1 then
+      for i := 0 to ArrayData.ElCount - 1 do
+      begin
+        v := Value.GetArrayElement(i);
+        Result.AsArray.Add(toJSon(v, index))
+      end
+    else
+      ProcessDim(1, Result);
+  end;
+
+  procedure ToDynArray;
+  var
+    i: Integer;
+    v: TValue;
+  begin
+    Result := TSuperObject.Create(stArray);
+    for i := 0 to Value.GetArrayLength - 1 do
+    begin
+      v := Value.GetArrayElement(i);
+      Result.AsArray.Add(toJSon(v, index));
+    end;
+  end;
+
+  procedure ToClassRef;
+  begin
+    if TValueData(Value).FAsClass <> nil then
+      Result :=  TSuperObject.Create(string(
+        TValueData(Value).FAsClass.UnitName + '.' +
+        TValueData(Value).FAsClass.ClassName)) else
+      Result := nil;
+  end;
+
+var
+  Serial: TSerialToJson;
+begin
+  if not SerialToJson.TryGetValue(value.TypeInfo, Serial) then
+    case Value.Kind of
+      tkInt64: ToInt64;
+      tkChar: ToChar;
+      tkSet, tkInteger, tkEnumeration: ToInteger;
+      tkFloat: ToFloat;
+      tkString, tkLString, tkUString, tkWString: ToString;
+      tkClass: ToClass;
+      tkWChar: ToWChar;
+      tkVariant: ToVariant;
+      tkRecord: ToRecord;
+      tkArray: ToArray;
+      tkDynArray: ToDynArray;
+      tkClassRef: ToClassRef;
+    else
+      result := nil;
+    end else
+      Result := Serial(value, index);
+end;
+
+{ TSuperObjectHelper }
+
+constructor TSuperObjectHelper.FromJson(const obj: ISuperObject; ctx: TSuperRttiContext = nil);
+var
+  v: TValue;
+  ctxowned: Boolean;
+begin
+  if ctx = nil then
+  begin
+    ctx := TSuperRttiContext.Create;
+    ctxowned := True;
+  end else
+    ctxowned := False;
+  try
+    v := Self;
+    if not ctx.FromJson(v.TypeInfo, obj, v) then
+      raise Exception.Create('Invalid object');
+  finally
+    if ctxowned then
+      ctx.Free;
+  end;
+end;
+
+constructor TSuperObjectHelper.FromJson(const str: string; ctx: TSuperRttiContext = nil);
+begin
+  FromJson(SO(str), ctx);
+end;
+
+function TSuperObjectHelper.ToJson(ctx: TSuperRttiContext = nil): ISuperObject;
+var
+  v: TValue;
+  ctxowned: boolean;
+begin
+  if ctx = nil then
+  begin
+    ctx := TSuperRttiContext.Create;
+    ctxowned := True;
+  end else
+    ctxowned := False;
+  try
+    v := Self;
+    Result := ctx.ToJson(v, SO);
+  finally
+    if ctxowned then
+      ctx.Free;
+  end;
+end;
+
+{$ENDIF}
+
 {$IFDEF DEBUG}
 initialization
 
 finalization
   Assert(debugcount = 0, 'Memory leak');
 {$ENDIF}
-
 end.
 
