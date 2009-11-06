@@ -595,7 +595,7 @@ type
     FProcessing: boolean;
     FDataType: TSuperType;
     FDataPtr: Pointer;
-{$if true}
+//{$if true}
     FO: record
       case TSuperType of
         stBoolean: (c_boolean: boolean);
@@ -608,7 +608,7 @@ type
         stMethod: (c_method: TSuperMethod);
 {$ENDIF}
       end;
-{$ifend}
+//{$ifend}
     FOString: SOString;
     function GetDataType: TSuperType;
     function GetDataPtr: Pointer;
