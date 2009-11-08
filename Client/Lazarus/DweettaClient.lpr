@@ -41,7 +41,7 @@ DweettaUtils;
 {$ENDIF}
 
 begin
-  Application.Title:='Dweetta Client v0.1.0.54';
+  Application.Title:='Dweetta Client v0.1.0.58';
   Application.Initialize;
   Application.CreateForm(TfrmMain, frmMain);
   Application.Run;

@@ -31,10 +31,9 @@ type
     edtStatus: TEdit;
     tmrMain: TTimer;
     procedure btnSendClick(Sender: TObject);
-    procedure FormCreate ( Sender: TObject ) ;
-    procedure FormDestroy ( Sender: TObject ) ;
-    procedure vstTweetsFreenode ( Sender: Tbasevirtualtree; Node: Pvirtualnode
-      ) ;
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure vstTweetsFreenode(Sender: Tbasevirtualtree; Node: Pvirtualnode);
     procedure vstTweetsGetNodeDataSize(Sender: TBaseVirtualTree;
       var NodeDataSize: Integer);
     procedure vstTweetsGetText(Sender: TBaseVirtualTree; Node: PVirtualNode;
@@ -102,17 +101,18 @@ begin
     TwitterStatus := FDweetta.StatusesUpdate(edtStatus.Text);
   except
     on E:EDweettaTransportError do
-      ShowMessage('Error:' + E.JSONMessage);
+    begin
+      memLog.Lines.Add('Error: ' + E.Message);
+      tmrMain.Enabled := True;
+      btnSend.Enabled := True;
+      exit;
+    end;
   end;
   if memLog.Lines.Count <> 0 then
     memLog.Lines.Add('-----------------------------------------------');
   memLog.Lines.Add('HTTP: ' + IntToStr(FDweetta.ResponseCode) + ':' + FDweetta.ResponseString);
   memLog.Lines.Add('Rate Limit: ' + IntToStr(FDweetta.RateLimit));
   memLog.Lines.Add('Remaining : ' + IntToStr(FDweetta.RemainingCalls));
-  vNode := vstTweets.InsertNode(vstTweets.RootNode, amInsertBefore);
-  TwitterNode := vstTweets.GetNodeData(vNode);
-  TwitterNode^.NodeType := tntStatus;
-  TwitterNode^.TwitterElement := TwitterStatus;
   sbMain.Panels[0].Text := 'Done';
   tmrMain.Enabled := True;
   btnSend.Enabled := True;
