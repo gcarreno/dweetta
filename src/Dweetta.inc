@@ -1187,4 +1187,14 @@
 // for Delphi/BCB trial versions remove the point from the line below
 {.$UNDEF SUPPORTS_WEAKPACKAGEUNIT}
 
+{------------------------------------------------------------------------------}
+{ DWEETTA settings                                                             }
+{------------------------------------------------------------------------------}
+
+// Uncomment this to use the synapse lib, remember to comment SOCKS_INDY
+{$DEFINE SOCKS_SYNAPSE}
+
+// Uncomment this to use the Indy lib, remember to comment SOCKS_SYNAPSE
+{.$DEFINE SOCKS_INDY}
+
 {$ENDIF ~DWEETTA}

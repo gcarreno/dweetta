@@ -11,7 +11,7 @@
 //      License for the specific language governing rights and limitations under
 //      the License.
 {*------------------------------------------------------------------------------
-  DweettaSockets.pas
+  DweettaSocketsSynapse.pas
 
   This includes a wrapper around the Sockets lib of choice.
   This version uses Synapse.
@@ -20,7 +20,7 @@
   @LastChangedBy $LastChangedBy$
   @Version $Rev$
 -------------------------------------------------------------------------------}
-unit DweettaSockets;
+unit DweettaSocketsSynapse;
 
 {$I Dweetta.inc}
 

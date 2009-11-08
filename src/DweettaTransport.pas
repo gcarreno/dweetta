@@ -107,9 +107,11 @@ var
   JSONMessage: String;
   OriginalReq: String;
   ErrorObject: ISuperObject;
+  CallResult: Boolean;
 begin
   Result := '';
-  if FDweettaSocket.Execute(Method, URI, Params) then
+  CallResult := FDweettaSocket.Execute(Method, URI, Params);
+  if CallResult then
   begin
     Result := FDweettaSocket.Content.Text;
     ResponseInfo.HTTPStatus := FDweettaSocket.Result;
