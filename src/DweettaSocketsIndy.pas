@@ -116,7 +116,7 @@ begin
     Data.Text := URLEncodeParams(Params, false);
     if Method = 'POST' then
     begin
-      FHTTP.Post(
+      //FHTTP.Post(
     end;
     if Method = 'PUT' then
     begin
