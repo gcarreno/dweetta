@@ -52,6 +52,11 @@ implementation
 
 { EDweettaTransportError }
 
+/// EDweettaTransportError::Create
+/// Overload constructor with Result Code only
+///
+/// @param aHTTPErrorCode Integer HTTP Result Code
+///
 constructor EDweettaTransportError.Create (aHTTPErrorCode: Integer) ;
 var
   strError: String;
@@ -71,8 +76,15 @@ begin
   inherited Create(strError);
 end;
 
+/// EDweettaTransportError::Create
+/// Overload constructor with Result Code, Original request and Error Message
+///
+/// @param aHTTPErrorCode Integer HTTP Result Code
+/// @param aOriginalRec String Original Request
+/// @param aErrorStr String Error Message
+///
 constructor EDweettaTransportError.Create (aHTTPErrorCode: Integer;
-  aOriginalReq: String; aErrorStr: string ) ;
+  aOriginalReq: String; aErrorStr: String ) ;
 begin
   FHTTPStatusCode := aHTTPErrorCode;
   FOriginalRequest := aOriginalReq;
@@ -80,6 +92,15 @@ begin
   inherited Create(aErrorStr);
 end;
 
+/// EDweettaTransportError::Create
+/// Overload constructor with Result Code, Original request, Error Message and
+/// JSON Message
+///
+/// @param aHTTPErrorCode Integer HTTP Result Code
+/// @param aOriginalRec String Original Request
+/// @param aErrorStr String Error Message
+/// @param aJSONMessage String JSON Error Message
+///
 constructor EDweettaTransportError.Create(aHttpErrorCode: Integer;
   aOriginalReq: String; aErrorStr: String; aJSONMessage: String);
 begin

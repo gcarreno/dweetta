@@ -58,11 +58,21 @@ uses
 
 { TDweettaSockets }
 
+/// TDweettaSockects::GetHeaders
+/// Internal fetch function for property Headers
+///
+/// @returns TStringList List of Headers and Values
+///
 function TDweettaSockets.GetHeaders: TStringList;
 begin
   Result := FHTTPSend.Headers;
 end;
 
+/// TDweettaSockects::GetContent
+/// Internal fetch function for property Content
+///
+/// @returns TStringList String List with contents
+///
 function TDweettaSockets.GetContent: TStringList;
 begin
   Result := TStringList.Create;
