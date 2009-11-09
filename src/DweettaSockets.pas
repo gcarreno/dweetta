@@ -22,9 +22,15 @@
 unit DweettaSockets;
 
 {$I Dweetta.inc}
-
-interface
-
-implementation
-
+{$IFDEF FPC}
+  {$I DweettaSocketsSynapse.pas}
+{$ENDIF}
+{$IFDEF WIN32}
+  {$IFDEF SOCKS_INDY}
+    {$I DweettaSocketsIndy.pas}
+  {$ENDIF}
+  {$IFDEF SOCKS_SYNAPSE}
+    {$I DweettaSocketsSynapse.pas}
+  {$ENDIF}
+{$ENDIF}
 end.

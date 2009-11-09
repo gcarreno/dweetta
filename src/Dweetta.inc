@@ -1192,9 +1192,9 @@
 {------------------------------------------------------------------------------}
 
 // Uncomment this to use the synapse lib, remember to comment SOCKS_INDY
-{$DEFINE SOCKS_SYNAPSE}
+{.$DEFINE SOCKS_SYNAPSE}
 
 // Uncomment this to use the Indy lib, remember to comment SOCKS_SYNAPSE
-{.$DEFINE SOCKS_INDY}
+{$DEFINE SOCKS_INDY}
 
 {$ENDIF ~DWEETTA}

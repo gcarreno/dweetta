@@ -20,10 +20,6 @@
   @LastChangedBy $LastChangedBy$
   @Version $Rev$
 -------------------------------------------------------------------------------}
-unit DweettaSocketsSynapse;
-
-{$I Dweetta.inc}
-
 interface
 
 uses
@@ -119,6 +115,3 @@ begin
   end;
   Result := FHTTPSend.HTTPMethod(Method, URL);
 end;
-
-end.
-
