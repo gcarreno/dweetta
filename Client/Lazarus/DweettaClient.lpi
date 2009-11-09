@@ -7,9 +7,9 @@
       <MainUnit Value="0"/>
       <IconPath Value="./"/>
       <TargetFileExt Value=".exe"/>
-      <Title Value="Dweetta Client v0.1.0.58"/>
+      <Title Value="Dweetta Client v0.1.0.63"/>
       <UseXPManifest Value="True"/>
-      <ActiveEditorIndexAtStart Value="11"/>
+      <ActiveEditorIndexAtStart Value="10"/>
     </General>
     <i18n>
       <EnableI18N Value="True"/>
@@ -18,7 +18,7 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <CurrentMajorRevNr Value="1"/>
-      <CurrentBuildNr Value="58"/>
+      <CurrentBuildNr Value="63"/>
       <ProjectVersion Value="0.1.0.2"/>
       <Language Value="0809"/>
       <FileDescription Value="A simple Twitter Client with the Dweetta Lib"/>
@@ -45,7 +45,7 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="23">
+    <Units Count="25">
       <Unit0>
         <Filename Value="DweettaClient.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -120,8 +120,8 @@
         <Filename Value="..\..\src\DweettaSockets.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="DweettaSockets"/>
-        <CursorPos X="1" Y="1"/>
-        <TopLine Value="75"/>
+        <CursorPos X="72" Y="16"/>
+        <TopLine Value="1"/>
         <EditorIndex Value="10"/>
         <UsageCount Value="174"/>
         <Loaded Value="True"/>
@@ -150,7 +150,7 @@
         <UnitName Value="DweettaExceptions"/>
         <CursorPos X="48" Y="37"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="12"/>
         <UsageCount Value="167"/>
         <Loaded Value="True"/>
       </Unit10>
@@ -216,7 +216,7 @@
         <UnitName Value="DweettaUtils"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="12"/>
+        <EditorIndex Value="13"/>
         <UsageCount Value="132"/>
         <Loaded Value="True"/>
       </Unit18>
@@ -248,6 +248,22 @@
         <TopLine Value="573"/>
         <UsageCount Value="10"/>
       </Unit22>
+      <Unit23>
+        <Filename Value="..\..\src\DweettaSocketsSynapse.pas"/>
+        <UnitName Value="DweettaSocketsSynapse"/>
+        <CursorPos X="1" Y="1"/>
+        <TopLine Value="1"/>
+        <EditorIndex Value="11"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit23>
+      <Unit24>
+        <Filename Value="..\..\src\DweettaSocketsIndy.pas"/>
+        <UnitName Value="DweettaSocketsIndy"/>
+        <CursorPos X="1" Y="23"/>
+        <TopLine Value="1"/>
+        <UsageCount Value="10"/>
+      </Unit24>
     </Units>
     <JumpHistory Count="29" HistoryIndex="28">
       <Position1>

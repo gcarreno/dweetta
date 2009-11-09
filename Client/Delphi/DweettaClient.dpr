@@ -24,7 +24,7 @@ begin
   {$IFDEF DELPHI2006_UP}
   Application.MainFormOnTaskbar := True;
   {$ENDIF ~DELPHI2006_UP}
-  Application.Title := 'Dweetta Client v0.1.0.58';
+  Application.Title := 'Dweetta Client v0.1.0.63';
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TfrmSettings, frmSettings);
   Application.Run;

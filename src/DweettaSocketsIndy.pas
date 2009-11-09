@@ -16,9 +16,9 @@
   This includes a wrapper around the Sockets lib of choice.
   This version uses Indy.
 
-  @Author  $Author: gcarreno $
-  @LastChangedBy $LastChangedBy: gcarreno $
-  @Version $Rev: 58 $
+  @Author  $Author$
+  @LastChangedBy $LastChangedBy$
+  @Version $Rev$
 -------------------------------------------------------------------------------}
 interface
 

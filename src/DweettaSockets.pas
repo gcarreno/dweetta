@@ -15,17 +15,16 @@
 
   Here we have the decision file for the sockets lib
 
-  @Author  $Author: gcarreno $
-  @LastChangedBy $LastChangedBy: gcarreno $
-  @Version $Rev: 58 $
+  @Author  $Author$
+  @LastChangedBy $LastChangedBy$
+  @Version $Rev$
 -------------------------------------------------------------------------------}
 unit DweettaSockets;
 
 {$I Dweetta.inc}
 {$IFDEF FPC}
   {$I DweettaSocketsSynapse.pas}
-{$ENDIF}
-{$IFDEF WIN32}
+{$ELSE}
   {$IFDEF SOCKS_INDY}
     {$I DweettaSocketsIndy.pas}
   {$ENDIF}
