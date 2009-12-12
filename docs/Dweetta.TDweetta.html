@@ -19,9 +19,7 @@
 <code>type TDweetta = class(TObject)</code></p>
 <h2 class="description">Description</h2>
 <p>
-Main access to the Twitter API
-
-<p>@todo refactor to be a TComponent descendent</p>
+Wrapper around the DweettaAPI in order to overload some calls</p>
 <a name="%40Hierarchy"></a><h2 class="hierarchy">Hierarchy</h2>
 <ul class="hierarchy"><li class="ancestor">TObject</li>
 <li class="thisitem">TDweetta</li></ul><h2 class="overview">Overview</h2>
@@ -394,7 +392,17 @@ Twitter Statuses::User Timeline overloaded
 <td class="itemcode"><a name="StatusesShow"></a><code>function <b>StatusesShow</b>(id: Integer): <a   href="DweettaContainers.TDweettaStatusElement.html">TDweettaStatusElement</a>;</code></td>
 </tr>
 <tr><td colspan="2">
-&nbsp;</td></tr>
+<p>
+Twitter Statuses::Show
+
+<p> </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>id</dt>
+<dd>Filter by Status ID</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">A Status Element</p></td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
@@ -402,7 +410,17 @@ Twitter Statuses::User Timeline overloaded
 <td class="itemcode"><a name="StatusesUpdate"></a><code>function <b>StatusesUpdate</b>(status: String): <a   href="DweettaContainers.TDweettaStatusElement.html">TDweettaStatusElement</a>; overload;</code></td>
 </tr>
 <tr><td colspan="2">
-&nbsp;</td></tr>
+<p>
+Twitter Statuses::Update overloaded
+
+<p> </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>status</dt>
+<dd>The text of the status</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">A Status Element</p></td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
@@ -410,7 +428,19 @@ Twitter Statuses::User Timeline overloaded
 <td class="itemcode"><a name="StatusesUpdate"></a><code>function <b>StatusesUpdate</b>(status: String; in_reply_to_status_id: Integer): <a   href="DweettaContainers.TDweettaStatusElement.html">TDweettaStatusElement</a>; overload;</code></td>
 </tr>
 <tr><td colspan="2">
-&nbsp;</td></tr>
+<p>
+Twitter Statuses::Update overloaded
+
+<p>  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>status</dt>
+<dd>The text of the status</dd>
+<dt>in_reply_to_status_id</dt>
+<dd>The status ID from with we are replying</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">A Status Element</p></td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
@@ -418,7 +448,12 @@ Twitter Statuses::User Timeline overloaded
 <td class="itemcode"><a name="StatusesReplies"></a><code>function <b>StatusesReplies</b>: <a   href="DweettaContainers.TDweettaStatusElementList.html">TDweettaStatusElementList</a>; overload;</code></td>
 </tr>
 <tr><td colspan="2">
-&nbsp;</td></tr>
+<p>
+Twitter Statuses::Replies overloaded
+
+<p></p>
+<h6 class="description_section">Returns</h6>
+<p class="return">A List of Status Elements</p></td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
@@ -426,7 +461,17 @@ Twitter Statuses::User Timeline overloaded
 <td class="itemcode"><a name="StatusesReplies"></a><code>function <b>StatusesReplies</b>(since_id: Integer): <a   href="DweettaContainers.TDweettaStatusElementList.html">TDweettaStatusElementList</a>; overload;</code></td>
 </tr>
 <tr><td colspan="2">
-&nbsp;</td></tr>
+<p>
+Twitter Statuses::Replies overloaded
+
+<p> </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>since_id</dt>
+<dd>Filter by Status ID</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">A List of Status Elements</p></td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
@@ -434,7 +479,17 @@ Twitter Statuses::User Timeline overloaded
 <td class="itemcode"><a name="StatusesDestroy"></a><code>function <b>StatusesDestroy</b>(id: Integer): <a   href="DweettaContainers.TDweettaStatusElement.html">TDweettaStatusElement</a>;</code></td>
 </tr>
 <tr><td colspan="2">
-&nbsp;</td></tr>
+<p>
+Twitter Statuses::Destroy
+
+<p> </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>id</dt>
+<dd>The status ID to delete</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">A Status Element</p></td></tr>
 </table>
 <h3 class="detail">Properties</h3>
 <table class="detail wide_list">
@@ -443,7 +498,9 @@ Twitter Statuses::User Timeline overloaded
 <td class="itemcode"><a name="User"></a><code>property <b>User</b>: String read FUser write Setuser;</code></td>
 </tr>
 <tr><td colspan="2">
-&nbsp;</td></tr>
+<p>
+Holds the Username for auth</p>
+</td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
@@ -451,7 +508,9 @@ Twitter Statuses::User Timeline overloaded
 <td class="itemcode"><a name="Password"></a><code>property <b>Password</b>: String read FPassword write SetPassword;</code></td>
 </tr>
 <tr><td colspan="2">
-&nbsp;</td></tr>
+<p>
+Holds the Password for auth</p>
+</td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
@@ -459,7 +518,9 @@ Twitter Statuses::User Timeline overloaded
 <td class="itemcode"><a name="ResponseCode"></a><code>property <b>ResponseCode</b>: Integer read GetResponseCode;</code></td>
 </tr>
 <tr><td colspan="2">
-&nbsp;</td></tr>
+<p>
+Holds the last numerical HTTP response code</p>
+</td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
@@ -467,7 +528,9 @@ Twitter Statuses::User Timeline overloaded
 <td class="itemcode"><a name="ResponseString"></a><code>property <b>ResponseString</b>: String read GetResponseString;</code></td>
 </tr>
 <tr><td colspan="2">
-&nbsp;</td></tr>
+<p>
+Holds the last alphanumerical HTTP response code</p>
+</td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
@@ -475,7 +538,9 @@ Twitter Statuses::User Timeline overloaded
 <td class="itemcode"><a name="RemainingCalls"></a><code>property <b>RemainingCalls</b>: Integer read GetRemainingCalls;</code></td>
 </tr>
 <tr><td colspan="2">
-&nbsp;</td></tr>
+<p>
+Holds the remaining API calls upon last request</p>
+</td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
@@ -483,7 +548,9 @@ Twitter Statuses::User Timeline overloaded
 <td class="itemcode"><a name="RateLimit"></a><code>property <b>RateLimit</b>: Integer read GetRateLimit;</code></td>
 </tr>
 <tr><td colspan="2">
-&nbsp;</td></tr>
+<p>
+Holds the Rate Limit of API Calls upon last request</p>
+</td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
@@ -491,8 +558,10 @@ Twitter Statuses::User Timeline overloaded
 <td class="itemcode"><a name="RateLimitReset"></a><code>property <b>RateLimitReset</b>: TDateTime read GetRateLimitReset;</code></td>
 </tr>
 <tr><td colspan="2">
-&nbsp;</td></tr>
+<p>
+Holds when the Rate Limit expires upon last request</p>
+</td></tr>
 </table>
-<hr noshade size="1"><span class="appinfo"><em>Generated by <a  target="_parent" href="http://pasdoc.sourceforge.net/">PasDoc 0.11.0</a> on 2009-12-12 03:00:02</em>
+<hr noshade size="1"><span class="appinfo"><em>Generated by <a  target="_parent" href="http://pasdoc.sourceforge.net/">PasDoc 0.11.0</a> on 2009-12-12 20:05:25</em>
 </span>
 </body></html>

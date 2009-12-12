@@ -3,11 +3,11 @@
 <head>
 <meta name="GENERATOR" content="PasDoc 0.11.0">
 <meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
-<title>DweettaTypes: record TDweettaResponseInfo</title>
+<title>DweettaTypes: record TDweettaParamsData</title>
 <link rel="StyleSheet" type="text/css" href="pasdoc.css">
 </head>
 <body bgcolor="#ffffff" text="#000000" link="#0000ff" vlink="#800080" alink="#FF0000">
-<a name="TDweettaResponseInfo"></a><h1 class="cio">record TDweettaResponseInfo</h1>
+<a name="TDweettaParamsData"></a><h1 class="cio">record TDweettaParamsData</h1>
 <table class="sections wide_list">
 <tr>
 <td><a class="section"  href="#%40Description">Description</a></td><td>Hierarchy</td><td><a class="section"  href="#%40Fields">Fields</a></td><td>Methods</td><td>Properties</td></tr></table>
@@ -16,62 +16,52 @@
 <a   href="DweettaTypes.html">DweettaTypes</a></p>
 <h2 class="declaration">Declaration</h2>
 <p class="declaration">
-<code>type TDweettaResponseInfo = record</code></p>
+<code>type TDweettaParamsData = record</code></p>
 <h2 class="description">Description</h2>
 <p>
-Data to simplify return of multiple values inside HTTP callings</p>
+Record to hold params data</p>
 <h2 class="overview">Overview</h2>
 <a name="%40Fields"></a><h3 class="summary">Fields</h3>
 <table class="summary wide_list">
 <tr class="list">
-<td class="itemcode"><code><b><a   href="DweettaTypes.TDweettaResponseInfo.html#HTTPStatus">HTTPStatus</a></b>: Integer;</code></td>
+<td class="itemcode"><code><b><a   href="DweettaTypes.TDweettaParamsData.html#paramName">paramName</a></b>: String;</code></td>
 </tr>
 <tr class="list2">
-<td class="itemcode"><code><b><a   href="DweettaTypes.TDweettaResponseInfo.html#HTTPMessage">HTTPMessage</a></b>: String;</code></td>
+<td class="itemcode"><code><b><a   href="DweettaTypes.TDweettaParamsData.html#paramSize">paramSize</a></b>: Integer;</code></td>
 </tr>
 <tr class="list">
-<td class="itemcode"><code><b><a   href="DweettaTypes.TDweettaResponseInfo.html#RemainingCalls">RemainingCalls</a></b>: Integer;</code></td>
+<td class="itemcode"><code><b><a   href="DweettaTypes.TDweettaParamsData.html#dataType">dataType</a></b>: String;</code></td>
 </tr>
 <tr class="list2">
-<td class="itemcode"><code><b><a   href="DweettaTypes.TDweettaResponseInfo.html#RateLimit">RateLimit</a></b>: Integer;</code></td>
-</tr>
-<tr class="list">
-<td class="itemcode"><code><b><a   href="DweettaTypes.TDweettaResponseInfo.html#RateLimitReset">RateLimitReset</a></b>: TDateTime;</code></td>
+<td class="itemcode"><code><b><a   href="DweettaTypes.TDweettaParamsData.html#defaultValue">defaultValue</a></b>: String;</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
 <h3 class="detail">Fields</h3>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><a name="HTTPStatus"></a><code><b>HTTPStatus</b>: Integer;</code></td>
+<td class="itemcode"><a name="paramName"></a><code><b>paramName</b>: String;</code></td>
 </tr>
 <tr><td colspan="1">
 &nbsp;</td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><a name="HTTPMessage"></a><code><b>HTTPMessage</b>: String;</code></td>
+<td class="itemcode"><a name="paramSize"></a><code><b>paramSize</b>: Integer;</code></td>
 </tr>
 <tr><td colspan="1">
 &nbsp;</td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><a name="RemainingCalls"></a><code><b>RemainingCalls</b>: Integer;</code></td>
+<td class="itemcode"><a name="dataType"></a><code><b>dataType</b>: String;</code></td>
 </tr>
 <tr><td colspan="1">
 &nbsp;</td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><a name="RateLimit"></a><code><b>RateLimit</b>: Integer;</code></td>
-</tr>
-<tr><td colspan="1">
-&nbsp;</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="itemcode"><a name="RateLimitReset"></a><code><b>RateLimitReset</b>: TDateTime;</code></td>
+<td class="itemcode"><a name="defaultValue"></a><code><b>defaultValue</b>: String;</code></td>
 </tr>
 <tr><td colspan="1">
 &nbsp;</td></tr>

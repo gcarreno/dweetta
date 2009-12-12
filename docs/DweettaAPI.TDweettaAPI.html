@@ -18,6 +18,8 @@
 <p class="declaration">
 <code>type TDweettaAPI = class(TObject)</code></p>
 <h2 class="description">Description</h2>
+<p>
+Class that implements the actuall calls to the Twitter API</p>
 <a name="%40Hierarchy"></a><h2 class="hierarchy">Hierarchy</h2>
 <ul class="hierarchy"><li class="ancestor">TObject</li>
 <li class="thisitem">TDweettaAPI</li></ul><h2 class="overview">Overview</h2>
@@ -231,7 +233,19 @@
 <td class="itemcode"><a name="Statuses_public_timeline"></a><code>function <b>Statuses_public_timeline</b>(out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaStatusElementList.html">TDweettaStatusElementList</a>;</code></td>
 </tr>
 <tr><td colspan="2">
-&nbsp;</td></tr>
+<p>
+Call to Statuses::Public Timeline
+
+<p>Fetches the 20 topmost status from the Public Timeline
+
+<p> </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>ResponseInfo</dt>
+<dd>Container of the HTTP Layer response data</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">A List of Status Elements</p></td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
@@ -239,7 +253,29 @@
 <td class="itemcode"><a name="Statuses_friends_timeline"></a><code>function <b>Statuses_friends_timeline</b>(since: String; since_id: Integer; max_id: Integer; count: Integer; page: Integer; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaStatusElementList.html">TDweettaStatusElementList</a>;</code></td>
 </tr>
 <tr><td colspan="2">
-&nbsp;</td></tr>
+<p>
+Call to Statuses::Friends Timeline
+
+<p>Fetches the 20 topmost status from the Friends Timeline
+
+<p>      </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>since</dt>
+<dd>A string with the RFC 822, updated by RFC 1123 date format</dd>
+<dt>since_id</dt>
+<dd>Filter by status ID</dd>
+<dt>max_id</dt>
+<dd>Filter up to status ID</dd>
+<dt>count</dt>
+<dd>Filter by ammount</dd>
+<dt>page</dt>
+<dd>Page from pagination</dd>
+<dt>ResponseInfo</dt>
+<dd>Container of the HTTP Layer response data</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">A List of Status Elements</p></td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
@@ -247,7 +283,33 @@
 <td class="itemcode"><a name="Statuses_user_timeline"></a><code>function <b>Statuses_user_timeline</b>(id: String; user_id: integer; screen_name: String; since_id: Integer; max_id: Integer; page: Integer; since: String; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaStatusElementList.html">TDweettaStatusElementList</a>;</code></td>
 </tr>
 <tr><td colspan="2">
-&nbsp;</td></tr>
+<p>
+Call to Statuses::User Timeline
+
+<p>Fetches the 20 topmost status from the User Timeline
+
+<p>        </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>id</dt>
+<dd>Status ID</dd>
+<dt>user_id</dt>
+<dd>User ID</dd>
+<dt>screen_name</dt>
+<dd>Use screen name instead of numerical id</dd>
+<dt>since_id</dt>
+<dd>Filter by status ID</dd>
+<dt>max_id</dt>
+<dd>Filter up to status ID</dd>
+<dt>page</dt>
+<dd>Page from pagination</dd>
+<dt>since</dt>
+<dd>A string with the RFC 822, updated by RFC 1123 date format</dd>
+<dt>ResponseInfo</dt>
+<dd>Container of the HTTP Layer response data</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">A List of Status Elements</p></td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
@@ -255,7 +317,21 @@
 <td class="itemcode"><a name="Statuses_show"></a><code>function <b>Statuses_show</b>(id: integer; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaStatusElement.html">TDweettaStatusElement</a>;</code></td>
 </tr>
 <tr><td colspan="2">
-&nbsp;</td></tr>
+<p>
+Call to Statuses::Show Status
+
+<p>Fetches the status with the corresponding ID
+
+<p>  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>id</dt>
+<dd>ID of the status to show</dd>
+<dt>ResponseInfo</dt>
+<dd>Container of the HTTP Layer response data</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">A Status Element</p></td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
@@ -263,7 +339,23 @@
 <td class="itemcode"><a name="Statuses_update"></a><code>function <b>Statuses_update</b>(status: String; in_reply_to_status_id: Integer; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaStatusElement.html">TDweettaStatusElement</a>;</code></td>
 </tr>
 <tr><td colspan="2">
-&nbsp;</td></tr>
+<p>
+Call to Statuses::Update
+
+<p>Publishes a status with optional &quot;reply to&quot;
+
+<p>   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>status</dt>
+<dd>The status text</dd>
+<dt>in_reply_to_status_id</dt>
+<dd>Use if the status is in reply to another</dd>
+<dt>ResponseInfo</dt>
+<dd>Container of the HTTP Layer response data</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">A Status Element with the data you sent</p></td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
@@ -271,7 +363,27 @@
 <td class="itemcode"><a name="Statuses_replies"></a><code>function <b>Statuses_replies</b>(since_id: Integer; max_id: Integer; since: String; page: Integer; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaStatusElementList.html">TDweettaStatusElementList</a>;</code></td>
 </tr>
 <tr><td colspan="2">
-&nbsp;</td></tr>
+<p>
+Call to Statuses::Replies
+
+<p>Fetches a list of replies
+
+<p>     </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>since_id</dt>
+<dd>Filter by ID</dd>
+<dt>max_id</dt>
+<dd>Filter by ammount</dd>
+<dt>since</dt>
+<dd>Filter by date</dd>
+<dt>page</dt>
+<dd>Filter per pagination page</dd>
+<dt>ResponseInfo</dt>
+<dd>Container of the HTTP Layer response data</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">A Status Element with the data you sent</p></td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
@@ -570,6 +682,6 @@
 <tr><td colspan="2">
 &nbsp;</td></tr>
 </table>
-<hr noshade size="1"><span class="appinfo"><em>Generated by <a  target="_parent" href="http://pasdoc.sourceforge.net/">PasDoc 0.11.0</a> on 2009-12-12 03:00:02</em>
+<hr noshade size="1"><span class="appinfo"><em>Generated by <a  target="_parent" href="http://pasdoc.sourceforge.net/">PasDoc 0.11.0</a> on 2009-12-12 20:05:25</em>
 </span>
 </body></html>
