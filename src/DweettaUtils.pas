@@ -27,7 +27,7 @@ unit DweettaUtils;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, DweettaTypes;
 
   {**
     Converts a TDateTime into a string compatible with RFC 822, updated by RFC 1123
@@ -51,6 +51,10 @@ uses
       @returns URLencoded params string
   }
   function URLEncodeParams(const aParamList: TStringList; aInQuery: Boolean): String;
+  {**
+    Builds the param list according to defaults.
+  }
+  function CheckAndCreateParamList(const Params: Array of TDweettaParams; const Values: array of const): TStringList;
 
 implementation
 
@@ -119,6 +123,64 @@ begin
   if aParamList.Count > 0 then
   begin
     SetLength(Result, Length(Result) - 1);
+  end;
+end;
+
+function CheckAndCreateParamList(const Params: Array of TDweettaParams; const Values: array of const): TStringList;
+var
+  Index: Integer;
+  ValueInt: Integer;
+  ValueStr: String;
+  ValuesTyped : array [0..$fff0 div sizeof(TVarRec)] of TVarRec absolute Values;
+begin
+  Result := TStringList.Create;
+  for Index := Low(Params) to High(Params) do
+  begin
+    case Params[Index] of
+      tpUserId:begin
+        ValueInt := ValuesTyped[Index].VInteger;
+        if ValueInt <> 0 then
+        begin
+          Result.Add(cDweettaParamInfo[Params[Index]].paramName + '=' + IntToStr(ValueInt));
+        end;
+      end;
+      tpScreenName:begin
+        ValueStr := String(ValuesTyped[Index].VUnicodeString);
+        if ValueStr <> '' then
+        begin
+          Result.Add(cDweettaParamInfo[Params[Index]].paramName + '=' + ValueStr);
+        end;
+      end;
+      tpStatusId:begin
+        ValueInt := ValuesTyped[Index].VInteger;
+        if ValueInt <> 0 then
+        begin
+          Result.Add(cDweettaParamInfo[Params[Index]].paramName + '=' + IntToStr(ValueInt));
+        end;
+      end;
+      tpSince:begin
+        ValueStr := String(ValuesTyped[Index].VUnicodeString);
+        if ValueStr <> '' then
+        begin
+          Result.Add(cDweettaParamInfo[Params[Index]].paramName + '=' + ValueStr);
+        end;
+      end;
+      tpSinceId:begin
+        ValueInt := ValuesTyped[Index].VInteger;
+        if ValueInt <> 0 then
+        begin
+          Result.Add(cDweettaParamInfo[Params[Index]].paramName + '=' + IntToStr(ValueInt));
+        end;
+      end;
+      tpStatus:begin
+        ValueStr := String(ValuesTyped[Index].VUnicodeString);
+        if (ValueStr <> '') and (Length(ValueStr) <= 140)then
+        begin
+          Result.Add(cDweettaParamInfo[Params[Index]].paramName + '=' + ValueStr);
+        end;
+      end;
+
+    end;
   end;
 end;
 

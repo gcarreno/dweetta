@@ -137,6 +137,46 @@ const
      '/help/test');
 
 type
+{ TDweettaParams }
+  {**
+    List of the major categories of Twitter params
+  }
+  TDweettaParams = (
+    tpUserId,
+    tpScreenName,
+    tpStatusId,
+    tpSince,
+    tpSinceId,
+    tpStatus
+  );
+{ TDweettaParamsData }
+  {**
+    Record to hold params data
+  }
+  TDweettaParamsData = record
+    paramName: String;
+    paramSize: Integer;
+    dataType: String;
+    defaultValue: String;
+  end;
+
+const
+{ cDweettaParamInfo }
+  {**
+    Param info
+  }
+  cDweettaParamInfo:
+    array[tpUserId..tpStatus] of TDweettaParamsData =
+    (
+      (paramName: 'id'; paramSize: 0; dataType: 'int'; defaultValue: '0'),
+      (paramName: 'screen_name'; paramSize: 0; dataType: 'str'; defaultValue: ''),
+      (paramName: 'id'; paramSize: 0; dataType: 'int'; defaultValue: '0'),
+      (paramName: 'since'; paramSize: 0; dataType: 'str'; defaultValue: ''),
+      (paramName: 'since_id'; paramSize: 0; dataType: 'int'; defaultValue: '0'),
+      (paramName: 'status'; paramSize: 140; dataType: 'str'; defaultValue: '')
+    );
+
+type
 { TDweettaResponseInfo }
   {**
     Data to simplify return of multiple values inside HTTP callings
