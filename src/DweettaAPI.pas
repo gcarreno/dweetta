@@ -14,7 +14,10 @@
   DweettaAPI.pas
 
   This unit contains the code for the API calls.
-  Some of the code and ideas have been pinched from jamiei.
+
+  This is the object that actually does the work.
+
+  (Some of the code and ideas have been pinched from @jamiei.)
 
   @Author  $Author$
 }
@@ -32,7 +35,9 @@ uses
 
 type
 { TDweettaAPI }
-
+  {**
+    Class that implements the actuall calls to the Twitter API
+  }
   TDweettaAPI = class(TObject)
   private
      FUser: String;
@@ -56,15 +61,82 @@ type
     destructor Destroy; override;
 
     { Status }
+    {**
+      Call to Statuses::Public Timeline
+
+      Fetches the 20 topmost status from the Public Timeline
+
+      @param ResponseInfo Container of the HTTP Layer response data
+      @returns A List of Status Elements
+    }
     function Statuses_public_timeline(out ResponseInfo: TDweettaResponseInfo): TDweettaStatusElementList;
+    {**
+      Call to Statuses::Friends Timeline
+
+      Fetches the 20 topmost status from the Friends Timeline
+
+      @param since A string with the RFC 822, updated by RFC 1123 date format
+      @param since_id Filter by status ID
+      @param max_id Filter up to status ID
+      @param count Filter by ammount
+      @param page Page from pagination
+      @param ResponseInfo Container of the HTTP Layer response data
+      @returns A List of Status Elements
+    }
     function Statuses_friends_timeline(since: String; since_id: Integer; max_id: Integer;
       count: Integer; page: Integer; out ResponseInfo: TDweettaResponseInfo): TDweettaStatusElementList;
+    {**
+      Call to Statuses::User Timeline
+
+      Fetches the 20 topmost status from the User Timeline
+
+      @param id Status ID
+      @param user_id User ID
+      @param screen_name Use screen name instead of numerical id
+      @param since_id Filter by status ID
+      @param max_id Filter up to status ID
+      @param page Page from pagination
+      @param since A string with the RFC 822, updated by RFC 1123 date format
+      @param ResponseInfo Container of the HTTP Layer response data
+      @returns A List of Status Elements
+    }
     function Statuses_user_timeline(id: String; user_id: integer;
       screen_name: String; since_id: Integer; max_id: Integer;
       page: Integer; since: String; out ResponseInfo: TDweettaResponseInfo): TDweettaStatusElementList;
+    {**
+      Call to Statuses::Show Status
+
+      Fetches the status with the corresponding ID
+
+      @param id ID of the status to show
+      @param ResponseInfo Container of the HTTP Layer response data
+      @returns A Status Element
+    }
     function Statuses_show(id: integer; out ResponseInfo: TDweettaResponseInfo): TDweettaStatusElement;
+    {**
+      Call to Statuses::Update
+
+      Publishes a status with optional "reply to"
+
+      @param status The status text
+      @param in_reply_to_status_id Use if the status is in reply to another
+      @param ResponseInfo Container of the HTTP Layer response data
+      @returns A Status Element with the data you sent
+    }
     function Statuses_update(status: String; in_reply_to_status_id: Integer;
       out ResponseInfo: TDweettaResponseInfo): TDweettaStatusElement;
+    {**
+      Call to Statuses::Replies
+
+      Fetches a list of replies
+
+      @param since_id Filter by ID
+      @param max_id Filter by ammount
+      @param since Filter by date
+      @param page Filter per pagination page
+      @param ResponseInfo Container of the HTTP Layer response data
+      @returns A Status Element with the data you sent
+    }
     function Statuses_replies(since_id: Integer; max_id: Integer; since: String;
       page: Integer; out ResponseInfo: TDweettaResponseInfo): TDweettaStatusElementList;
     function Statuses_destroy(id: integer; out ResponseInfo: TDweettaResponseInfo): TDweettaStatusElement;
@@ -150,6 +222,9 @@ type
   end;
 
 implementation
+
+uses
+  DweettaUtils;
 
 { TDweettaAPI }
 
@@ -237,6 +312,7 @@ function TDweettaAPI.Statuses_friends_timeline(since: String; since_id: Integer;
 begin
   FParams.Clear;
   { TODO 1 -ogcarreno -cRefactor : Refactor params checking inside a procedure/function }
+  //FParams.Text := CheckAndCreateParamList([tpSince, tpSinceId], [since, since_id]);
   if since <> '' then
   begin
     FParams.Add('since=' + since);
