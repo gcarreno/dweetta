@@ -25,13 +25,13 @@ unit DweettaSockets;
 
 {$I Dweetta.inc}
 {$IFDEF FPC}
-  {$I DweettaSocketsSynapse.pas}
+  {$I DweettaSocketsSynapse.pas.part}
 {$ELSE}
   {$IFDEF SOCKS_INDY}
-    {$I DweettaSocketsIndy.pas}
+    {$I DweettaSocketsIndy.pas.part}
   {$ENDIF}
   {$IFDEF SOCKS_SYNAPSE}
-    {$I DweettaSocketsSynapse.pas}
+    {$I DweettaSocketsSynapse.pas.part}
   {$ENDIF}
 {$ENDIF}
 end.
