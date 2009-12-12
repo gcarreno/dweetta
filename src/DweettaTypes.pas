@@ -10,27 +10,30 @@
 //      basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 //      License for the specific language governing rights and limitations under
 //      the License.
-{*------------------------------------------------------------------------------
+{**
   DweettaTypes.pas
 
   This unit contains misc Dweetta Types
 
   @Author  $Author$
-  @LastChangedBy $LastChangedBy$
-  @Version $Rev$
--------------------------------------------------------------------------------}
+}
 unit DweettaTypes;
+
+//  @LastChangedBy $LastChangedBy$
+//  @Version $Rev$
 
 {$I Dweetta.inc}
 
 interface
 
 uses
-  Classes, SysUtils; 
+  Classes, SysUtils;
 
 type
 { TDweettaServices }
-
+{**
+  List of all the Twitter API service endpoints
+}
   TDweettaServices = (
       { Statuses }
     tsStatusesPublicTimeline,
@@ -79,8 +82,11 @@ type
       { Help }
     tsHelpTest);
 
-{ cDweettaServiceEndPoints }
 const
+{ cDweettaServiceEndPoints }
+{**
+  List of the Paths to the Twitter API end points
+}
   cDweettaServiceEndPoints:
     array[tsStatusesPublicTimeline..tsHelpTest] of String =
     (  { Statuses }
@@ -132,7 +138,9 @@ const
 
 type
 { TDweettaResponseInfo }
-
+{**
+  Data to simplify return of multiple values inside HTTP callings
+}
   TDweettaResponseInfo = record
     HTTPStatus: Integer;
     HTTPMessage: String;

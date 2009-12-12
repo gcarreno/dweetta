@@ -10,17 +10,18 @@
 //      basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 //      License for the specific language governing rights and limitations under
 //      the License.
-{*------------------------------------------------------------------------------
+{**
   DweettaTransport.pas
 
   This unit contains the code for the HTTP Transport.
   Exception code borrowed from jamiei.
 
   @Author  $Author$
-  @LastChangedBy $LastChangedBy$
-  @Version $Rev$
--------------------------------------------------------------------------------}
+}
 unit DweettaTransport;
+
+//  @LastChangedBy $LastChangedBy$
+//  @Version $Rev$
 
 {$I Dweetta.inc}
 

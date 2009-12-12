@@ -10,16 +10,17 @@
 //      basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 //      License for the specific language governing rights and limitations under
 //      the License.
-{*------------------------------------------------------------------------------
+{**
   DweettaUtils.pas
 
   Some utilities for the lib.
 
   @Author  $Author$
-  @LastChangedBy $LastChangedBy$
-  @Version $Rev$
--------------------------------------------------------------------------------}
+}
 unit DweettaUtils;
+
+//  @LastChangedBy $LastChangedBy$
+//  @Version $Rev$
 
 {$I Dweetta.inc}
 
@@ -28,8 +29,27 @@ interface
 uses
   Classes, SysUtils;
 
+  {**
+    Converts a TDateTime into a string compatible with RFC 822, updated by RFC 1123
+
+      @param aDateTime The Date to be converted
+      @returns RFC 822,1123 date format
+  }
   function DateTimeToInternetTime(const aDateTime: TDateTime): String;
+  {**
+    Converts a string compatible with RFC 822, updated by RFC 1123 into a TDateTime
+
+      @param aInternetTime The Date to be converted
+      @returns TDateTime format
+  }
   function InternetTimeToDateTime(const aInternetTime: String): TDateTime;
+  {**
+    Convenient function to expand a GET param list
+
+      @param aParamList The list of params and values
+      @param aInQuery If to translate spaces to + or to %20
+      @returns URLencoded params string
+  }
   function URLEncodeParams(const aParamList: TStringList; aInQuery: Boolean): String;
 
 implementation

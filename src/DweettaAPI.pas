@@ -10,17 +10,18 @@
 //      basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 //      License for the specific language governing rights and limitations under
 //      the License.
-{*------------------------------------------------------------------------------
+{**
   DweettaAPI.pas
 
   This unit contains the code for the API calls.
   Some of the code and ideas have been pinched from jamiei.
 
   @Author  $Author$
-  @LastChangedBy $LastChangedBy$
-  @Version $Rev$
--------------------------------------------------------------------------------}
+}
 unit DweettaAPI;
+
+//  @LastChangedBy $LastChangedBy$
+//  @Version $Rev$
 
 {$I Dweetta.inc}
 

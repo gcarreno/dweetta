@@ -10,16 +10,18 @@
 //      basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 //      License for the specific language governing rights and limitations under
 //      the License.
-{*------------------------------------------------------------------------------
+{**
   DweettaSockets.pas
 
   Here we have the decision file for the sockets lib
 
   @Author  $Author$
-  @LastChangedBy $LastChangedBy$
-  @Version $Rev$
--------------------------------------------------------------------------------}
+}
 unit DweettaSockets;
+
+//  @LastChangedBy $LastChangedBy$
+//  @Version $Rev$
+
 
 {$I Dweetta.inc}
 {$IFDEF FPC}

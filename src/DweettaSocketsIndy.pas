@@ -10,16 +10,19 @@
 //      basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 //      License for the specific language governing rights and limitations under
 //      the License.
-{*------------------------------------------------------------------------------
+{**
   DweettaSocketsSynapse.pas
 
   This includes a wrapper around the Sockets lib of choice.
   This version uses Indy.
 
   @Author  $Author$
-  @LastChangedBy $LastChangedBy$
-  @Version $Rev$
--------------------------------------------------------------------------------}
+}
+
+//  @LastChangedBy $LastChangedBy$
+//  @Version $Rev$
+
+
 interface
 
 uses

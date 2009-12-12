@@ -10,16 +10,17 @@
 //      basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 //      License for the specific language governing rights and limitations under
 //      the License.
-{*------------------------------------------------------------------------------
+{**
   Dweetta.pas
 
   This unit contains the main Dweetta Object
 
   @Author  $Author$
-  @LastChangedBy $LastChangedBy$
-  @Version $Rev$
--------------------------------------------------------------------------------}
+}
 unit Dweetta;
+
+//  @LastChangedBy $LastChangedBy$
+//  @Version $Rev$
 
 {$I Dweetta.inc}
 
@@ -30,7 +31,11 @@ uses
 
 type
 { TDweetta }
+{**
+  Main access to the Twitter API
 
+    @todo refactor to be a TComponent descendent
+}
   TDweetta = class(TObject)
   private
     FUser: String;
@@ -49,6 +54,7 @@ type
   public
     constructor Create;
     destructor Destroy; override;
+
 
     function StatusesPublicTimeline: TDweettaStatusElementList;
 

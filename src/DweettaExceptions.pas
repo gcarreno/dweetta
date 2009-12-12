@@ -10,27 +10,30 @@
 //      basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 //      License for the specific language governing rights and limitations under
 //      the License.
-{*------------------------------------------------------------------------------
+{**
   DweettaExceptions.pas
 
   The exceptions for Dweetta Lib.
 
   @Author  $Author$
-  @LastChangedBy $LastChangedBy$
-  @Version $Rev$
--------------------------------------------------------------------------------}
+}
 unit DweettaExceptions;
+
+//  @LastChangedBy $LastChangedBy$
+//  @Version $Rev$
 
 {$I Dweetta.inc}
 
 interface
 
 uses
-  Classes, SysUtils; 
+  Classes, SysUtils;
 
 type
 { EDweettaTransportError }
-
+{**
+  Exception for transport layer error
+}
   EDweettaTransportError  = class(Exception)
     private
       FHTTPStatusCode: Integer;
@@ -38,13 +41,46 @@ type
       FOriginalRequest: String;
       FJSONMessage: String;
     public
+      {**
+        Overload constructor with Result Code only
+
+          @param aHTTPErrorCode HTTP Result Code
+      }
       constructor Create(aHTTPErrorCode: Integer); overload;
+      {**
+        Overload constructor with Result Code, Original request and Error Message
+
+          @param aHTTPErrorCode HTTP Result Code
+          @param aOriginalRec Original Request
+          @param aErrorStr Error Message
+      }
       constructor Create(aHTTPErrorCode: Integer; aOriginalReq: String; aErrorStr: String); overload;
+      {**
+        Overload constructor with Result Code, Original request, Error Message and
+        JSON Message
+
+          @param aHTTPErrorCode HTTP Result Code
+          @param aOriginalRec Original Request
+          @param aErrorStr Error Message
+          @param aJSONMessage JSON Error Message
+      }
       constructor Create(aHTTPErrorCode: Integer; aOriginalReq: String; aErrorStr: String; aJSONMessage: String); overload;
 
+      {**
+        Numerical Status code returned by HTTP call
+      }
       property HTTPStatusCode: Integer read FHTTPStatusCode;
+      {**
+        AlphaNumerical Status code returned by HTTP call
+      }
       property HTTPMessage: String read FHTTPMessage;
+      {**
+        Contains the original call
+      }
       property OriginalRequest: String read FOriginalRequest;
+      {**
+        Contains the JSON message that then endpoint returned
+      }
       property JSONMessage: String read FJSONMessage;
   end;
 
@@ -52,11 +88,6 @@ implementation
 
 { EDweettaTransportError }
 
-/// EDweettaTransportError::Create
-/// Overload constructor with Result Code only
-///
-/// @param aHTTPErrorCode Integer HTTP Result Code
-///
 constructor EDweettaTransportError.Create (aHTTPErrorCode: Integer) ;
 var
   strError: String;
@@ -76,13 +107,6 @@ begin
   inherited Create(strError);
 end;
 
-/// EDweettaTransportError::Create
-/// Overload constructor with Result Code, Original request and Error Message
-///
-/// @param aHTTPErrorCode Integer HTTP Result Code
-/// @param aOriginalRec String Original Request
-/// @param aErrorStr String Error Message
-///
 constructor EDweettaTransportError.Create (aHTTPErrorCode: Integer;
   aOriginalReq: String; aErrorStr: String ) ;
 begin
@@ -92,15 +116,6 @@ begin
   inherited Create(aErrorStr);
 end;
 
-/// EDweettaTransportError::Create
-/// Overload constructor with Result Code, Original request, Error Message and
-/// JSON Message
-///
-/// @param aHTTPErrorCode Integer HTTP Result Code
-/// @param aOriginalRec String Original Request
-/// @param aErrorStr String Error Message
-/// @param aJSONMessage String JSON Error Message
-///
 constructor EDweettaTransportError.Create(aHttpErrorCode: Integer;
   aOriginalReq: String; aErrorStr: String; aJSONMessage: String);
 begin
