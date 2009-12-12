@@ -31,9 +31,9 @@ uses
 
 type
 { TDweettaServices }
-{**
-  List of all the Twitter API service endpoints
-}
+  {**
+    List of all the Twitter API service endpoints
+  }
   TDweettaServices = (
       { Statuses }
     tsStatusesPublicTimeline,
@@ -84,9 +84,9 @@ type
 
 const
 { cDweettaServiceEndPoints }
-{**
-  List of the Paths to the Twitter API end points
-}
+  {**
+    List of the Paths to the Twitter API end points
+  }
   cDweettaServiceEndPoints:
     array[tsStatusesPublicTimeline..tsHelpTest] of String =
     (  { Statuses }
@@ -138,9 +138,9 @@ const
 
 type
 { TDweettaResponseInfo }
-{**
-  Data to simplify return of multiple values inside HTTP callings
-}
+  {**
+    Data to simplify return of multiple values inside HTTP callings
+  }
   TDweettaResponseInfo = record
     HTTPStatus: Integer;
     HTTPMessage: String;
