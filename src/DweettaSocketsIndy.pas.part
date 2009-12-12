@@ -106,9 +106,9 @@ end;
 
 function TDweettaSockets.Execute(Method, URL: String; const Params: TStringList = nil): Boolean;
 var
-  Index: Integer;
+  //Index: Integer;
   Data: TStringList;
-  ResponseData: String;
+  //ResponseData: String;
 begin
   Result := False;
   FHTTP.Request.Clear;

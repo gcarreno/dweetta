@@ -55,21 +55,99 @@ type
     constructor Create;
     destructor Destroy; override;
 
+    {**
+      Twitter Statuses::Public Timeline
 
+        @returns A list of Status Elements
+    }
     function StatusesPublicTimeline: TDweettaStatusElementList;
 
+    {**
+      Twitter Statuses::Friends Timeline overloaded
+
+        @returns A list of Status Elements
+    }
     function StatusesFriendsTimeline: TDweettaStatusElementList; overload;
+    {**
+      Twitter Statuses::Friends Timeline overloaded
+
+        @param since Filter by date
+        @returns A list of Status Elements
+    }
     function StatusesFriendsTimeline(since: TDateTime): TDweettaStatusElementList; overload;
+    {**
+      Twitter Statuses::Friends Timeline overloaded
+
+        @param count Filter by ammount
+        @returns A list of Status Elements
+    }
     function StatusesFriendsTimeline(count: Integer): TDweettaStatusElementList; overload;
+    {**
+      Twitter Statuses::Friends Timeline overloaded
+
+        @param page Filter by page
+        @returns A list of Status Elements
+    }
     function StatusesFriendsTimelinePage(page: Integer): TDweettaStatusElementList;
 
+    {**
+      Twitter Statuses::User Timeline overloaded
+
+        @returns A list of Status Elements
+    }
     function StatusesUserTimeline: TDweettaStatusElementList; overload;
+    {**
+      Twitter Statuses::User Timeline overloaded
+
+        @param id Filter by user ID
+        @returns A list of Status Elements
+    }
     function StatusesUserTimeline(id: Integer): TDweettaStatusElementList; overload;
+    {**
+      Twitter Statuses::User Timeline overloaded
+
+        @param id Filter by user ID
+        @param page Filter by page
+        @returns A list of Status Elements
+    }
     function StatusesUserTimeline(id: integer; page: Integer): TDweettaStatusElementList; overload;
+    {**
+      Twitter Statuses::User Timeline overloaded
+
+        @param id Filter by user ID
+        @param since Filter by date
+        @returns A list of Status Elements
+    }
     function StatusesUserTimeline(id: Integer; since: TDateTime): TDweettaStatusElementList; overload;
+    {**
+      Twitter Statuses::User Timeline overloaded
+
+        @param screen_name Filter by user Screen Name
+        @returns A list of Status Elements
+    }
     function StatusesUserTimeline(screen_name: String): TDweettaStatusElementList; overload;
+    {**
+      Twitter Statuses::User Timeline overloaded
+
+        @param screen_name Filter by user Screen Name
+        @param page Filter by page
+        @returns A list of Status Elements
+    }
     function StatusesUserTimeline(screen_name: String; page: Integer): TDweettaStatusElementList; overload;
+    {**
+      Twitter Statuses::User Timeline overloaded
+
+        @param screen_name Filter by user Screen Name
+        @param since Filter by date
+        @returns A list of Status Elements
+    }
     function StatusesUserTimeline(screen_name: String; since: TDateTime): TDweettaStatusElementList; overload;
+    {**
+      Twitter Statuses::User Timeline overloaded
+
+        @param since Filter by date
+        @returns A list of Status Elements
+    }
     function StatusesUserTimeline(since: TDateTime): TDweettaStatusElementList; overload;
 
     function StatusesShow(id: Integer): TDweettaStatusElement;
