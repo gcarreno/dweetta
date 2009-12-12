@@ -1,0 +1,575 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html>
+<head>
+<meta name="GENERATOR" content="PasDoc 0.11.0">
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+<title>DweettaAPI: Class TDweettaAPI</title>
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body bgcolor="#ffffff" text="#000000" link="#0000ff" vlink="#800080" alink="#FF0000">
+<a name="TDweettaAPI"></a><h1 class="cio">Class TDweettaAPI</h1>
+<table class="sections wide_list">
+<tr>
+<td><a class="section"  href="#%40Description">Description</a></td><td><a class="section"  href="#%40Hierarchy">Hierarchy</a></td><td>Fields</td><td><a class="section"  href="#%40Methods">Methods</a></td><td><a class="section"  href="#%40Properties">Properties</a></td></tr></table>
+<a name="%40Description"></a><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a   href="DweettaAPI.html">DweettaAPI</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TDweettaAPI = class(TObject)</code></p>
+<h2 class="description">Description</h2>
+<a name="%40Hierarchy"></a><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TObject</li>
+<li class="thisitem">TDweettaAPI</li></ul><h2 class="overview">Overview</h2>
+<a name="%40Methods"></a><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <b><a   href="DweettaAPI.TDweettaAPI.html#Create">Create</a></b>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>destructor <b><a   href="DweettaAPI.TDweettaAPI.html#Destroy">Destroy</a></b>; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a   href="DweettaAPI.TDweettaAPI.html#Statuses_public_timeline">Statuses_public_timeline</a></b>(out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaStatusElementList.html">TDweettaStatusElementList</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a   href="DweettaAPI.TDweettaAPI.html#Statuses_friends_timeline">Statuses_friends_timeline</a></b>(since: String; since_id: Integer; max_id: Integer; count: Integer; page: Integer; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaStatusElementList.html">TDweettaStatusElementList</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a   href="DweettaAPI.TDweettaAPI.html#Statuses_user_timeline">Statuses_user_timeline</a></b>(id: String; user_id: integer; screen_name: String; since_id: Integer; max_id: Integer; page: Integer; since: String; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaStatusElementList.html">TDweettaStatusElementList</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a   href="DweettaAPI.TDweettaAPI.html#Statuses_show">Statuses_show</a></b>(id: integer; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaStatusElement.html">TDweettaStatusElement</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a   href="DweettaAPI.TDweettaAPI.html#Statuses_update">Statuses_update</a></b>(status: String; in_reply_to_status_id: Integer; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaStatusElement.html">TDweettaStatusElement</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a   href="DweettaAPI.TDweettaAPI.html#Statuses_replies">Statuses_replies</a></b>(since_id: Integer; max_id: Integer; since: String; page: Integer; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaStatusElementList.html">TDweettaStatusElementList</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a   href="DweettaAPI.TDweettaAPI.html#Statuses_destroy">Statuses_destroy</a></b>(id: integer; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaStatusElement.html">TDweettaStatusElement</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a   href="DweettaAPI.TDweettaAPI.html#Users_friends">Users_friends</a></b>(id: String; user_id: Integer; screen_name: String; page: Integer; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaUserElementList.html">TDweettaUserElementList</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a   href="DweettaAPI.TDweettaAPI.html#Users_followers">Users_followers</a></b>(id: string; user_id: Integer; screen_name: String; page: Integer; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaUserElementList.html">TDweettaUserElementList</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a   href="DweettaAPI.TDweettaAPI.html#Users_show">Users_show</a></b>(id: String; user_id: Integer; screen_name: String; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaUserElement.html">TDweettaUserElement</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a   href="DweettaAPI.TDweettaAPI.html#DirectMessages_direct_messages">DirectMessages_direct_messages</a></b>(since: String; since_id: Integer; page: Integer; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaDirectMessageElementList.html">TDweettaDirectMessageElementList</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a   href="DweettaAPI.TDweettaAPI.html#DirectMessages_sent">DirectMessages_sent</a></b>(since: String; since_id: Integer; page: Integer; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaDirectMessageElementList.html">TDweettaDirectMessageElementList</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a   href="DweettaAPI.TDweettaAPI.html#DirectMessages_new">DirectMessages_new</a></b>(user: String; text: String; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaDirectMessageElement.html">TDweettaDirectMessageElement</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a   href="DweettaAPI.TDweettaAPI.html#DirectMessages_destroy">DirectMessages_destroy</a></b>(id: integer; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaDirectMessageElementList.html">TDweettaDirectMessageElementList</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a   href="DweettaAPI.TDweettaAPI.html#Friendships_create">Friendships_create</a></b>(id: String; follow: Boolean; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaUserElement.html">TDweettaUserElement</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a   href="DweettaAPI.TDweettaAPI.html#Friendships_destroy">Friendships_destroy</a></b>(id: String; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaUserElement.html">TDweettaUserElement</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a   href="DweettaAPI.TDweettaAPI.html#Friendships_exists">Friendships_exists</a></b>(user_a: String; user_b: String; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a   href="DweettaAPI.TDweettaAPI.html#Friends_ids">Friends_ids</a></b>(id: String; user_id: Integer; screen_name: String; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): String;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a   href="DweettaAPI.TDweettaAPI.html#Followers_ids">Followers_ids</a></b>(id: String; user_id: Integer; screen_name: String; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): String;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a   href="DweettaAPI.TDweettaAPI.html#Account_verify_credentials">Account_verify_credentials</a></b>(out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaUserElement.html">TDweettaUserElement</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a   href="DweettaAPI.TDweettaAPI.html#Account_end_session">Account_end_session</a></b>(out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a   href="DweettaAPI.TDweettaAPI.html#Account_update_delivery_device">Account_update_delivery_device</a></b>(device: String; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaUserElement.html">TDweettaUserElement</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a   href="DweettaAPI.TDweettaAPI.html#Account_update_profile_colors">Account_update_profile_colors</a></b>(profile_background_color: String; profile_text_color: String; profile_link_color: String; profile_sidebar_fill_color: String; profile_sidebar_border_color: String; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaUserElement.html">TDweettaUserElement</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a   href="DweettaAPI.TDweettaAPI.html#Account_update_profile_image">Account_update_profile_image</a></b>(image: String; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaUserElement.html">TDweettaUserElement</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a   href="DweettaAPI.TDweettaAPI.html#Account_update_profile_background_image">Account_update_profile_background_image</a></b>(image: String; tile: Boolean; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaUserElement.html">TDweettaUserElement</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a   href="DweettaAPI.TDweettaAPI.html#Account_rate_limit_status">Account_rate_limit_status</a></b>(out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): Integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a   href="DweettaAPI.TDweettaAPI.html#Account_update_profile">Account_update_profile</a></b>(name: String; email: String; url: String; location: String; description: String;out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaUserElement.html">TDweettaUserElement</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a   href="DweettaAPI.TDweettaAPI.html#Favorites_favorites">Favorites_favorites</a></b>(id: String; page: Integer; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaStatusElementList.html">TDweettaStatusElementList</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a   href="DweettaAPI.TDweettaAPI.html#Favorites_create">Favorites_create</a></b>(id: Integer; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaStatusElement.html">TDweettaStatusElement</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a   href="DweettaAPI.TDweettaAPI.html#Favorites_destroy">Favorites_destroy</a></b>(id: Integer; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaStatusElement.html">TDweettaStatusElement</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a   href="DweettaAPI.TDweettaAPI.html#Notifications_follow">Notifications_follow</a></b>(id: String; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaUserElement.html">TDweettaUserElement</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a   href="DweettaAPI.TDweettaAPI.html#Notifications_leave">Notifications_leave</a></b>(id: String; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaUserElement.html">TDweettaUserElement</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a   href="DweettaAPI.TDweettaAPI.html#Blocks_create">Blocks_create</a></b>(id: String; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaUserElement.html">TDweettaUserElement</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a   href="DweettaAPI.TDweettaAPI.html#Blocks_destroy">Blocks_destroy</a></b>(id: String; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaUserElement.html">TDweettaUserElement</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a   href="DweettaAPI.TDweettaAPI.html#Help_test">Help_test</a></b>(out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): String;</code></td>
+</tr>
+</table>
+<a name="%40Properties"></a><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a   href="DweettaAPI.TDweettaAPI.html#User">User</a></b>: String read FUser write SetUser;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a   href="DweettaAPI.TDweettaAPI.html#Password">Password</a></b>: String read FPassword write SetPassword;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a   href="DweettaAPI.TDweettaAPI.html#UserAgent">UserAgent</a></b>: String read FUserAgent write SetUserAgent;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a   href="DweettaAPI.TDweettaAPI.html#Server">Server</a></b>: String read FServer write SetServer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a   href="DweettaAPI.TDweettaAPI.html#ResponseCode">ResponseCode</a></b>: Integer read GetResponseCode;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a   href="DweettaAPI.TDweettaAPI.html#ResponseString">ResponseString</a></b>: String read GetResponseString;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a   href="DweettaAPI.TDweettaAPI.html#RemainingCalls">RemainingCalls</a></b>: Integer read GetRemainingCalls;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a   href="DweettaAPI.TDweettaAPI.html#RateLimit">RateLimit</a></b>: Integer read GetRateLimit;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Create"></a><code>constructor <b>Create</b>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Destroy"></a><code>destructor <b>Destroy</b>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Statuses_public_timeline"></a><code>function <b>Statuses_public_timeline</b>(out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaStatusElementList.html">TDweettaStatusElementList</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Statuses_friends_timeline"></a><code>function <b>Statuses_friends_timeline</b>(since: String; since_id: Integer; max_id: Integer; count: Integer; page: Integer; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaStatusElementList.html">TDweettaStatusElementList</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Statuses_user_timeline"></a><code>function <b>Statuses_user_timeline</b>(id: String; user_id: integer; screen_name: String; since_id: Integer; max_id: Integer; page: Integer; since: String; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaStatusElementList.html">TDweettaStatusElementList</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Statuses_show"></a><code>function <b>Statuses_show</b>(id: integer; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaStatusElement.html">TDweettaStatusElement</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Statuses_update"></a><code>function <b>Statuses_update</b>(status: String; in_reply_to_status_id: Integer; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaStatusElement.html">TDweettaStatusElement</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Statuses_replies"></a><code>function <b>Statuses_replies</b>(since_id: Integer; max_id: Integer; since: String; page: Integer; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaStatusElementList.html">TDweettaStatusElementList</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Statuses_destroy"></a><code>function <b>Statuses_destroy</b>(id: integer; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaStatusElement.html">TDweettaStatusElement</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Users_friends"></a><code>function <b>Users_friends</b>(id: String; user_id: Integer; screen_name: String; page: Integer; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaUserElementList.html">TDweettaUserElementList</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Users_followers"></a><code>function <b>Users_followers</b>(id: string; user_id: Integer; screen_name: String; page: Integer; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaUserElementList.html">TDweettaUserElementList</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Users_show"></a><code>function <b>Users_show</b>(id: String; user_id: Integer; screen_name: String; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaUserElement.html">TDweettaUserElement</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="DirectMessages_direct_messages"></a><code>function <b>DirectMessages_direct_messages</b>(since: String; since_id: Integer; page: Integer; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaDirectMessageElementList.html">TDweettaDirectMessageElementList</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="DirectMessages_sent"></a><code>function <b>DirectMessages_sent</b>(since: String; since_id: Integer; page: Integer; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaDirectMessageElementList.html">TDweettaDirectMessageElementList</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="DirectMessages_new"></a><code>function <b>DirectMessages_new</b>(user: String; text: String; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaDirectMessageElement.html">TDweettaDirectMessageElement</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="DirectMessages_destroy"></a><code>function <b>DirectMessages_destroy</b>(id: integer; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaDirectMessageElementList.html">TDweettaDirectMessageElementList</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Friendships_create"></a><code>function <b>Friendships_create</b>(id: String; follow: Boolean; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaUserElement.html">TDweettaUserElement</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Friendships_destroy"></a><code>function <b>Friendships_destroy</b>(id: String; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaUserElement.html">TDweettaUserElement</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Friendships_exists"></a><code>function <b>Friendships_exists</b>(user_a: String; user_b: String; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Friends_ids"></a><code>function <b>Friends_ids</b>(id: String; user_id: Integer; screen_name: String; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): String;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Followers_ids"></a><code>function <b>Followers_ids</b>(id: String; user_id: Integer; screen_name: String; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): String;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Account_verify_credentials"></a><code>function <b>Account_verify_credentials</b>(out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaUserElement.html">TDweettaUserElement</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Account_end_session"></a><code>procedure <b>Account_end_session</b>(out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Account_update_delivery_device"></a><code>function <b>Account_update_delivery_device</b>(device: String; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaUserElement.html">TDweettaUserElement</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Account_update_profile_colors"></a><code>function <b>Account_update_profile_colors</b>(profile_background_color: String; profile_text_color: String; profile_link_color: String; profile_sidebar_fill_color: String; profile_sidebar_border_color: String; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaUserElement.html">TDweettaUserElement</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Account_update_profile_image"></a><code>function <b>Account_update_profile_image</b>(image: String; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaUserElement.html">TDweettaUserElement</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Account_update_profile_background_image"></a><code>function <b>Account_update_profile_background_image</b>(image: String; tile: Boolean; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaUserElement.html">TDweettaUserElement</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Account_rate_limit_status"></a><code>function <b>Account_rate_limit_status</b>(out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Account_update_profile"></a><code>function <b>Account_update_profile</b>(name: String; email: String; url: String; location: String; description: String;out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaUserElement.html">TDweettaUserElement</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Favorites_favorites"></a><code>function <b>Favorites_favorites</b>(id: String; page: Integer; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaStatusElementList.html">TDweettaStatusElementList</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Favorites_create"></a><code>function <b>Favorites_create</b>(id: Integer; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaStatusElement.html">TDweettaStatusElement</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Favorites_destroy"></a><code>function <b>Favorites_destroy</b>(id: Integer; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaStatusElement.html">TDweettaStatusElement</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Notifications_follow"></a><code>function <b>Notifications_follow</b>(id: String; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaUserElement.html">TDweettaUserElement</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Notifications_leave"></a><code>function <b>Notifications_leave</b>(id: String; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaUserElement.html">TDweettaUserElement</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Blocks_create"></a><code>function <b>Blocks_create</b>(id: String; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaUserElement.html">TDweettaUserElement</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Blocks_destroy"></a><code>function <b>Blocks_destroy</b>(id: String; out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): <a   href="DweettaContainers.TDweettaUserElement.html">TDweettaUserElement</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Help_test"></a><code>function <b>Help_test</b>(out ResponseInfo: <a   href="DweettaTypes.TDweettaResponseInfo.html">TDweettaResponseInfo</a>): String;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="User"></a><code>property <b>User</b>: String read FUser write SetUser;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Password"></a><code>property <b>Password</b>: String read FPassword write SetPassword;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="UserAgent"></a><code>property <b>UserAgent</b>: String read FUserAgent write SetUserAgent;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Server"></a><code>property <b>Server</b>: String read FServer write SetServer;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="ResponseCode"></a><code>property <b>ResponseCode</b>: Integer read GetResponseCode;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="ResponseString"></a><code>property <b>ResponseString</b>: String read GetResponseString;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="RemainingCalls"></a><code>property <b>RemainingCalls</b>: Integer read GetRemainingCalls;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a   href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="RateLimit"></a><code>property <b>RateLimit</b>: Integer read GetRateLimit;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<hr noshade size="1"><span class="appinfo"><em>Generated by <a  target="_parent" href="http://pasdoc.sourceforge.net/">PasDoc 0.11.0</a> on 2009-12-12 02:43:06</em>
+</span>
+</body></html>
