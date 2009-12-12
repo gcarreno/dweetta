@@ -150,22 +150,79 @@ type
     }
     function StatusesUserTimeline(since: TDateTime): TDweettaStatusElementList; overload;
 
+    {**
+      Twitter Statuses::Show
+
+        @param id Filter by Status ID
+        @returns A Status Element
+    }
     function StatusesShow(id: Integer): TDweettaStatusElement;
 
+    {**
+      Twitter Statuses::Update overloaded
+
+        @param status The text of the status
+        @returns A Status Element
+    }
     function StatusesUpdate(status: String): TDweettaStatusElement; overload;
+    {**
+      Twitter Statuses::Update overloaded
+
+        @param status The text of the status
+        @param in_reply_to_status_id The status ID from with we are replying
+        @returns A Status Element
+    }
     function StatusesUpdate(status: String; in_reply_to_status_id: Integer): TDweettaStatusElement; overload;
 
+    {**
+      Twitter Statuses::Replies overloaded
+
+        @returns A List of Status Elements
+    }
     function StatusesReplies: TDweettaStatusElementList; overload;
+    {**
+      Twitter Statuses::Replies overloaded
+
+        @param since_id Filter by Status ID
+        @returns A List of Status Elements
+    }
     function StatusesReplies(since_id: Integer): TDweettaStatusElementList; overload;
 
+    {**
+      Twitter Statuses::Destroy
+
+        @param id The status ID to delete
+        @returns A Status Element
+    }
     function StatusesDestroy(id: Integer): TDweettaStatusElement;
 
+    {**
+      Holds the Username for auth
+    }
     property User: String read FUser write Setuser;
+    {**
+      Holds the Password for auth
+    }
     property Password: String read FPassword write SetPassword;
+    {**
+      Holds the last numerical HTTP response code
+    }
     property ResponseCode: Integer read GetResponseCode;
+    {**
+      Holds the last alphanumerical HTTP response code
+    }
     property ResponseString: String read GetResponseString;
+    {**
+      Holds the remaining API calls upon last request
+    }
     property RemainingCalls: Integer read GetRemainingCalls;
+    {**
+      Holds the Rate Limit of API Calls upon last request
+    }
     property RateLimit: Integer read GetRateLimit;
+    {**
+      Holds when the Rate Limit expires upon last request
+    }
     property RateLimitReset: TDateTime read GetRateLimitReset;
   end;
 
