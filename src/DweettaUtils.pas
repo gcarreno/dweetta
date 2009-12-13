@@ -51,10 +51,13 @@ uses
       @returns URLencoded params string
   }
   function URLEncodeParams(const aParamList: TStringList; aInQuery: Boolean): String;
+{$IFNDEF FPC}
+  // Still not ready for large consumption :(
   {**
     Builds the param list according to defaults.
   }
   function CheckAndCreateParamList(const Params: Array of TDweettaParams; const Values: array of const): TStringList;
+{$ENDIF}
 
 implementation
 
@@ -126,6 +129,8 @@ begin
   end;
 end;
 
+{$IFNDEF FPC}
+// Still not ready for large consumption
 function CheckAndCreateParamList(const Params: Array of TDweettaParams; const Values: array of const): TStringList;
 var
   Index: Integer;
@@ -183,6 +188,7 @@ begin
     end;
   end;
 end;
+{$ENDIF}
 
 end.
 
