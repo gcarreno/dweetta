@@ -9,7 +9,7 @@
       <TargetFileExt Value=".exe"/>
       <Title Value="Dweetta Client v0.1.0.63"/>
       <UseXPManifest Value="True"/>
-      <ActiveEditorIndexAtStart Value="12"/>
+      <ActiveEditorIndexAtStart Value="1"/>
     </General>
     <i18n>
       <EnableI18N Value="True"/>
@@ -63,8 +63,8 @@
         <ResourceBaseClass Value="Form"/>
         <ResourceFilename Value="frmMainUnit.lrs"/>
         <UnitName Value="frmMainUnit"/>
-        <CursorPos X="38" Y="19"/>
-        <TopLine Value="67"/>
+        <CursorPos X="53" Y="230"/>
+        <TopLine Value="189"/>
         <EditorIndex Value="3"/>
         <UsageCount Value="175"/>
         <Loaded Value="True"/>
@@ -138,8 +138,8 @@
       </Unit8>
       <Unit9>
         <Filename Value="..\..\src\Dweetta.inc"/>
-        <CursorPos X="1" Y="12"/>
-        <TopLine Value="79"/>
+        <CursorPos X="64" Y="454"/>
+        <TopLine Value="1142"/>
         <EditorIndex Value="1"/>
         <UsageCount Value="82"/>
         <Loaded Value="True"/>
@@ -215,7 +215,7 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="DweettaUtils"/>
         <CursorPos X="41" Y="133"/>
-        <TopLine Value="114"/>
+        <TopLine Value="112"/>
         <EditorIndex Value="12"/>
         <UsageCount Value="132"/>
         <Loaded Value="True"/>
@@ -244,11 +244,9 @@
       <Unit22>
         <Filename Value="..\..\lib\SuperObject\superobject.pas"/>
         <UnitName Value="superobject"/>
-        <CursorPos X="35" Y="1054"/>
-        <TopLine Value="1029"/>
-        <EditorIndex Value="13"/>
+        <CursorPos X="4" Y="77"/>
+        <TopLine Value="1"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit22>
       <Unit23>
         <Filename Value="..\..\src\DweettaSocketsSynapse.pas"/>
@@ -269,31 +267,29 @@
         <UnitName Value="synafpc"/>
         <CursorPos X="16" Y="69"/>
         <TopLine Value="44"/>
-        <EditorIndex Value="14"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit25>
     </Units>
-    <JumpHistory Count="30" HistoryIndex="29">
+    <JumpHistory Count="20" HistoryIndex="19">
       <Position1>
-        <Filename Value="..\..\src\DweettaTransport.pas"/>
-        <Caret Line="113" Column="12" TopLine="94"/>
+        <Filename Value="..\..\src\DweettaAPI.pas"/>
+        <Caret Line="97" Column="1" TopLine="78"/>
       </Position1>
       <Position2>
-        <Filename Value="..\..\src\DweettaTransport.pas"/>
-        <Caret Line="122" Column="31" TopLine="103"/>
+        <Filename Value="..\..\src\DweettaAPI.pas"/>
+        <Caret Line="102" Column="1" TopLine="83"/>
       </Position2>
       <Position3>
-        <Filename Value="..\..\src\DweettaSockets.pas"/>
-        <Caret Line="120" Column="29" TopLine="86"/>
+        <Filename Value="..\..\src\DweettaAPI.pas"/>
+        <Caret Line="109" Column="1" TopLine="90"/>
       </Position3>
       <Position4>
         <Filename Value="..\..\src\DweettaAPI.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Caret Line="371" Column="44" TopLine="350"/>
       </Position4>
       <Position5>
         <Filename Value="..\..\src\DweettaAPI.pas"/>
-        <Caret Line="97" Column="1" TopLine="78"/>
+        <Caret Line="109" Column="1" TopLine="90"/>
       </Position5>
       <Position6>
         <Filename Value="..\..\src\DweettaAPI.pas"/>
@@ -301,100 +297,60 @@
       </Position6>
       <Position7>
         <Filename Value="..\..\src\DweettaAPI.pas"/>
-        <Caret Line="109" Column="1" TopLine="90"/>
+        <Caret Line="97" Column="1" TopLine="78"/>
       </Position7>
       <Position8>
         <Filename Value="..\..\src\DweettaAPI.pas"/>
-        <Caret Line="371" Column="44" TopLine="350"/>
+        <Caret Line="563" Column="27" TopLine="548"/>
       </Position8>
       <Position9>
         <Filename Value="..\..\src\DweettaAPI.pas"/>
-        <Caret Line="109" Column="1" TopLine="90"/>
+        <Caret Line="584" Column="43" TopLine="390"/>
       </Position9>
       <Position10>
         <Filename Value="..\..\src\DweettaAPI.pas"/>
-        <Caret Line="102" Column="1" TopLine="83"/>
+        <Caret Line="238" Column="1" TopLine="219"/>
       </Position10>
       <Position11>
         <Filename Value="..\..\src\DweettaAPI.pas"/>
-        <Caret Line="97" Column="1" TopLine="78"/>
+        <Caret Line="580" Column="38" TopLine="561"/>
       </Position11>
       <Position12>
         <Filename Value="..\..\src\DweettaAPI.pas"/>
-        <Caret Line="563" Column="27" TopLine="548"/>
+        <Caret Line="238" Column="1" TopLine="219"/>
       </Position12>
       <Position13>
         <Filename Value="..\..\src\DweettaAPI.pas"/>
-        <Caret Line="584" Column="43" TopLine="390"/>
+        <Caret Line="580" Column="17" TopLine="561"/>
       </Position13>
       <Position14>
         <Filename Value="..\..\src\DweettaAPI.pas"/>
-        <Caret Line="238" Column="1" TopLine="219"/>
+        <Caret Line="97" Column="1" TopLine="78"/>
       </Position14>
       <Position15>
         <Filename Value="..\..\src\DweettaAPI.pas"/>
-        <Caret Line="580" Column="38" TopLine="561"/>
+        <Caret Line="102" Column="1" TopLine="83"/>
       </Position15>
       <Position16>
         <Filename Value="..\..\src\DweettaAPI.pas"/>
-        <Caret Line="238" Column="1" TopLine="219"/>
+        <Caret Line="580" Column="80" TopLine="561"/>
       </Position16>
       <Position17>
         <Filename Value="..\..\src\DweettaAPI.pas"/>
-        <Caret Line="580" Column="17" TopLine="561"/>
+        <Caret Line="581" Column="43" TopLine="561"/>
       </Position17>
       <Position18>
-        <Filename Value="..\..\src\DweettaAPI.pas"/>
-        <Caret Line="97" Column="1" TopLine="78"/>
+        <Filename Value="..\..\src\DweettaUtils.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position18>
       <Position19>
-        <Filename Value="..\..\src\DweettaAPI.pas"/>
-        <Caret Line="102" Column="1" TopLine="83"/>
-      </Position19>
-      <Position20>
-        <Filename Value="..\..\src\DweettaAPI.pas"/>
-        <Caret Line="580" Column="80" TopLine="561"/>
-      </Position20>
-      <Position21>
-        <Filename Value="..\..\src\DweettaAPI.pas"/>
-        <Caret Line="581" Column="43" TopLine="561"/>
-      </Position21>
-      <Position22>
-        <Filename Value="..\..\src\DweettaUtils.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
-      </Position22>
-      <Position23>
-        <Filename Value="..\..\lib\SuperObject\superobject.pas"/>
-        <Caret Line="587" Column="66" TopLine="573"/>
-      </Position23>
-      <Position24>
-        <Filename Value="..\..\lib\SuperObject\superobject.pas"/>
-        <Caret Line="1024" Column="16" TopLine="999"/>
-      </Position24>
-      <Position25>
-        <Filename Value="..\..\lib\SuperObject\superobject.pas"/>
-        <Caret Line="1025" Column="16" TopLine="1000"/>
-      </Position25>
-      <Position26>
-        <Filename Value="..\..\lib\Synapse\synafpc.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
-      </Position26>
-      <Position27>
-        <Filename Value="..\..\lib\Synapse\synafpc.pas"/>
-        <Caret Line="69" Column="16" TopLine="44"/>
-      </Position27>
-      <Position28>
-        <Filename Value="..\..\lib\Synapse\synafpc.pas"/>
-        <Caret Line="74" Column="28" TopLine="49"/>
-      </Position28>
-      <Position29>
         <Filename Value="..\..\src\DweettaUtils.pas"/>
         <Caret Line="134" Column="80" TopLine="109"/>
-      </Position29>
-      <Position30>
+      </Position19>
+      <Position20>
         <Filename Value="..\..\src\DweettaUtils.pas"/>
         <Caret Line="187" Column="8" TopLine="140"/>
-      </Position30>
+      </Position20>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>

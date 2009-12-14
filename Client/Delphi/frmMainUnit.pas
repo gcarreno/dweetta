@@ -68,15 +68,15 @@ uses
 
 function GetDweettaNodeText(const ADweettaNode: PDweettaNode): String;
 begin
-  case ADweettaNode^.NodeType of
+  case ADweettaNode.NodeType of
     tntEmpty:begin
       Result := 'Empty';
     end;
     tntStatus:begin
-      Result := TDweettaStatusElement(ADweettaNode^.TwitterElement).Text;
+      Result := TDweettaStatusElement(ADweettaNode.TwitterElement).Text;
     end;
     tntUser, tntUserExtended: begin
-      Result := TDweettaUserElement(ADweettaNode^.TwitterElement).Name;
+      Result := TDweettaUserElement(ADweettaNode.TwitterElement).Name;
     end;
     tntDirectMessage:begin
       Result := 'Direct Message';
@@ -177,16 +177,16 @@ begin
   begin
     vNode := vstTweets.AddChild(vstTweets.RootNode);
     TwitterNode := vstTweets.GetNodeData(vNode);
-    TwitterNode^.NodeType := tntStatus;
-    TwitterNode^.TwitterElement := TwitterStatusElement;
+    TwitterNode.NodeType := tntStatus;
+    TwitterNode.TwitterElement := TwitterStatusElement;
   end;
   {$ELSE}
   for Index := 0 to TwitterList.Count -1 do
   begin
     vNode := vstTweets.AddChild(vstTweets.RootNode);
     TwitterNode := vstTweets.GetNodeData(vNode);
-    TwitterNode^.NodeType := tntStatus;
-    TwitterNode^.TwitterElement := TwitterList.Items[Index];
+    TwitterNode.NodeType := tntStatus;
+    TwitterNode.TwitterElement := TwitterList.Items[Index];
   end;
   {$ENDIF ~DELPHI2007_UP}
   sbMain.Panels[0].Text := 'Done';
@@ -216,17 +216,17 @@ begin
     TwitterNode := Sender.GetNodeData(Node);
     if Assigned(TwitterNode) then
     begin
-      if Assigned(TwitterNode^.TwitterElement) then
+      if Assigned(TwitterNode.TwitterElement) then
       begin
-        case TwitterNode^.NodeType of
+        case TwitterNode.NodeType of
           tntStatus:begin
-            TDweettaStatusElement(TwitterNode^.TwitterElement).Free;
+            TDweettaStatusElement(TwitterNode.TwitterElement).Free;
           end;
           tntUser, tntUserExtended:begin
-            TDweettaUserElement(TwitterNode^.TwitterElement).Free;
+            TDweettaUserElement(TwitterNode.TwitterElement).Free;
           end;
           tntDirectMessage:begin
-            TDweettaDirectMessageElement(TwitterNode^.TwitterElement).Free;
+            TDweettaDirectMessageElement(TwitterNode.TwitterElement).Free;
           end;
         end;
       end;

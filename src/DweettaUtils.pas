@@ -51,13 +51,10 @@ uses
       @returns URLencoded params string
   }
   function URLEncodeParams(const aParamList: TStringList; aInQuery: Boolean): String;
-{$IFNDEF FPC}
-  // Still not ready for large consumption :(
   {**
     Builds the param list according to defaults.
   }
-  function CheckAndCreateParamList(const Params: Array of TDweettaParams; const Values: array of const): TStringList;
-{$ENDIF}
+  function CheckAndCreateParamList(const Params: Array of TDweettaParams; const Values: array of const): String;
 
 implementation
 
@@ -129,66 +126,36 @@ begin
   end;
 end;
 
-{$IFNDEF FPC}
-// Still not ready for large consumption
-function CheckAndCreateParamList(const Params: Array of TDweettaParams; const Values: array of const): TStringList;
+function CheckAndCreateParamList(const Params: Array of TDweettaParams; const Values: array of const): String;
 var
+  tmpParams: TStringList;
   Index: Integer;
   ValueInt: Integer;
   ValueStr: String;
-  ValuesTyped : array [0..$fff0 div sizeof(TVarRec)] of TVarRec absolute Values;
 begin
-  Result := TStringList.Create;
+  tmpParams := TStringList.Create;
   for Index := Low(Params) to High(Params) do
   begin
-    case Params[Index] of
-      tpUserId:begin
-        ValueInt := ValuesTyped[Index].VInteger;
-        if ValueInt <> 0 then
-        begin
-          Result.Add(cDweettaParamInfo[Params[Index]].paramName + '=' + IntToStr(ValueInt));
-        end;
+    case TVarRec(Values[Index]).VType of
+      vtInteger:begin
+        ValueInt := TVarRec(Values[Index]).VInteger;
+        tmpParams.Add(cDweettaParamInfo[Params[Index]].paramName + '=' + IntToStr(ValueInt));
       end;
-      tpScreenName:begin
-        ValueStr := String(ValuesTyped[Index].VUnicodeString);
-        if ValueStr <> '' then
-        begin
-          Result.Add(cDweettaParamInfo[Params[Index]].paramName + '=' + ValueStr);
-        end;
+      vtString:begin
+        ValueStr := String(TVarRec(Values[Index]).VString);
+        tmpParams.Add(cDweettaParamInfo[Params[Index]].paramName + '=' + ValueStr);
       end;
-      tpStatusId:begin
-        ValueInt := ValuesTyped[Index].VInteger;
-        if ValueInt <> 0 then
-        begin
-          Result.Add(cDweettaParamInfo[Params[Index]].paramName + '=' + IntToStr(ValueInt));
-        end;
+{$IFNDEF FPC}
+      vtUnicodeString:begin
+        ValueStr := String(TVarRec(Values[Index]).VUnicodeString);
+        tmpParams.Add(cDweettaParamInfo[Params[Index]].paramName + '=' + ValueStr);
       end;
-      tpSince:begin
-        ValueStr := String(ValuesTyped[Index].VUnicodeString);
-        if ValueStr <> '' then
-        begin
-          Result.Add(cDweettaParamInfo[Params[Index]].paramName + '=' + ValueStr);
-        end;
-      end;
-      tpSinceId:begin
-        ValueInt := ValuesTyped[Index].VInteger;
-        if ValueInt <> 0 then
-        begin
-          Result.Add(cDweettaParamInfo[Params[Index]].paramName + '=' + IntToStr(ValueInt));
-        end;
-      end;
-      tpStatus:begin
-        ValueStr := String(ValuesTyped[Index].VUnicodeString);
-        if (ValueStr <> '') and (Length(ValueStr) <= 140)then
-        begin
-          Result.Add(cDweettaParamInfo[Params[Index]].paramName + '=' + ValueStr);
-        end;
-      end;
-
+{$ENDIF}
     end;
   end;
+  Result := tmpParams.Text;
+  FreeAndNil(tmpParams);
 end;
-{$ENDIF}
 
 end.
 
