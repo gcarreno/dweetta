@@ -93,9 +93,10 @@ var
   DirtyString, CleanString: String;
 begin
   Result := '';
-  CleanString := '';
   for Index := 0 to aParamList.Count -1 do
   begin
+    // Clear CleanString here (CW)
+    CleanString := '';
     DirtyString := aParamList.ValueFromIndex[Index];
     for Index1 := 1 to Length(DirtyString) do
     begin
