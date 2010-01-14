@@ -75,9 +75,20 @@ type
     constructor Create(HasStatus: Boolean); overload;
     destructor Destroy; override;
 
+    {**
+       Loads a Status Element from a string (JSON, XML)
+
+       @param AInString The JSON, XML containing the data
+    }
     function LoadFromString(AInString: String): TDweettaUserElement;
 
+    {**
+       Numerical ID for this Status
+    }
     property Id: Integer read FId write FId;
+    {**
+       Holds the name of the Status Author
+    }
     property Name: String read FName write FName;
     property ScreenName: String read FScreenName write FScreenName;
     property Description: String read FDescription write FDescription;

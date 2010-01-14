@@ -9,7 +9,7 @@
       <TargetFileExt Value=".exe"/>
       <Title Value="Dweetta Client v0.1.0.63"/>
       <UseXPManifest Value="True"/>
-      <ActiveEditorIndexAtStart Value="1"/>
+      <ActiveEditorIndexAtStart Value="7"/>
     </General>
     <i18n>
       <EnableI18N Value="True"/>
@@ -73,8 +73,8 @@
         <Filename Value="..\..\src\DweettaContainers.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="DweettaContainers"/>
-        <CursorPos X="1" Y="13"/>
-        <TopLine Value="1"/>
+        <CursorPos X="43" Y="90"/>
+        <TopLine Value="82"/>
         <EditorIndex Value="7"/>
         <UsageCount Value="175"/>
         <Loaded Value="True"/>
@@ -94,7 +94,7 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="Dweetta"/>
         <CursorPos X="48" Y="156"/>
-        <TopLine Value="207"/>
+        <TopLine Value="178"/>
         <EditorIndex Value="5"/>
         <UsageCount Value="175"/>
         <Loaded Value="True"/>
@@ -104,7 +104,7 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="DweettaAPI"/>
         <CursorPos X="1" Y="1"/>
-        <TopLine Value="1"/>
+        <TopLine Value="187"/>
         <EditorIndex Value="6"/>
         <UsageCount Value="175"/>
         <Loaded Value="True"/>
@@ -215,7 +215,7 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="DweettaUtils"/>
         <CursorPos X="41" Y="133"/>
-        <TopLine Value="112"/>
+        <TopLine Value="1"/>
         <EditorIndex Value="12"/>
         <UsageCount Value="132"/>
         <Loaded Value="True"/>
