@@ -1,0 +1,22 @@
+#!/bin/bash
+PWD=`pwd`
+SOURCE="$PWD/src/*.pas"
+LIB="$PWD/lib"
+DEST="$PWD/docs"
+TITLE="Dweetta"
+DESC="Lib and Client for Twitter"
+
+
+pasdoc -D FPC -D LINUX -D UNIX \
+   -I "$LIB"\
+   -T "$TITLE"\
+   -N "$DESC"\
+   -O html\
+   -E "$DEST"\
+   -L en\
+   --staronly\
+   --write-uses-list\
+   --link-look=full\
+   --use-tipue-search\
+   --auto-link\
+   "$SOURCE"
