@@ -28,3 +28,7 @@
 *.res binary
 *.ico binary
 *.dll binary
+
+# Keep these files from archive/exports, mainly from production.
+.gitignore     export-ignore
+.gitattributes export-ignore
