@@ -27,7 +27,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, LResources, Forms, Controls, Graphics, Dialogs,
-  ExtCtrls, VirtualStringTree, VirtualTrees, ComCtrls, PopupNotifier, StdCtrls,
+  ExtCtrls, {VirtualStringTree,} VirtualTrees, ComCtrls, PopupNotifier, StdCtrls,
   frmSettingsUnit, Dweetta;
 
 type

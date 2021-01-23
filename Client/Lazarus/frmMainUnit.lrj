@@ -1,0 +1,6 @@
+{"version":1,"strings":[
+{"hash":60933571,"name":"tfrmmain.caption","sourcebytes":[68,119,101,101,116,116,97,32,83,105,109,112,108,101,32,67,108,105,101,110,116,32,118,48,46,49,46,48,46,54,51],"value":"Dweetta Simple Client v0.1.0.63"},
+{"hash":2858052,"name":"tfrmmain.btnsend.caption","sourcebytes":[38,83,101,110,100],"value":"&Send"},
+{"hash":213561635,"name":"tfrmmain.btnsettings.caption","sourcebytes":[83,38,101,116,116,105,110,103,115],"value":"S&ettings"},
+{"hash":5814201,"name":"tfrmmain.sbmain.panels[0].text","sourcebytes":[82,101,97,100,121],"value":"Ready"}
+]}

@@ -8,11 +8,12 @@ object frmMain: TfrmMain
   ClientWidth = 599
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  ParentFont = False
   Position = poDefaultPosOnly
-  LCLVersion = '0.9.26'
+  LCLVersion = '1.9.0.0'
   object panTop: TPanel
+    Left = 0
     Height = 74
+    Top = 0
     Width = 599
     Align = alTop
     BevelOuter = bvNone
@@ -35,7 +36,6 @@ object frmMain: TfrmMain
       Top = 8
       Width = 500
       Anchors = [akTop, akLeft, akRight]
-      AutoSelect = True
       MaxLength = 140
       TabOrder = 0
     end
@@ -51,6 +51,7 @@ object frmMain: TfrmMain
     end
   end
   object panClient: TPanel
+    Left = 0
     Height = 317
     Top = 74
     Width = 599
@@ -60,9 +61,13 @@ object frmMain: TfrmMain
     ClientWidth = 599
     TabOrder = 1
     object vstTweets: TVirtualStringTree
+      Left = 0
       Height = 317
+      Top = 0
       Width = 599
       Align = alClient
+      Header.AutoSizeIndex = 0
+      Header.Columns = <>
       Header.MainColumn = -1
       Header.Options = [hoColumnResize, hoDrag]
       TabOrder = 0
@@ -70,10 +75,10 @@ object frmMain: TfrmMain
       OnFreeNode = vstTweetsFreeNode
       OnGetText = vstTweetsGetText
       OnGetNodeDataSize = vstTweetsGetNodeDataSize
-      Columns = <>
     end
   end
   object sbMain: TStatusBar
+    Left = 0
     Height = 23
     Top = 538
     Width = 599
@@ -85,6 +90,7 @@ object frmMain: TfrmMain
     SimplePanel = False
   end
   object panLog: TPanel
+    Left = 0
     Height = 142
     Top = 396
     Width = 599
@@ -94,7 +100,9 @@ object frmMain: TfrmMain
     ClientWidth = 599
     TabOrder = 3
     object memLog: TMemo
+      Left = 0
       Height = 142
+      Top = 0
       Width = 599
       Align = alClient
       ReadOnly = True
@@ -104,6 +112,7 @@ object frmMain: TfrmMain
   end
   object Splitter1: TSplitter
     Cursor = crVSplit
+    Left = 0
     Height = 5
     Top = 391
     Width = 599
@@ -119,13 +128,14 @@ object frmMain: TfrmMain
     }
     Text = 'Text'
     Title = 'Caption'
-    left = 532
-    top = 468
+    Visible = False
+    Left = 532
+    Top = 468
   end
   object tmrMain: TTimer
     Enabled = False
     OnTimer = tmrMainTimer
-    left = 472
-    top = 468
+    Left = 472
+    Top = 468
   end
 end

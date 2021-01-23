@@ -30,10 +30,10 @@ uses
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
   Forms
-  { you can add units after this }, frmMainUnit, virtualtreeslcl, Common,
+  { you can add units after this }, frmMainUnit, Common,
   DweettaTransport, Dweetta, DweettaAPI, DweettaContainers,
   DweettaSockets, DweettaExceptions, DweettaTypes, frmSettingsUnit,
-DweettaUtils;
+  DweettaUtils;
 
 {$IFDEF WINDOWS}
   {$R DweettaClient.rc}
